@@ -1,7 +1,15 @@
-import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
+import { createApp } from "vue";
+import App from "./App.vue";
+import router from "./router";
+import mdiVue from 'mdi-vue/v3';
+import * as mdijs from '@mdi/js';
 
-import { AppModule } from './app/app.module';
+import "./assets/main.css";
 
+const app = createApp(App).use(mdiVue, {
+    icons: mdijs
+  });
 
-platformBrowserDynamic().bootstrapModule(AppModule)
-  .catch(err => console.error(err));
+app.use(router);
+
+app.mount("#app");

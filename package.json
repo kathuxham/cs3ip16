@@ -1,0 +1,8 @@
+{
+    "name": "kat-fyp",
+    "version": "1.0.0",
+    "author": "Kat Huxham",
+    "dependencies": {
+        "typescript": "^4.8.4"
+    }
+}

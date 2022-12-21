@@ -20,26 +20,4 @@
   </div>
 </template>
 
-<style scoped>
-
-.navbar {
-  display: flex;
-  background-color: #296B64;
-  overflow: hidden;
-}
-  .logo {
-    margin: 20px;
-  }
-
-  .detailButton {
-    margin: auto;
-    margin-right: 0;
-    height: 48px;
-  }
-
-  .icon{
-    margin-right: 10px;
-    color: #ffffff;
-    width: 48px;
-  }
-</style>
+<style scoped src="./NavBar.scss"></style>

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import ReportWindow from "../components/ReportWindow.vue"
+import ReportWindow from "../components/ReportWindow/ReportWindow.vue"
 </script>
 
 <template>

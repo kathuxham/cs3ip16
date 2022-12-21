@@ -1,5 +1,5 @@
 <script setup lang="ts">
-  import HomeWindow from "../components/HomeWindow.vue";
+  import HomeWindow from "../components/HomeWindow/HomeWindow.vue";
 </script>
 
 <template>

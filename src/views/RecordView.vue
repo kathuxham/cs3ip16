@@ -1,10 +1,10 @@
 <script setup lang="ts">
-import RecordWindow from "../components/RecordWindow.vue"
+import RecordWindow from "../components/RecordWindow/RecordWindow.vue"
 </script>
 
 <template>
   <div>
-    <RecordWindow />
+    <RecordWindow name="testname" id='564564564'/>
   </div>
 </template>
 

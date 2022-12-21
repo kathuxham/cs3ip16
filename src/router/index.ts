@@ -24,6 +24,37 @@ const router = createRouter({
       name: "students",
       component: () => import("../views/ReportView.vue"),
     },
+    // {
+    //   path: "/student/:id",
+    //   name: "student",
+    //   component: () => import("../views/RecordView.vue"),
+    //   children: [
+    //     {
+    //       path: "personaldata",
+    //       component: StudentPersonalData,
+    //     }
+    //     {
+    //       path: "programme",
+    //       component: StudentProgramme,
+    //     }
+    //     {
+    //       path: "modules",
+    //       component: StudentModules,
+    //     }
+    //     {
+    //       path: "marksandfeedback",
+    //       component: StudentMarksAndFeedback,
+    //     }
+    //     {
+    //       path: "examinations",
+    //       component: StudentExaminations,
+    //     }
+    //     {
+    //       path: "communication",
+    //       component: StudentCommunication,
+    //     }
+    //   ]
+    // },
     {
       path: "/courses",
       name: "courses",

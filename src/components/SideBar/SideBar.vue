@@ -19,9 +19,6 @@ export default defineComponent({
     },
   },
 })
-
-
-
 </script>
 
 <template>
@@ -71,73 +68,4 @@ export default defineComponent({
   </div>
 </template>
 
-<style scoped>
-
-.sidebar {
-    margin: 0;
-    padding: 0;;
-    width: 220px;
-    background-color: #70C59E;
-    position: fixed;
-    overflow: auto;
-    height: 100%;;
-}
-
-.accordion {
-  background-color: #539475;
-  color: white;
-  cursor: pointer;
-  padding: 18px;
-  width: 100%;
-  text-align: left;
-  border: none;
-  outline: none;
-  font-size: 24px;
-  
-  
-}
-
-.grid {
-  display: flex;
-  /* justify-content: space-around; */
-}
-
-.active, .accordion:hover {
-  background-color: #539475;
-}
-
-.mdi::before {
-    font-size: 24px;
-    line-height: 14px;
-}
-
-.panel {
-  background-color: #70C59E;
-  /* display: none; */
-  overflow: hidden;
-  font-size: 20px;
-}
-
-.active, .sidebar a:hover {
-  background-color: #539475;
-}
-.sidebar a {
-    display: block;
-    color: white;
-    padding: 16px;
-    padding-left: 40px;
-    text-decoration: none;
-}
-
-.icon{
-  margin-right: 10px;
-}
-.chevron{
-  margin-right: 0;
-}
-
-.text-centered{
-  margin-top: auto;
-  margin-bottom: auto;
-}
-</style>
+<style scoped src="./SideBar.scss"></style>

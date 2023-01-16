@@ -9,9 +9,6 @@ module.exports = app => {
     // Retrieve all individuals
     router.get("/", individuals.findAll);
   
-    // Retrieve all published individuals
-    // router.get("/published", individuals.findAllPublished);
-  
     // Retrieve a single individual with id
     router.get("/:id", individuals.findOne);
   
@@ -20,9 +17,6 @@ module.exports = app => {
   
     // Delete an individual with id
     router.delete("/:id", individuals.delete);
-  
-    // Create a new individual
-    router.delete("/", individuals.deleteAll);
   
     app.use('/api/individuals', router);
   };

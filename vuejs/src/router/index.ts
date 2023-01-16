@@ -15,6 +15,11 @@ const router = createRouter({
       component: () => import("../views/RecordView.vue"),
     },
     {
+      path: "/individuals/:id",
+      name: "individuals-details",
+      component: () => import("../views/RecordView.vue"),
+    },
+    {
       path: "/staff",
       name: "staff",
       component: () => import("../views/RecordView.vue"),

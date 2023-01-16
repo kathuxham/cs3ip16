@@ -16,16 +16,10 @@ exports.create = (req, res) => {
     const individual = {
       firstName: req.body.firstName,
       middleName: req.body.middleName,
-      surname: req.body.surname,
+      lastName: req.body.lastName,
       preferredName: req.body.preferredName,
       dateOfBirth: req.body.dateOfBirth,
       pronouns: req.body.pronouns,
-      contactPhoneNumber: req.body.contactPhoneNumber,
-      homePhoneNumber: req.body.homePhoneNumber,
-      mobilePhoneNumber: req.body.mobilePhoneNumber,
-      homeAddress: req.body.homeAddress,
-      personalEmailAddress: req.body.personalEmailAddress,
-      universityEmailAddress: req.body.universityEmailAddress,
     };
   
     // Save individual in the database
@@ -128,34 +122,3 @@ exports.delete = (req, res) => {
       });
     });
 };
-
-// Delete all individuals from the database.
-exports.deleteAll = (req, res) => {
-  Individual.destroy({
-    where: {},
-    truncate: false
-  })
-    .then(nums => {
-      res.send({ message: `${nums} Individuals were deleted successfully!` });
-    })
-    .catch(err => {
-      res.status(500).send({
-        message:
-          err.message || "Some error occurred while removing all individuals."
-      });
-    });
-};
-
-// Find all published Tutorials
-// exports.findAllPublished = (req, res) => {
-//   Individual.findAll({ where: { published: true } })
-//     .then(data => {
-//       res.send(data);
-//     })
-//     .catch(err => {
-//       res.status(500).send({
-//         message:
-//           err.message || "Some error occurred while retrieving individuals."
-//       });
-//     });
-// };

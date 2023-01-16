@@ -1,0 +1,12 @@
+module.exports = (sequelize, Sequelize) => {
+    const ExaminationMark = sequelize.define("ExaminationMark", {
+      ExaminationMark: {
+        type: Sequelize.INTEGER
+      },
+      ExaminationFeedback: {
+        type: Sequelize.STRING(500)
+      }
+    });
+  
+    return ExaminationMark;
+  };

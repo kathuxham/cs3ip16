@@ -1,5 +1,5 @@
 module.exports = app => {
-    const individuals = require("../controllers/individual.controller.js");
+    const staffMembers = require("../controllers/staffmembers.controller.js");
   
     var router = require("express").Router();
   

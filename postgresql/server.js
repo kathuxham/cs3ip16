@@ -19,12 +19,18 @@ const db = require("./app/models");
 
 db.sequelize.sync();
 
+// db.sequelize.sync({ force: true }).then(() => {
+//   console.log("Drop and re-sync db.");
+// });
+
 // simple route
 app.get("/", (req, res) => {
   res.sendFile(path + "index.html");
 });
 
 require("./app/routes/individual.routes")(app);
+require("./app/routes/module.routes")(app);
+
 
 // set port, listen for requests
 const PORT = process.env.PORT || 8080;

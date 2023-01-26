@@ -1,5 +1,5 @@
 const db = require("../models");
-const Individual = db.individuals;
+const Module = db.modules;
 const Op = db.Sequelize.Op;
 
 // Create and Save a new individual
@@ -13,23 +13,19 @@ exports.create = (req, res) => {
     // }
   
     // Create an individual
-    const individual = {
-      firstName: req.body.firstName,
-      middleName: req.body.middleName,
-      lastName: req.body.lastName,
-      preferredName: req.body.preferredName,
-      dateOfBirth: req.body.dateOfBirth,
-      pronouns: req.body.pronouns,
-      studentOrStaff: req.body.studentOrStaff ? req.body.studentOrStaff : "NA",
-      contactPhoneNumber: req.body.contactPhoneNumber,
-      homePhoneNumber: req.body.homePhoneNumber,
-      mobilePhoneNumber: req.body.mobilePhoneNumber,
-      personalEmailAddress: req.body.personalEmailAddress,
-      universityEmailAddress: req.body.universityEmailAddress,
+    const module = {
+        moduleCode: req.body.moduleCode,
+        moduleTitle: req.body.moduleTitle,
+        moduleLevel: req.body.moduleLevel,
+        moduleLink: req.body.moduleLink,
+        numberOfCredits: req.body.numberOfCredits,
+        termsTaught: req.body.termsTaught,
+        currentAsOf: req.body.currentAsOf,
+        contactHours: req.body.contactHours,
     };
   
     // Save individual in the database
-    Individual.create(individual)
+    Module.create(module)
       .then(data => {
         res.send(data);
       })
@@ -43,10 +39,10 @@ exports.create = (req, res) => {
 
 // Retrieve all individuals from the database.
 exports.findAll = (req, res) => {
-    const firstName = req.query.firstName;
-    var condition = firstName ? { firstName: { [Op.iLike]: `%${firstName}%` } } : null;
+    const moduleTitle = req.query.moduleTitle;
+    var condition = moduleTitle ? { moduleTitle: { [Op.iLike]: `%${moduleTitle}%` } } : null;
   
-    Individual.findAll({ where: condition })
+    Module.findAll({ where: condition })
       .then(data => {
         res.send(data);
       })
@@ -62,7 +58,7 @@ exports.findAll = (req, res) => {
 exports.findOne = (req, res) => {
   const id = req.params.id;
 
-  Individual.findByPk(id)
+  Module.findByPk(id)
     .then(data => {
       if (data) {
         res.send(data);
@@ -83,7 +79,7 @@ exports.findOne = (req, res) => {
 exports.update = (req, res) => {
   const id = req.params.id;
 
-  Individual.update(req.body, {
+  Module.update(req.body, {
     where: { id: id }
   })
     .then(num => {
@@ -108,7 +104,7 @@ exports.update = (req, res) => {
 exports.delete = (req, res) => {
   const id = req.params.id;
 
-  Individual.destroy({
+  Module.destroy({
     where: { id: id }
   })
     .then(num => {

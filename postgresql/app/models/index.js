@@ -26,14 +26,11 @@ db.addresses = require("./address.model.js")(sequelize, Sequelize);
 db.enrolmentStatus = require("./enrolment.model.js")(sequelize, Sequelize);
 db.emergencyContact = require("./emergencycontact.model.js")(sequelize, Sequelize);
 db.contactPreferences = require("./contactpreferences.model.js")(sequelize, Sequelize);
+db.personalDetails = require("./studentpersonaldetails.model.js")(sequelize, Sequelize);
 db.users = require("./user.model.js")(sequelize, Sequelize);
-db.degreePart = require("./degrepart.model.js")(sequelize, Sequelize);
 db.modules = require("./module.model.js")(sequelize, Sequelize);
-db.coursework = require("./coursework.model.js")(sequelize, Sequelize);
-db.courseworkMarks = require("./courseworkmark.model.js")(sequelize, Sequelize);
-db.examinations = require("./examination.model.js")(sequelize, Sequelize);
-db.examinationMarks = require("./examinationmarks.model.js")(sequelize, Sequelize);
-
+db.assessments = require("./assessment.model.js")(sequelize, Sequelize);
+db.assessmentMarks = require("./assessmentmark.model.js")(sequelize, Sequelize);
 
 
 // individuals to staff and students
@@ -48,6 +45,25 @@ db.students.belongsTo(db.individuals, {
   as: "individual"
 })
 
+// staff to students
+// db.staffMembers.hasMany(db.students, { as: "students" })
+// db.students.belongsTo(db.staffMembers, {
+//   foreignKey: "staffMemberId",
+//   as: "academicTutor"
+// })
+
+// staff to students
+db.students.belongsToMany(db.staffMembers, {
+  through: "academicTutors",
+  foreignKey: "staffMemberId",
+  as: "staffMember"
+})
+db.staffMembers.belongsToMany(db.students, {
+  through: "academicTutors",
+  foreignKey: "studentId",
+  as: "student"
+})
+
 // home addresses to individuals
 db.individuals.hasOne(db.addresses, { as: "addresses" })
 db.addresses.belongsTo(db.individuals, {
@@ -58,7 +74,7 @@ db.addresses.belongsTo(db.individuals, {
 // term time addresses to students
 db.students.hasOne(db.addresses, { as: "addresses" })
 db.addresses.belongsTo(db.students, {
-  foreignKey: "studentNumber",
+  foreignKey: "studentId",
   as: "student"
 })
 
@@ -83,92 +99,63 @@ db.contactPreferences.belongsTo(db.students, {
   as: "student"
 })
 
-// users to staff
-db.staffMembers.hasOne(db.users, { as: "users" })
-db.users.belongsTo(db.staffMembers, {
-  foreignKey: "staffNumber",
-  as: "staffMember"
-})
-
-// degree parts to students
-db.students.hasOne(db.degreePart, { as: "degreePart" })
-db.degreePart.belongsTo(db.students, {
-  foreignKey: "studentNumber",
+// personal details to students
+db.students.hasOne(db.personalDetails, { as: "personalDetails" })
+db.personalDetails.belongsTo(db.students, {
+  foreignKey: "studentId",
   as: "student"
 })
 
-// degree parts to modules
-db.degreePart.hasMany(db.modules, { as: "modules" })
-db.modules.belongsTo(db.degreePart, {
-  foreignKey: "degreePart",
-  as: "degreePart"
+// users to staff
+db.staffMembers.hasOne(db.users, { as: "users" })
+db.users.belongsTo(db.staffMembers, {
+  foreignKey: "staffMemberId",
+  as: "staffMember"
 })
 
 // modules to staff
 db.modules.belongsToMany(db.staffMembers, {
-  through: "staffMember_module",
-  foreignKey: "staffNumber",
+  through: "moduleConvenors",
+  foreignKey: "staffMemberId",
   as: "staffMember"
 })
 db.staffMembers.belongsToMany(db.modules, {
-  through: "staffMember_module",
+  through: "moduleConvenors",
   foreignKey: "moduleId",
   as: "module"
 })
 
 // modules to students
 db.modules.belongsToMany(db.students, {
-  through: "student_module",
-  foreignKey: "studentNumber",
+  through: "students_modules",
+  foreignKey: "studentId",
   as: "student"
 })
 db.students.belongsToMany(db.modules, {
-  through: "student_module",
+  through: "students_modules",
   foreignKey: "moduleId",
   as: "module"
 })
 
-// coursework to modules
-db.modules.hasMany(db.coursework, { as: "coursework" })
-db.coursework.belongsTo(db.modules, {
-  foreignKey: "moduleCode",
+// assessments to modules
+db.modules.hasMany(db.assessments, { as: "assessment" })
+db.assessments.belongsTo(db.modules, {
+  foreignKey: "moduleId",
   as: "module"
 })
 
-// coursework mark to coursework
-db.coursework.hasMany(db.courseworkMarks, { as: "courseworkMarks" })
-db.courseworkMarks.belongsTo(db.coursework, {
-  foreignKey: "courseworkId",
-  as: "coursework"
+// assessment mark to coursework
+db.assessments.hasMany(db.assessmentMarks, { as: "assessmentMarks" })
+db.assessmentMarks.belongsTo(db.assessmentMarks, {
+  foreignKey: "assessmentId",
+  as: "assessment"
 })
 
-// student to coursework mark 
-db.students.hasMany(db.courseworkMarks, { as: "courseworkMarks" })
-db.courseworkMarks.belongsTo(db.students, {
+// student to assessment marks
+db.students.hasMany(db.assessmentMarks, { as: "assessmentMarks" })
+db.assessmentMarks.belongsTo(db.students, {
   foreignKey: "studentId",
   as: "student"
 })
-
-// exams to modules
-db.modules.hasMany(db.examinations, { as: "examinations" })
-db.examinations.belongsTo(db.modules, {
-  foreignKey: "moduleCode",
-  as: "module"
-})
-
-// exam mark to exams
-db.examinations.hasMany(db.examinationMarks, { as: "examinationMarks" })
-db.examinationMarks.belongsTo(db.examinations, {
-  foreignKey: "examinationId",
-  as: "examination"
-})
-
-// student to exam mark 
-db.students.hasMany(db.examinationMarks, { as: "examinationMarks" })
-db.examinationMarks.belongsTo(db.students, {
-  foreignKey: "studentId",
-  as: "student"
-})
-
 
 module.exports = db;

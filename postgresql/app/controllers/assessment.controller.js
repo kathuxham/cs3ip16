@@ -1,8 +1,8 @@
 const db = require("../models");
-const Module = db.modules;
+const Assessment = db.assessments;
 const Op = db.Sequelize.Op;
 
-// Create and Save a new module
+// Create and Save a new assessment
 exports.create = (req, res) => {
     // Validate request
     // if (!req.body.firstName) {
@@ -12,115 +12,111 @@ exports.create = (req, res) => {
     //   return;
     // }
   
-    // Create a module
-    const module = {
-        moduleCode: req.body.moduleCode,
-        moduleTitle: req.body.moduleTitle,
-        moduleLevel: req.body.moduleLevel,
-        moduleLink: req.body.moduleLink,
-        numberOfCredits: req.body.numberOfCredits,
-        termsTaught: req.body.termsTaught,
-        currentAsOf: req.body.currentAsOf,
-        contactHours: req.body.contactHours,
+    // Create an assessment
+    const assessment = {
+        assessmentCode: req.body.assessmentCode,
+        assessmentDetail: req.body.assessmentDetail,
+        assessmentType: req.body.assessmentType,
+        assessmentWeight: req.body.assessmentWeight,
     };
   
-    // Save module in the database
-    Module.create(module)
+    // Save assessment in the database
+    Assessment.create(assessment)
       .then(data => {
         res.send(data);
       })
       .catch(err => {
         res.status(500).send({
           message:
-            err.message || "Some error occurred while creating the module."
+            err.message || "Some error occurred while creating the individual."
         });
       });
   };
 
-// Retrieve all modules from the database.
+// Retrieve all assessments from the database.
 exports.findAll = (req, res) => {
     const moduleTitle = req.query.moduleTitle;
     var condition = moduleTitle ? { moduleTitle: { [Op.iLike]: `%${moduleTitle}%` } } : null;
   
-    Module.findAll({ where: condition })
+    Assessment.findAll({ where: condition })
       .then(data => {
         res.send(data);
       })
       .catch(err => {
         res.status(500).send({
           message:
-            err.message || "Some error occurred while retrieving modules."
+            err.message || "Some error occurred while retrieving assessments."
         });
       });
   };
 
-// Find a single module with an id
+// Find a single assessment with an id
 exports.findOne = (req, res) => {
   const id = req.params.id;
 
-  Module.findByPk(id)
+  Assessment.findByPk(id)
     .then(data => {
       if (data) {
         res.send(data);
       } else {
         res.status(404).send({
-          message: `Cannot find module with id=${id}.`
+          message: `Cannot find assessment with id=${id}.`
         });
       }
     })
     .catch(err => {
       res.status(500).send({
-        message: "Error retrieving module with id=" + id
+        message: "Error retrieving assessment with id=" + id
       });
     });
 };
 
-// Update a module by the id in the request
+// Update an assessment by the id in the request
 exports.update = (req, res) => {
   const id = req.params.id;
 
-  Module.update(req.body, {
+  Assessment.update(req.body, {
     where: { id: id }
   })
     .then(num => {
       if (num == 1) {
         res.send({
-          message: "Module was updated successfully."
+          message: "Assessment was updated successfully."
         });
       } else {
         res.send({
-          message: `Cannot update module with id=${id}. Maybe module was not found or req.body is empty!`
+          message: `Cannot update assessment with id=${id}. Maybe assessment was not found or req.body is empty!`
         });
       }
     })
     .catch(err => {
       res.status(500).send({
-        message: "Error updating module with id=" + id
+        message: "Error updating assessment with id=" + id
       });
     });
 };
 
-// Delete an module with the specified id in the request
+// Delete an assessment with the specified id in the request
 exports.delete = (req, res) => {
   const id = req.params.id;
 
-  Module.destroy({
+  Assessment.destroy({
     where: { id: id }
   })
     .then(num => {
       if (num == 1) {
         res.send({
-          message: "Module was deleted successfully!"
+          message: "Assessment was deleted successfully!"
         });
       } else {
         res.send({
-          message: `Cannot delete module with id=${id}. Maybe module was not found!`
+          message: `Cannot delete assessment with id=${id}. Maybe assessment was not found!`
         });
       }
     })
     .catch(err => {
       res.status(500).send({
-        message: "Could not delete module with id=" + id
+        message: "Could not delete assessment with id=" + id
       });
     });
 };

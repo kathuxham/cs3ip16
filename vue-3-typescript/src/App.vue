@@ -1,6 +1,8 @@
 <template>
   <div id="app">
-    <nav-bar></nav-bar>
+    <div class="nav-bar">
+        <NavBar />
+    </div>
     <div class="side-bar">
         <SideBar />
     </div>
@@ -43,16 +45,28 @@ export default class App extends Vue {}
 
 
 <style scoped>
+
+.nav-bar {
+  position: fixed;
+  width: 100%;
+}
 .side-bar {
   display: flex;
   overflow: hidden;
 }
 
-/*
+
 .window {
-  margin-left: 220px;
+  margin-left: 240px;
+  margin-top: 96px;
 }
 
+a:hover {
+  color: none;
+  text-decoration: none;
+}
+
+/*
 header {
   line-height: 1.5;
   max-height: 100vh;

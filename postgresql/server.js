@@ -30,6 +30,10 @@ app.get("/", (req, res) => {
 
 require("./app/routes/individual.routes")(app);
 require("./app/routes/module.routes")(app);
+require("./app/routes/staffmember.routes")(app);
+require("./app/routes/student.routes")(app);
+require("./app/routes/address.routes")(app);
+require("./app/routes/assessment.routes")(app);
 
 
 // set port, listen for requests

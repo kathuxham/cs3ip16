@@ -6,7 +6,7 @@ import './NavBar.scss';
 </script>
 
 <template>
-  <div class="nav-bar">
+  <div class="navbar">
     <span>
       <RouterLink to="/">
         <img
@@ -17,7 +17,9 @@ import './NavBar.scss';
         />
       </RouterLink>
     </span>
-    <span class="detailButton"><a href="#"><mdicon :size="36" class="icon" name="accountDetails"></mdicon></a></span>
+      <RouterLink to="account">
+        <span class="detailButton"><a href="#"><mdicon :size="36" class="icon" name="accountDetails"></mdicon></a></span>
+      </RouterLink>
   </div>
 </template>
 

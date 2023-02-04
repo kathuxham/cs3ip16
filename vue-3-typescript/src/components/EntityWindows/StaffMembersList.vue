@@ -1,0 +1,152 @@
+<template>
+  <LoadingScreen v-if="isLoading"></LoadingScreen>
+  <div class="report-window">
+    <div class="heading">
+      <div class="title-container icon-centered">
+          <div class="title">
+            <mdicon :size="48" class="icon icon-centered report-icon" name="account"></mdicon>
+            <div class="record-text">
+              <div class="record-title">{{ $t("staffMembers.staffMembers") }}</div>
+            </div>
+        </div>
+      </div>
+      <span class="icon-centered">
+        <a style="color: rgb(170, 170, 170)" href="#">
+          <mdicon :size="36" class="report-icon" name="close"></mdicon>
+        </a>
+      </span>
+    </div>
+    <div class="main-page">
+        <div class="table-container">
+          <div class="input-box">
+            <input
+            type="text"
+            class="form-control"
+            placeholder="Search"
+            v-model="title"
+          />
+            <button
+              class="btn btn-outline-secondary"
+              type="button"
+              @click="searchTitle"
+            >
+              Search
+            </button>
+          </div>
+          
+          <RecordTable 
+            :columns="jointHeaders" 
+            :fields="staffMembers" 
+            :entity="entity"
+            :joinedColumns="individualHeaders"
+            :joinedFields="individuals"
+            >
+          </RecordTable>
+
+        </div>
+    </div>
+  </div>
+  </template>
+  
+  <script lang="ts">
+  import { Vue, Options } from "vue-class-component";
+  import StaffDataService from "@/services/StaffDataService";
+  import type StaffMember from "@/types/StaffMember";
+  import IndividualDataService from "@/services/IndividualDataService";
+  import type Individual from "@/types/Individual";
+  import RecordTable from "../RecordsTable/RecordTable.vue";
+  import LoadingScreen from "../LoadingScreen/LoadingScreen.vue";
+  import '../ReportWindow/ReportWindow.scss'
+
+  @Options({
+  components: {
+    RecordTable,
+    LoadingScreen,
+  }
+})
+
+  export default class StaffMembersList extends Vue {
+    public staffMembers: StaffMember[] = [];
+    public currentStaffMembers = {} as StaffMember;
+    public individuals: Individual[] = [];
+    public currentIndividual = {} as Individual;
+    public currentIndex: number = -1;
+    public title: string = "";
+    public staffMemberHeaders: string[] = [];
+    public individualHeaders: string[] = [];
+    public jointHeaders: string[] = [];
+    public entity: string = "staffMembers";
+    public isLoading: boolean = false;
+  
+    retrieveStaffMembers() {
+      this.isLoading = true;
+      StaffDataService.getAll()
+        .then((response) => {
+          this.staffMembers = response.data;
+          this.staffMemberHeaders = Object.keys(this.staffMembers[0]).filter((title, index) => {
+            var included = (title == "staffNumber") || (title == "position");
+            return included;
+          });
+          console.log(response.data);
+          for (let staff of this.staffMembers) {
+            IndividualDataService.get(staff.individualId)
+            .then(response => {
+              this.currentIndividual = response.data;
+              staff.individual = this.currentIndividual;
+              this.individualHeaders = Object.keys(staff.individual).filter((title, index) => {
+                var included = (title == "firstName") || (title == "lastName") || (title == "universityEmailAddress");
+                return included;
+              });
+              this.individuals = this.individuals.concat(this.currentIndividual);
+              // this.individualHeaders = this.individualHeaders.map(i => 'individual.' + i);
+              this.jointHeaders = ["staffNumber", "firstName", "lastName", "position", "universityEmailAddress"];
+              this.isLoading = false;
+            })
+            .catch(e => {
+              console.log(e);
+            });
+          };
+        })
+        .catch((e) => {
+          console.log(e);
+        });
+    }
+  
+    refreshList() {
+      this.retrieveStaffMembers();
+      this.currentStaffMembers = {} as StaffMember;
+      this.currentIndex = -1;
+    }
+  
+    setActiveStaffMember(staffMember: StaffMember, index: number) {
+      this.currentStaffMembers = staffMember;
+      this.currentIndex = index;
+    }
+  
+    searchTitle() {
+      StaffDataService.findByTitle(this.title)
+        .then((response) => {
+          this.staffMembers = response.data;
+          console.log(response.data);
+        })
+        .catch((e) => {
+          console.log(e);
+        });
+    }
+  
+    mounted() {
+      this.retrieveStaffMembers();
+    }
+
+    
+
+  }
+  </script>
+  
+  <style scoped>
+  .list {
+    text-align: left;
+    max-width: 750px;
+    margin: auto;
+  }
+  </style>

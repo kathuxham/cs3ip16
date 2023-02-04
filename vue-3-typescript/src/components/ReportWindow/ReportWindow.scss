@@ -1,4 +1,4 @@
-.record-window {
+.report-window {
     width: 100%;
     background-color: #F4F4F4;
     height: 100%;
@@ -10,6 +10,8 @@ display: flex;
 background-color: white;
 overflow: hidden;
 border: 1px solid rgb(170, 170, 170);
+position: fixed;
+width: 100%;
 }
 
 .title-container {
@@ -24,6 +26,7 @@ display: flex;
 
 .main-page {
 display: flex;
+padding-top: 70px;
 }
 
 .record {
@@ -46,7 +49,7 @@ font-size: 26px;;
 font-size: 14px;
 }
 
-.sidebar {
+.select-page {
 margin: 0;
 padding: 0;
 width: 200px;
@@ -58,7 +61,7 @@ border: 1px solid rgb(170, 170, 170);
 flex-grow: 1;
 }
 
-.sidebar a {
+.select-page a {
 display: block;
 color: black;
 padding: 16px;
@@ -66,12 +69,12 @@ text-decoration: none;
 border: 1px solid #ebebeb;
 }
 
-.sidebar a.active {
+.select-page a.active {
 background-color: white;
 color: black;
 }
 
-.sidebar a:hover:not(.active) {
+.select-page a:hover:not(.active) {
 background-color: #ebebeb;
 color: black;
 }
@@ -82,24 +85,24 @@ padding: 1px 16px;
 height: 1000px;
 }
 
-@media screen and (max-width: 700px) {
-.sidebar {
-    width: 100%;
-    height: auto;
-    position: relative;
-}
-.sidebar a {float: left;}
-div.content {margin-left: 0;}
-}
+// @media screen and (max-width: 700px) {
+// .select-page {
+//     width: 100%;
+//     height: auto;
+//     position: relative;
+// }
+// .select-page a {float: left;}
+// div.content {margin-left: 0;}
+// }
 
-@media screen and (max-width: 400px) {
-.sidebar a {
-    text-align: center;
-    float: none;
-}
-}
+// @media screen and (max-width: 400px) {
+// .select-page a {
+//     text-align: center;
+//     float: none;
+// }
+// }
 
-.container {
+.table-container {
 flex-grow: 1;
 padding: 16px;
 margin: 10px;
@@ -120,4 +123,16 @@ color: rgb(170, 170, 170);
 .icon-centered{
 margin-top: auto;
 margin-bottom: auto;
+}
+
+.report-icon {
+    color: #212529;
+}
+
+.input-box {
+    display: flex;
+    align-items: stretch;
+    width: 100%;
+    min-width: 0;
+    margin-bottom: 15px;
 }

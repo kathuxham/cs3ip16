@@ -22,7 +22,7 @@ class ModuleDataService {
   }
 
   findByTitle(title: string) {
-    return http.get(`/modules?moduleCode=${title}`);
+    return http.get(`/modules?moduleTitle=${title}`);
   }
 
 }

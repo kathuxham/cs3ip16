@@ -1,0 +1,176 @@
+{
+    "address": {
+        "address": "Address",
+        "addresses": "Addresses",
+        "addressId": "Address ID",
+        "addressLine1": "Address Line 1",
+        "addressLine2": "Address Line 2",
+        "addressLine3": "Address Line 3",
+        "townCity": "Town/City",
+        "region": "Region",
+        "postalCode": "Postal Code",
+        "country": "Country",
+        "termTimeAddress": "Term Time Address",
+        "homeAddress": "Home Address"
+    },
+    "assessments": {
+        "assessments": "Assessments",
+        "assessment": "Assessment",
+        "assessmentId": "Assessment ID",
+        "assessmentCode": "Assessment Code",
+        "assessmentDetail": "Assessment Detail",
+        "assessmentType": "Assessment Type",
+        "assessmentWeight": "Assessment Weight"
+    },
+    "assessmentmarks": {
+        "assessmentmarks": "Assessment Marks",
+        "assessmentMarkId": "Assessment Mark ID",
+        "assessmentStatus": "Assessment Status",
+        "assessmentMark": "Assessment Mark",
+        "assessmentGrade": "Assessment Grade",
+        "assessmentState": "Assessment State"
+    },
+    "contactPreferences": {
+        "contactPreferences": "Contact Preferences",
+        "preferencesId": "Contact Preferences ID",
+        "textMessages": "Text messages",
+        "alumniSupporterEmails": "Alumni and supporter emails",
+        "careerEmails": "Career emails"
+    },
+    "emergencyContact": {
+        "emergencyContact": "Emergency Contact",
+        "emergencyContactId": "Emergency Contact ID",
+        "fullName": "Full Name",
+        "relationship": "Relationship",
+        "telephoneNumber": "Telephone Number"
+    },
+    "enrolment": {
+        "enrolment": "Enrolment",
+        "enrolmentId": "Enrolment ID",
+        "enrolmentComplete": "Enrolment Complete",
+        "stage1": "Stage 1 - Rules and Regulations",
+        "stage2": "Stage 2 - Personal Details",
+        "stage3": "Stage 3 - HESA Details",
+        "stage4": "Stage 4 - Fees"
+    },
+    "individuals": {
+        "individuals": "Individuals",
+        "individualId": "Individual ID",
+        "firstName": "First Name",
+        "middleName": "Middle Name",
+        "lastName": "Last Name",
+        "preferredName": "Preferred Name",
+        "dateOfBirth": "Date of Birth",
+        "pronouns": "Pronouns",
+        "contactPhoneNumber": "Contact Phone Number",
+        "homePhoneNumber": "Home Phone Number",
+        "mobilePhoneNumber": "Mobile Phone Number",
+        "personalEmailAddress": "Personal Email Address",
+        "universityEmailAddress": "University Email Address"
+    },
+    "menu": {
+        "courses": "Courses"
+    },
+    "modules": {
+        "modules": "Modules",
+        "id": "Module ID",
+        "moduleCode": "Module Code",
+        "moduleTitle": "Module Title",
+        "moduleLevel": "Level",
+        "moduleLink": "Link",
+        "numberOfCredits": "Credits",
+        "termsTaught": "Terms taught",
+        "currentAsOf": "Current as of",
+        "contactHours": "Contact hours",
+        "moduleInfo": "Module info"
+    },
+    "moduleMarks": {
+        "moduleMarks": "Module Marks",
+        "moduleMarkId": "Module Mark ID",
+        "moduleYear": "Module Year",
+        "moduleCompletionStatus": "Module Completion Status",
+        "moduleMark": "Module Mark",
+        "moduleGrade": "Module Grade",
+        "moduleResult": "module Result"
+    },
+    "records": {
+        "personalData": "Personal Data",
+        "academicTutor": "Academic Tutor",
+        "fullName": "Full Name",
+        "programme": "Programme",
+        "programmeInfo": "Programme Information",
+        "studentInfo": "Student Information",
+        "staffInfo": "Staff Information",
+        "tutorGroup": "Tutor Group",
+        "modules": "Modules",
+        "marksAndFeedback": "Marks and Feedback",
+        "examinations": "Examinations",
+        "communication": "Communication",
+        "email": "Email",
+        "phone": "Phone"
+    },
+    "staffMembers": {
+        "staffMembers": "Staff Members",
+        "staffMemberId": "Staff Member ID",
+        "staffNumber": "Staff Number",
+        "position": "Position",
+        "individuals": "Individuals",
+        "individualId": "Individual ID",
+        "firstName": "First Name",
+        "middleName": "Middle Name",
+        "lastName": "Last Name",
+        "preferredName": "Preferred Name",
+        "dateOfBirth": "Date of Birth",
+        "pronouns": "Pronouns",
+        "contactPhoneNumber": "Contact Phone Number",
+        "homePhoneNumber": "Home Phone Number",
+        "mobilePhoneNumber": "Mobile Phone Number",
+        "personalEmailAddress": "Personal Email Address",
+        "universityEmailAddress": "University Email Address"
+    },
+    "students": {
+        "students": "Students",
+        "studentId": "Student ID",
+        "studentNumber": "Student Number",
+        "studentUsername": "Student Username",
+        "programme": "Programme",
+        "qualification": "Qualification",
+        "department": "Department",
+        "startDate": "Start Date",
+        "expectedEndDate": "Expected End Date",
+        "individuals": "Individuals",
+        "individualId": "Individual ID",
+        "firstName": "First Name",
+        "middleName": "Middle Name",
+        "lastName": "Last Name",
+        "preferredName": "Preferred Name",
+        "dateOfBirth": "Date of Birth",
+        "pronouns": "Pronouns",
+        "contactPhoneNumber": "Contact Phone Number",
+        "homePhoneNumber": "Home Phone Number",
+        "mobilePhoneNumber": "Mobile Phone Number",
+        "personalEmailAddress": "Personal Email Address",
+        "universityEmailAddress": "University Email Address"
+    },
+    "studentsPersonalDetails": {
+        "studentsPersonalDetails": "Personal Details",
+        "personalDetailsId": "Personal Details ID",
+        "nationality": "Nationality",
+        "domicile": "Domicile",
+        "countryOfBirth": "Country of Birth",
+        "ethnicity": "Ethnicity",
+        "feeStatus": "Fee Status",
+        "disability": "Disability",
+        "parentalResponsibility": "Parental Responsibility"
+    },
+    "user": {
+        "user": "User",
+        "userId": "User ID",
+        "username": "Username",
+        "password": "Password",
+        "userLastLogin": "User Last Login",
+        "userType": "User Type",
+        "admin": "Admin"
+    }
+    
+  }

@@ -1,8 +1,10 @@
 <script setup lang="ts">
+import './ReportWindow.scss';
+import '@mdi/js';
 </script>
 
 <template>
-  <div class="record-window">
+  <div class="report-window">
     <div class="heading">
       <div class="title-container icon-centered">
           <div class="title">
@@ -31,4 +33,4 @@
   </div>
 </template>
 
-<style scoped src="./ReportWindow.scss"></style>
+<!-- <style scoped src="./ReportWindow.scss"></style> -->

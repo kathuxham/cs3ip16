@@ -1,9 +1,12 @@
 <script setup lang="ts">
   import { Vue } from "vue-class-component";
-  
-  export default class RecordWindow extends Vue {
+  import './RecordWindow.scss';
+  import '@mdi/js';
 
-  }
+  
+  // export default class RecordWindow extends Vue {
+
+  // }
 
 
 
@@ -33,7 +36,7 @@
       </span>
     </div>
     <div class="main-page">
-      <div class="sidebar">
+      <div class="select-page">
         <a class="active" href="#/personaldata">Personal Data</a>
         <a href="/programme">Programme</a>
         <a href="/modules">Modules</a>
@@ -58,5 +61,3 @@
     
   </div>
 </template>
-
-<style scoped src="./RecordWindow.scss"></style>

@@ -1,11 +1,29 @@
-<script setup lang="ts">
+<script lang="ts">
+import { Vue, Options } from 'vue-class-component';
+import './HomeWindow.scss'
+import LoadingScreen from '../LoadingScreen/LoadingScreen.vue';
+import '@mdi/js';
 
+@Options({
+  components: {
+    LoadingScreen
+  }
+})
 
+export default class HomeWindow extends Vue {
+
+  public isLoading: boolean = true;
+
+  mounted(){
+    
+  }
+
+}
 </script>
 
-<template>
+<template>  
+  <LoadingScreen v-if="isLoading"></LoadingScreen>
   <div class="record-window">
-    
     <div class="main-page">
       <div class="record">
         <div class="container">
@@ -22,5 +40,3 @@
     
   </div>
 </template>
-
-<style scoped src="./HomeWindow.scss"></style>

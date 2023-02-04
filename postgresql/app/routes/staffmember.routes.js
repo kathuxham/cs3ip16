@@ -1,5 +1,5 @@
 module.exports = app => {
-    const individuals = require("../controllers/individual.controller.js");
+    const staffMembers = require("../controllers/staffmember.controller.js");
   
     var router = require("express").Router();
   
@@ -7,16 +7,16 @@ module.exports = app => {
     // router.post("/", individuals.create);
   
     // Retrieve all individuals
-    router.get("/", individuals.findAll);
+    router.get("/", staffMembers.findAll);
   
     // Retrieve a single individual with id
-    router.get("/:id", individuals.findOne);
+    router.get("/:id", staffMembers.findOne);
   
     // Update an individual with id
-    router.put("/:id", individuals.update);
+    router.put("/:id", staffMembers.update);
   
     // Delete an individual with id
     // router.delete("/:id", individuals.delete);
   
-    app.use('/api/individuals', router);
+    app.use('/api/staffMembers', router);
   };

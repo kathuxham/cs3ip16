@@ -4,22 +4,22 @@ module.exports = (sequelize, Sequelize) => {
         type: Sequelize.STRING(10)
       },
       moduleTitle: {
-        type: Sequelize.STRING(100)
+        type: Sequelize.STRING
       },
-      moduleDescription: {
-        type: Sequelize.STRING(500)
+      moduleLevel: {
+        type: Sequelize.STRING(5)
       },
       moduleLink: {
-        type: Sequelize.STRING(100)
+        type: Sequelize.STRING
       },
       numberOfCredits: {
         type: Sequelize.INTEGER
       },
       termsTaught: {
-        type: Sequelize.STRING(20)
+        type: Sequelize.STRING
       },
       currentAsOf: {
-        type: Sequelize.INTEGER
+        type: Sequelize.STRING
       },
       contactHours: {
         type: Sequelize.INTEGER

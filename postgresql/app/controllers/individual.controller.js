@@ -1,5 +1,7 @@
 const db = require("../models");
 const Individual = db.individuals;
+const Student = db.students;
+const StaffMember = db.staffMembers;
 const Op = db.Sequelize.Op;
 
 // Create and Save a new individual
@@ -20,6 +22,12 @@ exports.create = (req, res) => {
       preferredName: req.body.preferredName,
       dateOfBirth: req.body.dateOfBirth,
       pronouns: req.body.pronouns,
+      studentOrStaff: req.body.studentOrStaff ? req.body.studentOrStaff : "NA",
+      contactPhoneNumber: req.body.contactPhoneNumber,
+      homePhoneNumber: req.body.homePhoneNumber,
+      mobilePhoneNumber: req.body.mobilePhoneNumber,
+      personalEmailAddress: req.body.personalEmailAddress,
+      universityEmailAddress: req.body.universityEmailAddress,
     };
   
     // Save individual in the database
@@ -40,7 +48,7 @@ exports.findAll = (req, res) => {
     const firstName = req.query.firstName;
     var condition = firstName ? { firstName: { [Op.iLike]: `%${firstName}%` } } : null;
   
-    Individual.findAll({ where: condition })
+    Individual.findAll({ where: condition})
       .then(data => {
         res.send(data);
       })

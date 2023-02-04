@@ -3,18 +3,27 @@ module.exports = (sequelize, Sequelize) => {
       studentNumber: {
         type: Sequelize.INTEGER
       },
-      studentId: {
+      studentUsername: {
         type: Sequelize.STRING(8)
       },
-      course: {
+      programme: {
         type: Sequelize.STRING(100)
       },
-      courseRep: {
-        type: Sequelize.BOOLEAN
+      qualification: {
+        type: Sequelize.STRING(100)
       },
-      parentalResponsibility: {
-        type: Sequelize.BOOLEAN
-      }
+      department: {
+        type: Sequelize.STRING(100)
+      },
+      startDate: {
+        type: Sequelize.DATE
+      },
+      expectedEndDate: {
+        type: Sequelize.DATE
+      },
+      status: {
+        type: Sequelize.STRING(100)
+      },
     });
   
     return Student;

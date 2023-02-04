@@ -1,0 +1,146 @@
+.record-window {
+    width: 100%;
+    background-color: #F4F4F4;
+    height: 100%;
+  }
+  .heading {
+    height: 70px;
+    display: flex;
+    background-color: white;
+    overflow: hidden;
+    border: 1px solid rgb(170, 170, 170);
+  }
+
+  h2 {
+    font-weight: 500;
+    margin-bottom: 10px;
+  }
+  
+  .title-container {
+    font-size: 26px;
+    flex-grow: 4;
+  }
+  
+  .title {
+    padding: 0 10px;
+    display: flex;
+  }
+  
+  .main-page {
+    display: flex;
+  }
+  
+  .record {
+    display: flex;
+    background-color: #F4F4F4;
+    margin-left: 210px;
+    width: 100%;
+    flex-wrap: row wrap;
+  }
+  
+  .record-text {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .record-title {
+    font-size: 26px;
+    font-weight: 500px;
+  }
+  
+  .record-subtitle {
+    font-size: 14px;
+  }
+  
+  .select-page {
+    margin: 0;
+    padding: 0;
+    width: 200px;
+    background-color: rgb(255, 255, 255);
+    position: fixed;
+    height: 100%;
+    overflow: auto;
+    border: 1px solid rgb(170, 170, 170);
+    flex-grow: 1;
+  }
+  
+  .sidebox {
+    display: block;
+    color: black;
+    padding: 16px;
+    text-decoration: none;
+    border: 1px solid #ebebeb;
+  }
+  
+  .sidebox.active {
+    background-color: white;
+    color: black;
+    font-weight: bold;
+  }
+  
+  .sidebox:hover:not(.active) {
+    background-color: #ebebeb;
+    color: black;
+  }
+  
+  div.content {
+    margin-left: 200px;
+    padding: 1px 16px;
+    height: 1000px;
+  }
+  
+  // @media screen and (max-width: 700px) {
+  //   .select-page {
+  //     width: 100%;
+  //     height: auto;
+  //     position: relative;
+  //   }
+  //   .select-page a {float: left;}
+  //   div.content {margin-left: 0;}
+  // }
+  
+  // @media screen and (max-width: 400px) {
+  //   .select-page a {
+  //     text-align: center;
+  //     float: none;
+  //   }
+  // }
+  
+  .container {
+    flex-grow: 1;
+    padding: 16px;
+    margin: 10px;
+    background-color: white;
+    min-width: 400px;
+    border-radius: 10px;
+  }
+  
+  .data-heading{
+    color: rgb(170, 170, 170);
+    margin-top: 10px;
+  }
+  
+  .icon-centered{
+    margin-top: auto;
+    margin-bottom: auto;
+  }
+
+  .record-icon {
+    margin-right: 10px;
+    height: 100%;
+    color: #212529;
+  }
+
+  .report-icon {
+    color: #212529;
+  }
+
+  .long-container {
+    display: flex;
+    width: 100%;
+  }
+
+  .stacked-container {
+    width: 100%;
+    margin-right: 30px;
+  }

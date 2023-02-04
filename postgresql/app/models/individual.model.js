@@ -18,6 +18,9 @@ module.exports = (sequelize, Sequelize) => {
       pronouns: {
         type: Sequelize.STRING(10)
       },
+      studentOrStaff: {
+        type: Sequelize.STRING(5)
+      },
       contactPhoneNumber: {
         type: Sequelize.STRING(40)
       },

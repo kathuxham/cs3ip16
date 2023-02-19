@@ -15,6 +15,11 @@ const router = createRouter({
       component: () => import("../components/EntityWindows/AssessmentsList.vue"),
     },
     {
+      path: "/assessments/:id",
+      name: "assessments-details",
+      component: () => import("../components/EntityRecords/AssessmentRecord.vue"),
+    },
+    {
       path: "/modules",
       name: "modules",
       component: () => import("../components/EntityWindows/ModulesList.vue")

@@ -6,20 +6,29 @@
                 <th  v-for="column in columns" :key='column' > 
                 {{ $t(entity + "." + column ) }} <i class="bi bi-sort-alpha-down" aria-label='Sort Icon'></i>
                 </th>
-                <!-- <th  v-for="column in joinedColumns" :key='column' > 
-                {{ $t(entity + "." + column ) }} <i class="bi bi-sort-alpha-down" aria-label='Sort Icon'></i>
-                </th> -->
             </tr>
         </thead>
         <tbody class="data-row">
             <!-- data -->
             <tr v-for="item in fields" :key='item'>
                 <td v-for="column in columns" :key='column'>
-                    <router-link :to="'/' + entity + '/' + item['id']">{{item[column]}}</router-link>
+                    <div v-if="entity == 'assessmentmarks'">{{item[column]}}</div>
+                    <router-link v-if="entity != 'assessmentmarks' && column != 'moduleConvenor'" :to="'/' + entity + '/' + item['id']">{{item[column]}}</router-link>
                     <router-link 
-                        v-if="item['individual'] && (entity == 'staffMembers' || entity == 'students')" 
+                        v-if="item['individual'] && (entity == 'staffMembers' || entity == 'students') && (secondaryEntity != 'moduleConvenors')" 
                         :to="'/' + entity + '/' + item['id']">
                         {{item['individual'][column]}}
+                    </router-link>
+                    <div v-if="column == 'assessmentWeight' && item['assessment'] && entity == 'assessmentmarks'">{{item['assessment'][column]}}</div>
+                    <router-link
+                        v-if="column != 'assessmentWeight' && item['assessment'] && entity == 'assessmentmarks'" 
+                        :to="'/assessments/' + item['assessment']['id']">
+                        {{item['assessment'][column]}}
+                    </router-link >
+                    <router-link 
+                        v-if="column == 'moduleConvenor' && item['moduleConvenor'] && item['moduleConvenorIndividual'] && (secondaryEntity == 'moduleConvenors')" 
+                        :to="'/staffMembers/' + item['moduleConvenor'][0]['staffMemberId']">
+                        {{item['moduleConvenorIndividual']['firstName'] + " " + item['moduleConvenorIndividual']['lastName']}}
                     </router-link>
                 </td>
             </tr>
@@ -36,6 +45,8 @@ export default class RecordTable extends Vue {
     @Prop() public joinedColumns: string[] | undefined; 
     @Prop() public joinedFields: [] | undefined;
     @Prop() public entity: string | undefined;
+    @Prop() public secondaryEntity: string | undefined;
+
 
     public created() {
     }

@@ -37,7 +37,7 @@
           <RecordTable 
             :columns="jointHeaders" 
             :fields="staffMembers" 
-            :entity="entity"
+            :entity="'staffMembers'"
             :joinedColumns="individualHeaders"
             :joinedFields="individuals"
             >
@@ -55,7 +55,7 @@
   import IndividualDataService from "@/services/IndividualDataService";
   import type Individual from "@/types/Individual";
   import RecordTable from "../RecordsTable/RecordTable.vue";
-  import LoadingScreen from "../LoadingScreen/LoadingScreen.vue";
+  import LoadingScreen from "../WindowSetup/LoadingScreen/LoadingScreen.vue";
   import '../ReportWindow/ReportWindow.scss'
 
   @Options({
@@ -75,7 +75,6 @@
     public staffMemberHeaders: string[] = [];
     public individualHeaders: string[] = [];
     public jointHeaders: string[] = [];
-    public entity: string = "staffMembers";
     public isLoading: boolean = false;
   
     retrieveStaffMembers() {
@@ -83,24 +82,15 @@
       StaffDataService.getAll()
         .then((response) => {
           this.staffMembers = response.data;
-          this.staffMemberHeaders = Object.keys(this.staffMembers[0]).filter((title, index) => {
-            var included = (title == "staffNumber") || (title == "position");
-            return included;
-          });
-          console.log(response.data);
+          this.staffMemberHeaders = ["staffNumber", "position"];
           for (let staff of this.staffMembers) {
             IndividualDataService.get(staff.individualId)
             .then(response => {
               this.currentIndividual = response.data;
               staff.individual = this.currentIndividual;
-              this.individualHeaders = Object.keys(staff.individual).filter((title, index) => {
-                var included = (title == "firstName") || (title == "lastName") || (title == "universityEmailAddress");
-                return included;
-              });
+              this.individualHeaders = ["firstName", "lastName", "universityEmailAddress"];
               this.individuals = this.individuals.concat(this.currentIndividual);
-              // this.individualHeaders = this.individualHeaders.map(i => 'individual.' + i);
               this.jointHeaders = ["staffNumber", "firstName", "lastName", "position", "universityEmailAddress"];
-              this.isLoading = false;
             })
             .catch(e => {
               console.log(e);
@@ -110,6 +100,7 @@
         .catch((e) => {
           console.log(e);
         });
+        this.isLoading = false;
     }
   
     refreshList() {
@@ -127,7 +118,6 @@
       StaffDataService.findByTitle(this.title)
         .then((response) => {
           this.staffMembers = response.data;
-          console.log(response.data);
         })
         .catch((e) => {
           console.log(e);

@@ -20,15 +20,26 @@
         "assessmentCode": "Assessment Code",
         "assessmentDetail": "Assessment Detail",
         "assessmentType": "Assessment Type",
-        "assessmentWeight": "Assessment Weight"
+        "assessmentWeight": "Assessment Weight",
+        "assessmentInfo": "Assessment info"
     },
     "assessmentmarks": {
         "assessmentmarks": "Assessment Marks",
         "assessmentMarkId": "Assessment Mark ID",
-        "assessmentStatus": "Assessment Status",
-        "assessmentMark": "Assessment Mark",
-        "assessmentGrade": "Assessment Grade",
-        "assessmentState": "Assessment State"
+        "assessmentStatus": "Status",
+        "assessmentMark": "Mark",
+        "assessmentGrade": "Grade",
+        "assessmentState": "State",
+        "assessmentDate": "Date",
+        "assessmentLevel": "Level",
+        "assessmentCode": "Assessment Code",
+        "assessmentDetail": "Assessment Detail",
+        "assessmentWeight": "Weight",
+        "averageMark": "Average Mark",
+        "yearOneAverage": "Year One Average",
+        "yearTwoAverage": "Year Two Average",
+        "yearThreeAverage": "Year Three Average",
+        "yearFourAverage": "Year Four Average"
     },
     "contactPreferences": {
         "contactPreferences": "Contact Preferences",
@@ -47,7 +58,9 @@
     "enrolment": {
         "enrolment": "Enrolment",
         "enrolmentId": "Enrolment ID",
+        "enrolmentStatus": "Enrolment Status",
         "enrolmentComplete": "Enrolment Complete",
+        "enrolmentIncomplete": "Enrolment Incomplete",
         "stage1": "Stage 1 - Rules and Regulations",
         "stage2": "Stage 2 - Personal Details",
         "stage3": "Stage 3 - HESA Details",
@@ -72,6 +85,7 @@
         "courses": "Courses"
     },
     "modules": {
+        "module": "Module",
         "modules": "Modules",
         "id": "Module ID",
         "moduleCode": "Module Code",
@@ -82,7 +96,8 @@
         "termsTaught": "Terms taught",
         "currentAsOf": "Current as of",
         "contactHours": "Contact hours",
-        "moduleInfo": "Module info"
+        "moduleInfo": "Module info",
+        "moduleConvenor": "Module Convenor"
     },
     "moduleMarks": {
         "moduleMarks": "Module Marks",
@@ -96,18 +111,23 @@
     "records": {
         "personalData": "Personal Data",
         "academicTutor": "Academic Tutor",
+        "moduleConvenor": "Module Convenor",
         "fullName": "Full Name",
         "programme": "Programme",
-        "programmeInfo": "Programme Information",
-        "studentInfo": "Student Information",
-        "staffInfo": "Staff Information",
+        "currentYear": "Current Year",
+        "programmeInfo": "Programme Info",
+        "studentInfo": "Student Info",
+        "staffInfo": "Staff Info",
+        "enrolmentInfo": "Enrolment Info",
         "tutorGroup": "Tutor Group",
         "modules": "Modules",
         "marksAndFeedback": "Marks and Feedback",
         "examinations": "Examinations",
         "communication": "Communication",
         "email": "Email",
-        "phone": "Phone"
+        "phone": "Phone",
+        "yes": "Yes",
+        "no": "No"
     },
     "staffMembers": {
         "staffMembers": "Staff Members",

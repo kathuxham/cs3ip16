@@ -1,5 +1,7 @@
 import Address from "./Address";
 import Individual from "./Individual";
+import Module from "./Module";
+import StaffMember from "./StaffMember";
 
 export default interface Student {
     id: null;
@@ -14,4 +16,6 @@ export default interface Student {
     individual: Individual;
     individualId: string;
     termTimeAddress: Address;
+    academicTutee: StaffMember[];
+    moduleStu: Module[];
 }

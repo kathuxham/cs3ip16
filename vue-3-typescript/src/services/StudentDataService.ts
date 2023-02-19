@@ -22,7 +22,7 @@ class StudentDataService {
   }
 
   findByTitle(title: string) {
-    return http.get(`/students?moduleTitle=${title}`);
+    return http.get(`/students?studentNumber=${title}`);
   }
 
 }

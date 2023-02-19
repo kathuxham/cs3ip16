@@ -1,8 +1,10 @@
 import type Module from "./Module";
 
 export default interface Assessment {
-    assessmentId: null;
+    id: null;
+    assessmentId: string;
     module: Module;
+    moduleId: string;
     assessmentCode: string;
     assessmentDetail: string;
     assessmentType: string;

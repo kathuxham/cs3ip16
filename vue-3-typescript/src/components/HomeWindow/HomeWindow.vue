@@ -1,7 +1,7 @@
 <script lang="ts">
 import { Vue, Options } from 'vue-class-component';
 import './HomeWindow.scss'
-import LoadingScreen from '../LoadingScreen/LoadingScreen.vue';
+import LoadingScreen from '../WindowSetup/LoadingScreen/LoadingScreen.vue';
 import '@mdi/js';
 
 @Options({

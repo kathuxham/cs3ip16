@@ -1,7 +1,5 @@
 const db = require("../models");
 const Individual = db.individuals;
-const Student = db.students;
-const StaffMember = db.staffMembers;
 const Op = db.Sequelize.Op;
 
 // Create and Save a new individual

@@ -1,5 +1,5 @@
 const db = require("../models");
-const Student = db.students;
+const StudentPersonalDetails = db.personalDetails;
 const Op = db.Sequelize.Op;
 
 // Create and Save a new student
@@ -13,19 +13,18 @@ exports.create = (req, res) => {
     // }
   
     // Create a student
-    const student = {
-      studentNumber: req.body.studentNumber,
-      studentUsername: req.body.studentUsername,
-      programme: req.body.programme,
-      qualification: req.body.qualification,
-      department: req.body.department,
-      startDate: req.body.startDate,
-      expectedEndDate: req.body.expectedEndDate,
-      status: req.body.status,
+    const studentPersonalDetails = {
+      nationality: req.body.nationality,
+      domicile: req.body.domicile,
+      countryOfBirth: req.body.countryOfBirth,
+      ethnicity: req.body.ethnicity,
+      feeStatus: req.body.feeStatus,
+      disability: req.body.disability,
+      parentalResponsibility: req.body.parentalResponsibility,
     };
   
     // Save student in the database
-    Student.create(student)
+    StudentPersonalDetails.create(studentPersonalDetails)
       .then(data => {
         res.send(data);
       })
@@ -39,10 +38,10 @@ exports.create = (req, res) => {
 
 // Retrieve all students from the database.
 exports.findAll = (req, res) => {
-    const studentNumber = req.query.studentNumber;
-    var condition = studentNumber ? { studentNumber: { [Op.iLike]: `%${studentNumber}%` } } : null;
+    const studentId = req.query.studentId;
+    var condition = studentId ? { studentId: `${studentId}` } : null;
   
-    Student.findAll({ where: condition, include: ["academicTutee", "moduleStu"] })
+    StudentPersonalDetails.findAll({ where: condition })
       .then(data => {
         res.send(data);
       })
@@ -58,7 +57,7 @@ exports.findAll = (req, res) => {
 exports.findOne = (req, res) => {
   const id = req.params.id;
 
-  Student.findByPk(id, { include: ["academicTutee", "moduleStu"] })
+  StudentPersonalDetails.findByPk()
     .then(data => {
       if (data) {
         res.send(data);
@@ -79,7 +78,7 @@ exports.findOne = (req, res) => {
 exports.update = (req, res) => {
   const id = req.params.id;
 
-  Student.update(req.body, {
+  StudentPersonalDetails.update(req.body, {
     where: { id: id }
   })
     .then(num => {
@@ -104,7 +103,7 @@ exports.update = (req, res) => {
 exports.delete = (req, res) => {
   const id = req.params.id;
 
-  Student.destroy({
+  StudentPersonalDetails.destroy({
     where: { id: id }
   })
     .then(num => {

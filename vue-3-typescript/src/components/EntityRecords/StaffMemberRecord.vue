@@ -40,7 +40,7 @@
           <div class="data-heading">{{ $t("staffMembers.pronouns") }}</div>
           <div>{{ currentIndividual.pronouns }}</div>
           <div class="data-heading">{{ $t("staffMembers.dateOfBirth") }}</div>
-          <div>{{ currentIndividual.dateOfBirth }}</div>
+          <div>{{ formatDates(currentIndividual.dateOfBirth) }}</div>
         </div>
         <div class="container">
           <h2>{{ $t("records.staffInfo") }}</h2>
@@ -48,22 +48,34 @@
           <div>{{ currentStaffMember.position }}</div>
           <div class="data-heading">{{ $t("staffMembers.staffNumber") }}</div>
           <div>{{ currentStaffMember.staffNumber }}</div>
+          <div class="data-heading">{{ $t("students.universityEmailAddress") }}</div>
+            <div>{{ currentIndividual.universityEmailAddress }}</div>
         </div>
       </div>
       <div v-if="modulesVisible" class="record">
         <!-- <h1>{{ $t("records.modules") }}</h1> -->
         <div class="container">
-          <h2>{{ $t("records.modules") }}</h2>
-          <div class="data-heading">{{ $t("records.fullName") }}</div>
-          <div>{{ currentIndividual.firstName, currentIndividual.lastName }}</div>
+          <h2>{{ $t("modules.modules") }}</h2>
+          <RecordTable 
+            :columns="moduleHeaders" 
+            :fields="modules" 
+            :entity="'modules'"
+            >
+          </RecordTable>
         </div>
       </div>
       <div v-if="tutorGroupVisible" class="record">
         <!-- <h1>{{ $t("records.marksAndFeedback") }}</h1> -->
         <div class="container">
           <h2>{{ $t("records.tutorGroup") }}</h2>
-          <div class="data-heading">{{ $t("records.fullName") }}</div>
-          <div>{{ currentIndividual.firstName, currentIndividual.lastName }}</div>
+          <RecordTable 
+            :columns="jointHeaders" 
+            :fields="tutees" 
+            :entity="'students'"
+            :joinedColumns="tuteeIndHeaders"
+            :joinedFields="tuteeInds"
+            >
+          </RecordTable>
         </div>
       </div>
       <div v-if="communicationVisible" class="record">
@@ -72,23 +84,42 @@
           :currentIndividual="currentIndividual"
           :entity="entity"
           ></CommunicationWindow> -->
-          <div class="container">
-            <h2>{{ $t("address.addresses") }}</h2>
-            <div class="data-heading">{{ $t("address.homeAddress") }}</div>
-            <div>{{ currentHomeAddress.addressLine1 }}</div>
-            <div>{{ currentHomeAddress.addressLine2 }}</div>
-            <div>{{ currentHomeAddress.addressLine3 }}</div>
-            <div>{{ currentHomeAddress.townCity }}</div>
-            <div>{{ currentHomeAddress.region }}</div>
-            <div>{{ currentHomeAddress.postCode }}</div>
-            <div>{{ currentHomeAddress.country }}</div>
+          <div class="long-container">
+            <div class="container">
+              <div style="display: block">
+                <h2>{{ $t("address.addresses") }}</h2>
+                <div class="data-heading">{{ $t("address.homeAddress") }}</div>
+                <div>{{ currentHomeAddress.addressLine1 }}</div>
+                <div>{{ currentHomeAddress.addressLine2 }}</div>
+                <div>{{ currentHomeAddress.addressLine3 }}</div>
+                <div>{{ currentHomeAddress.townCity }}</div>
+                <div>{{ currentHomeAddress.region }}</div>
+                <div>{{ currentHomeAddress.postCode }}</div>
+                <div>{{ currentHomeAddress.country }}</div>
+              </div>
+            </div>
           </div>
-          <div class="container">
-            <h2>{{ $t("records.email") }}</h2>
-            <div class="data-heading">{{ $t("students.personalEmailAddress") }}</div>
-            <div>{{ currentIndividual.personalEmailAddress }}</div>
-            <div class="data-heading">{{ $t("students.universityEmailAddress") }}</div>
-            <div>{{ currentIndividual.universityEmailAddress }}</div>
+          <div class="stacked-container">
+            <div class="container">
+              <div style="display: block">
+              <h2>{{ $t("records.email") }}</h2>
+                <div class="data-heading">{{ $t("students.personalEmailAddress") }}</div>
+                <div>{{ currentIndividual.personalEmailAddress }}</div>
+                <div class="data-heading">{{ $t("students.universityEmailAddress") }}</div>
+                <div>{{ currentIndividual.universityEmailAddress }}</div>
+              </div>
+            </div>
+            <div class="container">
+            <div style="display: block">
+              <h2>{{ $t("records.phone") }}</h2>
+              <div class="data-heading">{{ $t("students.contactPhoneNumber") }}</div>
+              <div>{{ currentIndividual.contactPhoneNumber }}</div>
+              <div class="data-heading">{{ $t("students.homePhoneNumber") }}</div>
+              <div>{{ currentIndividual.homePhoneNumber }}</div>
+              <div class="data-heading">{{ $t("students.mobilePhoneNumber") }}</div>
+              <div>{{ currentIndividual.mobilePhoneNumber }}</div>
+            </div>
+          </div>
           </div>
       </div>
     </div>
@@ -104,15 +135,20 @@
   import StaffDataService from "@/services/StaffDataService";
   import Address from "@/types/Address";
   import AddressDataService from "@/services/AddressDataService";
+  import Module from "@/types/Module";
   import '../RecordWindow/RecordWindow.scss'
-  import LoadingScreen from "../LoadingScreen/LoadingScreen.vue";
+  import LoadingScreen from "../WindowSetup/LoadingScreen/LoadingScreen.vue";
+  import RecordTable from "../RecordsTable/RecordTable.vue";
   import CommunicationWindow from "../RecordContainers/CommunicationWindow.vue";
   import PersonalDataWindow from "../RecordContainers/PersonalDataWindow.vue";
+  import moment from 'moment';
+import Student from "@/types/Student";
 
   @Options({
   components: {
     LoadingScreen,
     CommunicationWindow,
+    RecordTable,
   }})
 
 
@@ -122,48 +158,75 @@
     public modulesVisible: boolean = false;
     public communicationVisible: boolean = false;
     public isLoading: boolean = false;
-    public entity: string = "StaffMember"
 
     public currentStaffMember = {} as StaffMember;
     public currentIndividual = {} as Individual;
     public currentHomeAddress = {} as Address;
+    public modules: Module[] = [];
+    public moduleHeaders: string[] = [];
+    public tutees: Student[] = [];
+    public tuteeHeaders: string[] = [];
+    public tuteeInds: Individual[] = [];
+    public tuteeIndHeaders: string[] = [];
+    public currentTuteeInd = {} as Individual;
+    public jointHeaders: string[] = [];
 
     getStaff(id: string) {
       this.isLoading = true;
       StaffDataService.get(id)
         .then(response => {
           this.currentStaffMember = response.data;
-          console.log(response.data);
-            IndividualDataService.get(this.currentStaffMember.individualId)
+          this.modules = this.currentStaffMember.staffConvenor;
+          this.moduleHeaders = ["moduleCode", "moduleTitle", "moduleLevel", "numberOfCredits", "termsTaught"];
+          console.log(this.currentStaffMember.academicTutor);
+          this.tutees = this.currentStaffMember.academicTutor;
+          this.tuteeHeaders = Object.keys(this.currentStaffMember.academicTutor[0]).filter((title, index) => {
+            var included = (title == "studentNumber") || (title == "programme");
+            return included;
+          });
+          for (let tutee of this.tutees) {
+            IndividualDataService.get(tutee.individualId)
             .then(response => {
               this.currentIndividual = response.data;
-              console.log(response.data);
+              tutee.individual = this.currentIndividual;
+              this.tuteeIndHeaders = ["firstName", "lastName", "universityEmailAddress"];
+              this.tuteeInds = this.tuteeInds.concat(this.currentIndividual);              
             })
             .catch(e => {
               console.log(e);
-            })
-            console.log("this.currentStaffMember.individualId ", this.currentStaffMember.individualId);
-            AddressDataService.getHome(this.currentStaffMember.individualId)
-            .then(response => {
-              this.currentHomeAddress = response.data[0];
-              console.log(response.data);
-              this.isLoading = false;
-            })
-            .catch(e => {
-              console.log(e);
-            })
-          }
-          )
+            });
+          };
+          this.jointHeaders = ["studentNumber", "firstName", "lastName", "programme", "universityEmailAddress"];
+          IndividualDataService.get(this.currentStaffMember.individualId)
+          .then(response => {
+            this.currentIndividual = response.data;
+          })
+          .catch(e => {
+            console.log(e);
+          })
+          console.log("this.currentStaffMember.individualId ", this.currentStaffMember.individualId);
+          AddressDataService.getHome(this.currentStaffMember.individualId)
+          .then(response => {
+            this.currentHomeAddress = response.data[0];
+          })
+          .catch(e => {
+            console.log(e);
+          })
+        })
         .catch(e => {
           console.log(e);
         });
+        this.isLoading = false;
+    }
+
+    formatDates(date: Date) {
+      return moment(String(date)).format('DD/MM/YYYY');
     }
 
     updateStaff() {
-      if (this.currentStaffMember.staffNumber) {
+      if (this.currentStaffMember.staffConvenor) {
         StaffDataService.update(this.currentStaffMember.staffNumber, this.currentStaffMember)
         .then(response => {
-          console.log(response.data);
         })
         .catch(e => {
           console.log(e);
@@ -171,10 +234,15 @@
     }
   }
 
+  getModules() {
+    
+  }
+
     mounted() {
-        var routeId = this.$route.params.id;
-        console.log(routeId.toString());
-        this.getStaff(routeId.toString());
+      var routeId = this.$route.params.id;
+      routeId = routeId.toString();
+        this.getStaff(routeId);
+        // this.getModules();
         // this.getIndividual(this.currentStaffMember.individualId);
     }
 

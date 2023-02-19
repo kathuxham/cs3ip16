@@ -42,7 +42,7 @@ exports.findAll = (req, res) => {
     const moduleTitle = req.query.moduleTitle;
     var condition = moduleTitle ? { moduleTitle: { [Op.iLike]: `%${moduleTitle}%` } } : null;
   
-    Module.findAll({ where: condition })
+    Module.findAll({ where: condition, include: ["moduleConvenor", "studentMod"] })
       .then(data => {
         res.send(data);
       })
@@ -58,7 +58,7 @@ exports.findAll = (req, res) => {
 exports.findOne = (req, res) => {
   const id = req.params.id;
 
-  Module.findByPk(id)
+  Module.findByPk(id, { include: ["moduleConvenor", "studentMod"] })
     .then(data => {
       if (data) {
         res.send(data);

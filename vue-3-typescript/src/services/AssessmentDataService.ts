@@ -9,6 +9,10 @@ class AssessmentDataService {
     return http.get(`/assessments/${id}`);
   }
 
+  getAssessmentsByModule(id: string) {
+    return http.get(`/assessments/?moduleId=${id}`);
+  }
+
   create(data: any) {
     return http.post("/assessments", data);
   }

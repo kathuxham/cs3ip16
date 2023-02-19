@@ -34,7 +34,9 @@ require("./app/routes/staffmember.routes")(app);
 require("./app/routes/student.routes")(app);
 require("./app/routes/address.routes")(app);
 require("./app/routes/assessment.routes")(app);
-
+require("./app/routes/enrolment.routes")(app);
+require("./app/routes/studentpersonaldetails.routes")(app);
+require("./app/routes/assessmentmarks.routes")(app);
 
 // set port, listen for requests
 const PORT = process.env.PORT || 8080;

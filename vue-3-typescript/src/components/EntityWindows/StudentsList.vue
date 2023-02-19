@@ -56,7 +56,7 @@
   import type Individual from "@/types/Individual";
   import RecordTable from "../RecordsTable/RecordTable.vue";
   import '../ReportWindow/ReportWindow.scss'
-  import LoadingScreen from "../LoadingScreen/LoadingScreen.vue";
+  import LoadingScreen from "../WindowSetup/LoadingScreen/LoadingScreen.vue";
 
   @Options({
   components: {
@@ -83,33 +83,25 @@
       StudentDataService.getAll()
         .then((response) => {
           this.students = response.data;
-          this.studentHeaders = Object.keys(this.students[0]).filter((title, index) => {
-            var included = (title == "studentNumber") || (title == "programme");
-            return included;
-          });
-          console.log(response.data);
+          this.studentHeaders = ["studentNumber", "programme"];
           for (let student of this.students) {
             IndividualDataService.get(student.individualId)
             .then(response => {
               this.currentIndividual = response.data;
               student.individual = this.currentIndividual;
-              this.individualHeaders = Object.keys(student.individual).filter((title, index) => {
-                var included = (title == "firstName") || (title == "lastName") || (title == "universityEmailAddress");
-                return included;
-              });
-              this.individuals = this.individuals.concat(this.currentIndividual);
-              // this.individualHeaders = this.individualHeaders.map(i => 'individual.' + i);
-              this.jointHeaders = ["studentNumber", "firstName", "lastName", "programme", "universityEmailAddress"];
-              this.isLoading = false;
+              this.individualHeaders = ["firstName", "lastName", "universityEmailAddress"];
+              this.individuals = this.individuals.concat(this.currentIndividual);              
             })
             .catch(e => {
               console.log(e);
             });
           };
+          this.jointHeaders = ["studentNumber", "firstName", "lastName", "programme", "universityEmailAddress"];
         })
         .catch((e) => {
           console.log(e);
         });
+        this.isLoading = false;
     }
   
     refreshList() {
@@ -127,7 +119,6 @@
       StudentDataService.findByTitle(this.title)
         .then((response) => {
           this.students = response.data;
-          console.log(response.data);
         })
         .catch((e) => {
           console.log(e);

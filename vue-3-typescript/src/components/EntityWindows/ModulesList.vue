@@ -35,9 +35,12 @@
           </div>
           
           <RecordTable 
-            :columns="moduleHeaders" 
+            :columns="jointHeaders" 
             :fields="modules" 
             :entity="entity"
+            :secondaryEntity="secondaryEntity"
+            :joinedColumns="individualHeaders"
+            :joinedFields="moduleConvenors"
             >
           </RecordTable>
 
@@ -50,9 +53,11 @@
   import { Vue, Options } from "vue-class-component";
   import ModuleDataService from "@/services/ModuleDataService";
   import type Module from "@/types/Module";
+  import IndividualDataService from "@/services/IndividualDataService";
+  import Individual from "@/types/Individual";
   import RecordTable from "../RecordsTable/RecordTable.vue";
   import '../ReportWindow/ReportWindow.scss'
-  import LoadingScreen from "../LoadingScreen/LoadingScreen.vue";
+  import LoadingScreen from "../WindowSetup/LoadingScreen/LoadingScreen.vue";
 
   @Options({
   components: {
@@ -64,10 +69,16 @@
   export default class ModulesList extends Vue {
     public modules: Module[] = [];
     public currentModule = {} as Module;
+    public currentIndividual = {} as Individual;
+    public moduleConvenors: Individual[] = [];
+    public moduleConvenorIndividuals: Individual[] = [];
+    public individualHeaders: string[] = [];
+    public jointHeaders: string[] = [];
     public currentIndex: number = -1;
     public title: string = "";
     public moduleHeaders: string[] = [];
     public entity: string = "modules";
+    public secondaryEntity: string = "moduleConvenors";
     public isLoading: boolean = false;
   
     retrieveModules() {
@@ -75,18 +86,25 @@
         ModuleDataService.getAll()
         .then((response) => {
           this.modules = response.data;
-          this.moduleHeaders = Object.keys(this.modules[0]).filter((title, index) => {
-            var included = (title == "moduleCode") || (title == "moduleTitle") 
-              || (title == "moduleLevel") || (title == "numberOfCredits")
-              || (title == "termsTaught");
-            return included;
-          });
-          console.log(response.data);
-          this.isLoading = false;
+          this.moduleHeaders = ["moduleCode", "moduleTitle", "moduleLevel", "numberOfCredits", "termsTaught"];
+          for (let convenor of this.modules) {
+              IndividualDataService.get(convenor.moduleConvenor[0].individualId)
+              .then(response => {
+                this.currentIndividual = response.data;
+                convenor.moduleConvenorIndividual = this.currentIndividual;
+                this.individualHeaders = ["moduleConvenor"];
+                this.moduleConvenors = this.moduleConvenors.concat(this.currentIndividual);
+              })
+              .catch(e => {
+                console.log(e);
+              })
+            }
+            this.jointHeaders = ["moduleCode", "moduleTitle", "moduleLevel", "numberOfCredits", "termsTaught", "moduleConvenor"];
         })
         .catch((e) => {
           console.log(e);
         });
+        this.isLoading = false;
     }
   
     refreshList() {
@@ -104,7 +122,6 @@
         ModuleDataService.findByTitle(this.title)
         .then((response) => {
           this.modules = response.data;
-          console.log(response.data);
         })
         .catch((e) => {
           console.log(e);

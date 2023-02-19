@@ -11,7 +11,7 @@ module.exports = (sequelize, Sequelize) => {
       },
       assessmentWeight: {
         type: Sequelize.FLOAT
-      },
+      }
     });
   
     return Assessment;

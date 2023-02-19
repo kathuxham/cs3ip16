@@ -36,7 +36,7 @@ exports.findAll = (req, res) => {
     const staffNumber = req.query.staffNumber;
     var condition = staffNumber ? { staffNumber: { [Op.iLike]: `%${staffNumber}%` } } : null;
   
-    StaffMember.findAll({ where: condition })
+    StaffMember.findAll({ where: condition, include: ["staffConvenor", "academicTutor"] })
       .then(data => {
         res.send(data);
       })
@@ -52,7 +52,7 @@ exports.findAll = (req, res) => {
 exports.findOne = (req, res) => {
   const id = req.params.id;
 
-  StaffMember.findByPk(id)
+  StaffMember.findByPk(id, { include: ["staffConvenor", "academicTutor"] })
     .then(data => {
       if (data) {
         res.send(data);

@@ -5,13 +5,14 @@
     /* display: flex; */
 }
 .heading {
-height: 70px;
+height: 80px;
 display: flex;
 background-color: white;
 overflow: hidden;
 border: 1px solid rgb(170, 170, 170);
 position: fixed;
 width: 100%;
+padding-right: 240px;
 }
 
 .title-container {
@@ -20,13 +21,13 @@ flex-grow: 4;
 }
 
 .title {
-padding: 0 10px;
+padding: 8px 10px;
 display: flex;
 }
 
 .main-page {
 display: flex;
-padding-top: 70px;
+padding-top: 80px;
 }
 
 .record {
@@ -127,6 +128,7 @@ margin-bottom: auto;
 
 .report-icon {
     color: #212529;
+    margin-right: 10px;
 }
 
 .input-box {

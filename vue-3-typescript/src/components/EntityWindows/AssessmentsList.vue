@@ -4,9 +4,9 @@
     <div class="heading">
       <div class="title-container icon-centered">
           <div class="title">
-            <mdicon :size="48" class="icon icon-centered report-icon" name="bookMultipleOutline"></mdicon>
+            <mdicon :size="48" class="icon icon-centered report-icon" name="fileDocumentOutline"></mdicon>
             <div class="record-text">
-              <div class="record-title">{{ $t("modules.modules") }}</div>
+              <div class="record-title">{{ $t("assessments.assessments") }}</div>
             </div>
         </div>
       </div>
@@ -54,7 +54,7 @@
   import Assessment from "@/types/Assessment";
   import RecordTable from "../RecordsTable/RecordTable.vue";
   import '../ReportWindow/ReportWindow.scss'
-  import LoadingScreen from "../LoadingScreen/LoadingScreen.vue";
+  import LoadingScreen from "../WindowSetup/LoadingScreen/LoadingScreen.vue";
 
   @Options({
   components: {
@@ -79,11 +79,7 @@
         AssessmentDataService.getAll()
         .then((response) => {
           this.assessments = response.data;
-          this.assessmentHeaders = Object.keys(this.assessments[0]).filter((title, index) => {
-            var included = (title == "assessmentCode") || (title == "assessmentDetail")
-            || (title == "assessmentType") || (title == "assessmentWeight");
-            return included;
-          });
+          this.assessmentHeaders = ["assessmentCode", "assessmentDetail", "assessmentType", "assessmentWeight"];
           console.log(response.data);
           this.isLoading = false;
         })

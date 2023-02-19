@@ -29,7 +29,7 @@
     import type Individual from "@/types/Individual";
     import StaffMember from "@/types/StaffMember";
     import Student from "@/types/Student";
-    import LoadingScreen from "../LoadingScreen/LoadingScreen.vue";
+    import LoadingScreen from "../WindowSetup/LoadingScreen/LoadingScreen.vue";
     import { Prop } from "vue-property-decorator";
 
     @Options({

@@ -9,29 +9,13 @@
     <div class="window">  
       <RouterView />
     </div>
-
-    <!-- <nav class="navbar navbar-expand navbar-dark bg-dark">
-      <a href="#" class="navbar-brand">bezKoder</a>
-      <div class="navbar-nav mr-auto">
-        <li class="nav-item">
-          <a href="/modules" class="nav-link">modules</a>
-        </li>
-        <li class="nav-item">
-          <a href="/add" class="nav-link">Add</a>
-        </li>
-      </div>
-    </nav> -->
-
-    <!-- <div class="container mt-3">
-      <router-view />
-    </div> -->
   </div>
 </template>
 
 <script lang="ts">
 import { Options, Vue } from 'vue-class-component';
-import NavBar from './components/NavBar/NavBar.vue';
-import SideBar from "./components/SideBar/SideBar.vue";
+import NavBar from './components/WindowSetup/NavBar/NavBar.vue';
+import SideBar from "./components/WindowSetup/SideBar/SideBar.vue";
 
 @Options({
   components: {

@@ -29,10 +29,6 @@ class AddressDataService {
     return http.delete(`/addresses/${id}`);
   }
 
-  findByTitle(title: string) {
-    return http.get(`/addresses?addressLine1=${title}`);
-  }
-
 }
 
 export default new AddressDataService();

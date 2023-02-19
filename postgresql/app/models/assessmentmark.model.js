@@ -11,7 +11,13 @@ module.exports = (sequelize, Sequelize) => {
       },
       assessmentState: {
         type: Sequelize.STRING(30)
-      }
+      },
+      assessmentDate: {
+        type: Sequelize.DATE
+      },
+      assessmentLevel: {
+        type: Sequelize.STRING(5)
+      },
     });
   
     return AssessmentMark;

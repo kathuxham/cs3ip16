@@ -46,22 +46,15 @@ db.students.belongsTo(db.individuals, {
 })
 
 // staff to students
-// db.staffMembers.hasMany(db.students, { as: "students" })
-// db.students.belongsTo(db.staffMembers, {
-//   foreignKey: "staffMemberId",
-//   as: "academicTutor"
-// })
-
-// staff to students
 db.students.belongsToMany(db.staffMembers, {
   through: "academicTutors",
-  foreignKey: "staffMemberId",
-  as: "staffMember"
+  foreignKey: "studId",
+  as: "academicTutee"
 })
 db.staffMembers.belongsToMany(db.students, {
   through: "academicTutors",
-  foreignKey: "studentId",
-  as: "student"
+  foreignKey: "staffId",
+  as: "academicTutor"
 })
 
 // home addresses to individuals
@@ -116,25 +109,25 @@ db.users.belongsTo(db.staffMembers, {
 // modules to staff
 db.modules.belongsToMany(db.staffMembers, {
   through: "moduleConvenors",
-  foreignKey: "staffMemberId",
-  as: "staffMember"
+  foreignKey: "modulesId",
+  as: "moduleConvenor"
 })
 db.staffMembers.belongsToMany(db.modules, {
   through: "moduleConvenors",
-  foreignKey: "moduleId",
-  as: "module"
+  foreignKey: "staffId",
+  as: "staffConvenor"
 })
 
 // modules to students
 db.modules.belongsToMany(db.students, {
   through: "students_modules",
-  foreignKey: "studentId",
-  as: "student"
+  foreignKey: "modulesId",
+  as: "studentMod"
 })
 db.students.belongsToMany(db.modules, {
   through: "students_modules",
-  foreignKey: "moduleId",
-  as: "module"
+  foreignKey: "studentsId",
+  as: "moduleStu"
 })
 
 // assessments to modules

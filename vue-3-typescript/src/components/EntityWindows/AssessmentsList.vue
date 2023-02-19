@@ -80,7 +80,6 @@
         .then((response) => {
           this.assessments = response.data;
           this.assessmentHeaders = ["assessmentCode", "assessmentDetail", "assessmentType", "assessmentWeight"];
-          console.log(response.data);
           this.isLoading = false;
         })
         .catch((e) => {
@@ -103,7 +102,6 @@
         AssessmentDataService.findByTitle(this.title)
         .then((response) => {
           this.modules = response.data;
-          console.log(response.data);
         })
         .catch((e) => {
           console.log(e);

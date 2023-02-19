@@ -87,7 +87,6 @@
         .then((response) => {
           this.modules = response.data;
           this.moduleHeaders = ["moduleCode", "moduleTitle", "moduleLevel", "numberOfCredits", "termsTaught"];
-          console.log(response.data);
           for (let convenor of this.modules) {
               IndividualDataService.get(convenor.moduleConvenor[0].individualId)
               .then(response => {
@@ -123,7 +122,6 @@
         ModuleDataService.findByTitle(this.title)
         .then((response) => {
           this.modules = response.data;
-          console.log(response.data);
         })
         .catch((e) => {
           console.log(e);

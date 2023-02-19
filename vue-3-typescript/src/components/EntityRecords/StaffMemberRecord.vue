@@ -176,7 +176,6 @@ import Student from "@/types/Student";
       StaffDataService.get(id)
         .then(response => {
           this.currentStaffMember = response.data;
-          console.log(response.data);
           this.modules = this.currentStaffMember.staffConvenor;
           this.moduleHeaders = ["moduleCode", "moduleTitle", "moduleLevel", "numberOfCredits", "termsTaught"];
           console.log(this.currentStaffMember.academicTutor);
@@ -201,7 +200,6 @@ import Student from "@/types/Student";
           IndividualDataService.get(this.currentStaffMember.individualId)
           .then(response => {
             this.currentIndividual = response.data;
-            console.log(response.data);
           })
           .catch(e => {
             console.log(e);
@@ -210,7 +208,6 @@ import Student from "@/types/Student";
           AddressDataService.getHome(this.currentStaffMember.individualId)
           .then(response => {
             this.currentHomeAddress = response.data[0];
-            console.log(response.data);
           })
           .catch(e => {
             console.log(e);
@@ -230,7 +227,6 @@ import Student from "@/types/Student";
       if (this.currentStaffMember.staffConvenor) {
         StaffDataService.update(this.currentStaffMember.staffNumber, this.currentStaffMember)
         .then(response => {
-          console.log(response.data);
         })
         .catch(e => {
           console.log(e);

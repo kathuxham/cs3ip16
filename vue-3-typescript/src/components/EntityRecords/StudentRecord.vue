@@ -503,7 +503,6 @@
         if (this.currentStudent.studentId) {
             StudentDataService.update(this.currentStudent.studentId, this.currentStudent)
             .then(response => {
-                console.log(response.data);
             })
             .catch(e => {
                 console.log(e);

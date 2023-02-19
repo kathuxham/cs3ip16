@@ -78,7 +78,6 @@
               || (title == "createdAt") || (title == "updatedAt");
             return !excluded;
           });
-          console.log(response.data);
         })
         .catch((e) => {
           console.log(e);
@@ -100,7 +99,6 @@
       IndividualDataService.findByTitle(this.title)
         .then((response) => {
           this.individuals = response.data;
-          console.log(response.data);
         })
         .catch((e) => {
           console.log(e);

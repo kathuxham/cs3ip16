@@ -33,17 +33,7 @@ export default class MarkBoard extends Vue {
     @Prop() public assessmentMarks: string[] | undefined;
 
     public created() {
-        // if (this.assessmentMarks) {
-        //     for (let assessments of this.assessmentMarks) {
-        //         console.log(assessments);
-        //         for (let mark of assessments) {
-        //             this.marks = this.marks.concat(mark.assessmentMark);
-        //         }
-        //         var sum = this.marks.reduce((a: number, b: number): number => a + b);
-        //         this.averageMarks.push(sum / this.marks.length);
-        //     }
         
-        // }
     }
 }
 </script>

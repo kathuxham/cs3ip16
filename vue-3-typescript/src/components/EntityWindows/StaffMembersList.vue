@@ -83,7 +83,6 @@
         .then((response) => {
           this.staffMembers = response.data;
           this.staffMemberHeaders = ["staffNumber", "position"];
-          console.log(response.data);
           for (let staff of this.staffMembers) {
             IndividualDataService.get(staff.individualId)
             .then(response => {
@@ -119,7 +118,6 @@
       StaffDataService.findByTitle(this.title)
         .then((response) => {
           this.staffMembers = response.data;
-          console.log(response.data);
         })
         .catch((e) => {
           console.log(e);

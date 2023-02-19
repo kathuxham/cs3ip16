@@ -112,11 +112,9 @@
       AssessmentDataService.get(id)
         .then(response => {
           this.currentAssessment = response.data;
-          console.log(response.data);
           ModuleDataService.get(this.currentAssessment.moduleId)
           .then(response => {
             this.currentModule = response.data;
-            console.log(response.data);
           })
           .catch(e => {
             console.log(e);
@@ -132,7 +130,6 @@
       AssessmentMarksDataService.getByAssessment(id)
         .then(response => {
           this.currentModuleAssessmentMarks = response.data;
-          console.log(response.data);
           this.assessmentMarkHeaders = ["assessmentMark", "assessmentGrade", "assessmentStatus", "assessmentState", "assessmentDate"];
           this.getAverageMarks();
         })
@@ -153,7 +150,6 @@
       if (this.currentAssessment.assessmentId) {
       AssessmentDataService.update(this.currentAssessment.assessmentId, this.currentAssessment)
         .then(response => {
-          console.log(response.data);
         })
         .catch(e => {
           console.log(e);

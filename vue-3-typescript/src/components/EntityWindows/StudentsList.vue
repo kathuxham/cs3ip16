@@ -84,7 +84,6 @@
         .then((response) => {
           this.students = response.data;
           this.studentHeaders = ["studentNumber", "programme"];
-          console.log(response.data);
           for (let student of this.students) {
             IndividualDataService.get(student.individualId)
             .then(response => {
@@ -120,7 +119,6 @@
       StudentDataService.findByTitle(this.title)
         .then((response) => {
           this.students = response.data;
-          console.log(response.data);
         })
         .catch((e) => {
           console.log(e);

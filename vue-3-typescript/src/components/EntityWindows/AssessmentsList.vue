@@ -19,6 +19,11 @@
     <div class="main-page">
         <div class="table-container">
           <div class="input-box">
+            <select v-model="filteredModule">
+                <option disabled value="">{{ $t("assessments.assessmentModuleFilter") }}</option>
+                <option></option>
+                <option v-for="option in modules" :value="option['moduleCode']">{{option['moduleCode']}}</option>
+            </select>
             <input
             type="text"
             class="form-control"
@@ -36,7 +41,7 @@
           
           <RecordTable 
             :columns="assessmentHeaders" 
-            :fields="assessments" 
+            :fields="filteredAssessments" 
             :entity="entity"
             >
           </RecordTable>
@@ -47,14 +52,15 @@
   </template>
   
   <script lang="ts">
-  import { Vue, Options } from "vue-class-component";
-  import ModuleDataService from "@/services/ModuleDataService";
-  import type Module from "@/types/Module";
-  import AssessmentDataService from "@/services/AssessmentDataService";
-  import Assessment from "@/types/Assessment";
-  import RecordTable from "../RecordsTable/RecordTable.vue";
-  import '../ReportWindow/ReportWindow.scss'
-  import LoadingScreen from "../WindowSetup/LoadingScreen/LoadingScreen.vue";
+    import { Vue, Options } from "vue-class-component";
+    import ModuleDataService from "@/services/ModuleDataService";
+    import type Module from "@/types/Module";
+    import AssessmentDataService from "@/services/AssessmentDataService";
+    import Assessment from "@/types/Assessment";
+    import RecordTable from "../RecordsTable/RecordTable.vue";
+    import '../ReportWindow/ReportWindow.scss'
+    import LoadingScreen from "../WindowSetup/LoadingScreen/LoadingScreen.vue";
+    import { Watch } from "vue-property-decorator/lib/decorators/Watch";
 
   @Options({
   components: {
@@ -67,24 +73,34 @@
     public modules: Module[] = [];
     public currentModule = {} as Module;
     public assessments: Assessment[] = [];
+    public filteredAssessments: Assessment[] = [];
     public currentAssessment = {} as Assessment;
     public currentIndex: number = -1;
     public title: string = "";
     public assessmentHeaders: string[] = [];
     public entity: string = "assessments";
     public isLoading: boolean = false;
+    public filteredModule: string = "";
   
     retrieveAssessments() {
-      this.isLoading = true;
+        this.isLoading = true;
         AssessmentDataService.getAll()
         .then((response) => {
           this.assessments = response.data;
+          this.filteredAssessments = this.assessments;
           this.assessmentHeaders = ["assessmentCode", "assessmentDetail", "assessmentType", "assessmentWeight"];
-          this.isLoading = false;
         })
         .catch((e) => {
           console.log(e);
         });
+        ModuleDataService.getAll()
+        .then((response) => {
+            this.modules = response.data;
+        })
+        .catch((e) => {
+          console.log(e);
+        });
+        this.isLoading = false;
     }
   
     refreshList() {
@@ -99,13 +115,24 @@
     }
   
     searchTitle() {
-        AssessmentDataService.findByTitle(this.title)
-        .then((response) => {
-          this.modules = response.data;
-        })
-        .catch((e) => {
-          console.log(e);
+        this.isLoading = true;
+        this.filteredAssessments = this.assessments.filter((assessment) => {
+            var included = assessment.assessmentDetail.toLowerCase().includes(this.title.toLowerCase()) 
+            || assessment.assessmentCode.toLowerCase().includes(this.title.toLowerCase());
+            return included;
         });
+        this.isLoading = false;
+    }
+
+    @Watch('filteredModule')
+    onModuleLevelChange() {
+        this.isLoading = true;
+        this.filteredAssessments = this.assessments.filter((assessment) => {
+            var included = (this.filteredModule == "") 
+            || (assessment.assessmentCode.includes(this.filteredModule));
+            return included;
+        });
+        this.isLoading = false;
     }
   
     mounted() {

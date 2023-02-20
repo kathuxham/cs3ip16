@@ -21,7 +21,8 @@
         "assessmentDetail": "Assessment Detail",
         "assessmentType": "Assessment Type",
         "assessmentWeight": "Assessment Weight",
-        "assessmentInfo": "Assessment info"
+        "assessmentInfo": "Assessment info",
+        "assessmentModuleFilter": "Filter by module"
     },
     "assessmentmarks": {
         "assessmentmarks": "Assessment Marks",
@@ -97,7 +98,9 @@
         "currentAsOf": "Current as of",
         "contactHours": "Contact hours",
         "moduleInfo": "Module info",
-        "moduleConvenor": "Module Convenor"
+        "moduleConvenor": "Module Convenor",
+        "moduleTitleSearch": "Search",
+        "moduleLevelFilter": "Filter by level"
     },
     "moduleMarks": {
         "moduleMarks": "Module Marks",

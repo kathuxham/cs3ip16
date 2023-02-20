@@ -326,8 +326,8 @@
             this.moduleHeaders = ["moduleCode", "moduleTitle", "moduleLevel", "numberOfCredits", "termsTaught"];
             var maxYear = 1 ;
             for(var i = 0; i < this.modules.length; i++){
-                if(this.modules[i].moduleLevel > maxYear){
-                    maxYear = this.modules[i].moduleLevel;
+                if(parseInt(this.modules[i].moduleLevel) > maxYear){
+                    maxYear = parseInt(this.modules[i].moduleLevel);
                 } 
             }
             this.currentYearOfStudy = maxYear;

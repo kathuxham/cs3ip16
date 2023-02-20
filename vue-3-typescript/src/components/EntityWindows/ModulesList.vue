@@ -19,10 +19,18 @@
     <div class="main-page">
         <div class="table-container">
           <div class="input-box">
+            <select v-model="filteredLevel">
+                <option disabled value="">{{ $t("modules.moduleLevelFilter") }}</option>
+                <option></option>
+                <option>1</option>
+                <option>2</option>
+                <option>3</option>
+                <option>M</option>
+            </select>
             <input
             type="text"
             class="form-control"
-            placeholder="Search"
+            placeholder="Search by module title"
             v-model="title"
           />
             <button
@@ -30,13 +38,13 @@
               type="button"
               @click="searchTitle"
             >
-              Search
+                Search
             </button>
           </div>
           
           <RecordTable 
             :columns="jointHeaders" 
-            :fields="modules" 
+            :fields="filteredModules" 
             :entity="entity"
             :secondaryEntity="secondaryEntity"
             :joinedColumns="individualHeaders"
@@ -50,89 +58,99 @@
   </template>
   
   <script lang="ts">
-  import { Vue, Options } from "vue-class-component";
-  import ModuleDataService from "@/services/ModuleDataService";
-  import type Module from "@/types/Module";
-  import IndividualDataService from "@/services/IndividualDataService";
-  import Individual from "@/types/Individual";
-  import RecordTable from "../RecordsTable/RecordTable.vue";
-  import '../ReportWindow/ReportWindow.scss'
-  import LoadingScreen from "../WindowSetup/LoadingScreen/LoadingScreen.vue";
+    import { Vue, Options } from "vue-class-component";
+    import ModuleDataService from "@/services/ModuleDataService";
+    import type Module from "@/types/Module";
+    import IndividualDataService from "@/services/IndividualDataService";
+    import Individual from "@/types/Individual";
+    import RecordTable from "../RecordsTable/RecordTable.vue";
+    import '../ReportWindow/ReportWindow.scss'
+    import LoadingScreen from "../WindowSetup/LoadingScreen/LoadingScreen.vue";
+    import { Watch } from "vue-property-decorator/lib/decorators/Watch";
 
-  @Options({
-  components: {
-    RecordTable,
-    LoadingScreen,
-  }
-})
+    @Options({
+    components: {
+        RecordTable,
+        LoadingScreen,
+    }
+    })
 
-  export default class ModulesList extends Vue {
-    public modules: Module[] = [];
-    public currentModule = {} as Module;
-    public currentIndividual = {} as Individual;
-    public moduleConvenors: Individual[] = [];
-    public moduleConvenorIndividuals: Individual[] = [];
-    public individualHeaders: string[] = [];
-    public jointHeaders: string[] = [];
-    public currentIndex: number = -1;
-    public title: string = "";
-    public moduleHeaders: string[] = [];
-    public entity: string = "modules";
-    public secondaryEntity: string = "moduleConvenors";
-    public isLoading: boolean = false;
-  
-    retrieveModules() {
-      this.isLoading = true;
-        ModuleDataService.getAll()
-        .then((response) => {
-          this.modules = response.data;
-          this.moduleHeaders = ["moduleCode", "moduleTitle", "moduleLevel", "numberOfCredits", "termsTaught"];
-          for (let convenor of this.modules) {
-              IndividualDataService.get(convenor.moduleConvenor[0].individualId)
-              .then(response => {
-                this.currentIndividual = response.data;
-                convenor.moduleConvenorIndividual = this.currentIndividual;
-                this.individualHeaders = ["moduleConvenor"];
-                this.moduleConvenors = this.moduleConvenors.concat(this.currentIndividual);
-              })
-              .catch(e => {
-                console.log(e);
-              })
-            }
-            this.jointHeaders = ["moduleCode", "moduleTitle", "moduleLevel", "numberOfCredits", "termsTaught", "moduleConvenor"];
-        })
-        .catch((e) => {
-          console.log(e);
-        });
-        this.isLoading = false;
-    }
-  
-    refreshList() {
-      this.retrieveModules();
-      this.currentModule = {} as Module;
-      this.currentIndex = -1;
-    }
-  
-    setActiveModule(module: Module, index: number) {
-      this.currentModule = module;
-      this.currentIndex = index;
-    }
-  
-    searchTitle() {
-        ModuleDataService.findByTitle(this.title)
-        .then((response) => {
-          this.modules = response.data;
-        })
-        .catch((e) => {
-          console.log(e);
-        });
-    }
-  
-    mounted() {
-      this.retrieveModules();
-    }
-
+    export default class ModulesList extends Vue {
+        public modules: Module[] = [];
+        public filteredModules: Module[] = [];
+        public currentModule = {} as Module;
+        public currentIndividual = {} as Individual;
+        public moduleConvenors: Individual[] = [];
+        public moduleConvenorIndividuals: Individual[] = [];
+        public individualHeaders: string[] = [];
+        public jointHeaders: string[] = [];
+        public currentIndex: number = -1;
+        public title: string = "";
+        public moduleHeaders: string[] = [];
+        public entity: string = "modules";
+        public secondaryEntity: string = "moduleConvenors";
+        public isLoading: boolean = false;
+        public filteredLevel: string = "";
     
+        retrieveModules() {
+        this.isLoading = true;
+            ModuleDataService.getAll()
+            .then((response) => {
+            this.modules = response.data;
+            this.filteredModules = this.modules;
+            this.moduleHeaders = ["moduleCode", "moduleTitle", "moduleLevel", "numberOfCredits", "termsTaught"];
+            for (let convenor of this.modules) {
+                IndividualDataService.get(convenor.moduleConvenor[0].individualId)
+                .then(response => {
+                    this.currentIndividual = response.data;
+                    convenor.moduleConvenorIndividual = this.currentIndividual;
+                    this.individualHeaders = ["moduleConvenor"];
+                    this.moduleConvenors = this.moduleConvenors.concat(this.currentIndividual);
+                })
+                .catch(e => {
+                    console.log(e);
+                })
+                }
+                this.jointHeaders = ["moduleCode", "moduleTitle", "moduleLevel", "numberOfCredits", "termsTaught", "moduleConvenor"];
+            })
+            .catch((e) => {
+            console.log(e);
+            });
+            this.isLoading = false;
+        }
+    
+        refreshList() {
+        this.retrieveModules();
+        this.currentModule = {} as Module;
+        this.currentIndex = -1;
+        }
+    
+        setActiveModule(module: Module, index: number) {
+        this.currentModule = module;
+        this.currentIndex = index;
+        }
+    
+        searchTitle() {
+            this.filteredModules = this.modules.filter((module) => {
+                var included = module.moduleTitle.toLowerCase().includes(this.title.toLowerCase())
+                || module.moduleCode.toLowerCase().includes(this.title.toLowerCase());
+                return included;
+            });
+        }
+
+        @Watch('filteredLevel')
+        onModuleLevelChange() {
+            this.filteredModules = this.modules.filter((module) => {
+                var included = (this.filteredLevel == "") || (module.moduleLevel == this.filteredLevel);
+                return included;
+            });
+        }
+    
+        mounted() {
+        this.retrieveModules();
+        }
+
+        
 
   }
   </script>

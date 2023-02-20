@@ -36,7 +36,7 @@
           
           <RecordTable 
             :columns="jointHeaders" 
-            :fields="students" 
+            :fields="filteredStudents" 
             :entity="entity"
             :joinedColumns="individualHeaders"
             :joinedFields="individuals"
@@ -67,6 +67,7 @@
 
   export default class StudentsList extends Vue {
     public students: Student[] = [];
+    public filteredStudents: Student[] = [];
     public currentStudent = {} as Student;
     public individuals: Individual[] = [];
     public currentIndividual = {} as Individual;
@@ -83,6 +84,7 @@
       StudentDataService.getAll()
         .then((response) => {
           this.students = response.data;
+          this.filteredStudents = this.students;
           this.studentHeaders = ["studentNumber", "programme"];
           for (let student of this.students) {
             IndividualDataService.get(student.individualId)
@@ -116,12 +118,10 @@
     }
   
     searchTitle() {
-      StudentDataService.findByTitle(this.title)
-        .then((response) => {
-          this.students = response.data;
-        })
-        .catch((e) => {
-          console.log(e);
+        this.filteredStudents = this.students.filter((student) => {
+            var name = student.individual.firstName + " " + student.individual.lastName;
+            var included = name.toLowerCase().includes(this.title.toLowerCase());
+            return included;
         });
     }
   

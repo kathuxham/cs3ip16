@@ -8,7 +8,7 @@ export default interface Module {
     moduleId: string;
     moduleCode: string;
     moduleTitle: string;
-    moduleLevel: number;
+    moduleLevel: string;
     moduleLink: string;
     numberOfCredits: number;
     termsTaught: string;

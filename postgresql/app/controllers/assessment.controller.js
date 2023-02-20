@@ -36,7 +36,12 @@ exports.create = (req, res) => {
 // Retrieve all assessments from the database.
 exports.findAll = (req, res) => {
     const moduleId = req.query.moduleId;
-    var condition = moduleId ? { moduleId: `${moduleId}` } : null;
+    const assessmentDetail = req.query.assessmentDetail;
+    const assessmentCode = req.query.assessmentCode;
+    var condition = moduleId ? { moduleId: `${moduleId}` }
+    : assessmentCode ? { assessmentCode: { [Op.iLike]: `%${assessmentCode}%` } }
+    : assessmentDetail ? { assessmentDetail: { [Op.iLike]: `%${assessmentDetail}%` } }
+    : null;
   
     Assessment.findAll({ where: condition })
       .then(data => {

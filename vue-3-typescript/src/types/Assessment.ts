@@ -1,3 +1,4 @@
+import AssessmentMark from "./AssessmentMark";
 import type Module from "./Module";
 
 export default interface Assessment {
@@ -9,4 +10,5 @@ export default interface Assessment {
     assessmentDetail: string;
     assessmentType: string;
     assessmentWeight: number;
+    assessmentMarks: AssessmentMark[];
 }

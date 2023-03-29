@@ -2,7 +2,8 @@ import type Assessment from "./Assessment";
 import type Student from "./Student";
 
 export default interface AssessmentMark {
-    assessmentMarkId: null;
+    id: null;
+    assessmentMarkId: string;
     assessment: Assessment;
     assessmentId: string;
     student: Student;

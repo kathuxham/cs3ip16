@@ -33,6 +33,7 @@ export default class App extends Vue {}
 .nav-bar {
   position: fixed;
   width: 100%;
+  z-index: 100;
 }
 .side-bar {
   display: flex;

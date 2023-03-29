@@ -26,7 +26,7 @@ class AssessmentDataService {
   }
 
   findByTitle(title: string) {
-    return http.get(`/assessments?moduleTitle=${title}`);
+    return http.get(`/assessments?assessmentDetail=${title}`);
   }
 
 }

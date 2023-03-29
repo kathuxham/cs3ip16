@@ -36,7 +36,7 @@
           
           <RecordTable 
             :columns="jointHeaders" 
-            :fields="staffMembers" 
+            :fields="filteredStaffMembers" 
             :entity="'staffMembers'"
             :joinedColumns="individualHeaders"
             :joinedFields="individuals"
@@ -67,6 +67,7 @@
 
   export default class StaffMembersList extends Vue {
     public staffMembers: StaffMember[] = [];
+    public filteredStaffMembers: StaffMember[] = [];
     public currentStaffMembers = {} as StaffMember;
     public individuals: Individual[] = [];
     public currentIndividual = {} as Individual;
@@ -82,6 +83,7 @@
       StaffDataService.getAll()
         .then((response) => {
           this.staffMembers = response.data;
+          this.filteredStaffMembers = this.staffMembers;
           this.staffMemberHeaders = ["staffNumber", "position"];
           for (let staff of this.staffMembers) {
             IndividualDataService.get(staff.individualId)
@@ -115,12 +117,10 @@
     }
   
     searchTitle() {
-      StaffDataService.findByTitle(this.title)
-        .then((response) => {
-          this.staffMembers = response.data;
-        })
-        .catch((e) => {
-          console.log(e);
+        this.filteredStaffMembers = this.staffMembers.filter((staff) => {
+            var name = staff.individual.firstName + " " + staff.individual.lastName;
+            var included = name.toLowerCase().includes(this.title.toLowerCase());
+            return included;
         });
     }
   

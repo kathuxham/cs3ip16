@@ -12,6 +12,7 @@
     position: fixed;
     width: 100%;
     padding-right: 240px;
+    z-index: 100;
   }
 
   h2 {
@@ -74,6 +75,7 @@
     padding: 16px;
     text-decoration: none;
     border: 1px solid #ebebeb;
+    cursor: pointer;
   }
   
   .sidebox.active {
@@ -118,13 +120,22 @@
     min-width: 400px;
     border-radius: 10px;
   }
+
+  .full-width-container {
+    flex-grow: 1;
+    padding: 16px;
+    margin: 20px 10px;
+    background-color: white;
+    min-width: 400px;
+    border-radius: 10px;
+  }
   
   .data-heading{
     color: rgb(170, 170, 170);
     margin-top: 10px;
   }
 
-  .address {
+  .spacer {
     margin-top: 20px;
   }
   
@@ -177,5 +188,20 @@ a:hover {
 }
 
 .average-student {
-  padding-right: 70px;
+  margin-right: 80px;
+  padding: 0 20px;
+  cursor: pointer;
 }
+
+.average-breakdown {
+    padding: 10px;
+    border: 1px solid rgb(170, 170, 170);
+    border-radius: 10px;
+    margin-bottom: 15px;
+}
+
+.selected-year {
+    background-color: #ebebeb;
+    border-radius: 15px;
+}
+

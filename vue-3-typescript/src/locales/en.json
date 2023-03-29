@@ -37,6 +37,10 @@
         "assessmentDetail": "Assessment Detail",
         "assessmentWeight": "Weight",
         "averageMark": "Average Mark",
+        "averageMarkByModule": "Average Mark By Module",
+        "averageMarkByAssessment": "Average Mark By Assessment",
+        "averageMarkOverall": "Average Mark Across Previous Years",
+        "averageMarkFrom": "Average Mark From ",
         "yearOneAverage": "Year One Average",
         "yearTwoAverage": "Year Two Average",
         "yearThreeAverage": "Year Three Average",
@@ -83,7 +87,11 @@
         "universityEmailAddress": "University Email Address"
     },
     "menu": {
-        "courses": "Courses"
+        "courses": "Courses",
+        "homeOne": "Year One Modules",
+        "homeTwo": "Year Two Modules",
+        "homeThree": "Year Three Modules",
+        "overviewDash": "Overview Dashboard"
     },
     "modules": {
         "module": "Module",
@@ -112,6 +120,7 @@
         "moduleResult": "module Result"
     },
     "records": {
+        "profile": "Profile",
         "personalData": "Personal Data",
         "academicTutor": "Academic Tutor",
         "moduleConvenor": "Module Convenor",

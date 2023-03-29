@@ -19,18 +19,10 @@
     <div class="main-page">
         <div class="table-container">
           <div class="input-box">
-            <select v-model="filteredLevel">
-                <option disabled value="">{{ $t("modules.moduleLevelFilter") }}</option>
-                <option></option>
-                <option>1</option>
-                <option>2</option>
-                <option>3</option>
-                <option>M</option>
-            </select>
             <input
             type="text"
             class="form-control"
-            placeholder="Search by module title"
+            placeholder="Search"
             v-model="title"
           />
             <button
@@ -40,6 +32,14 @@
             >
                 Search
             </button>
+            <select style="margin-left: 10px" v-model="filteredLevel">
+                <option disabled value="">{{ $t("modules.moduleLevelFilter") }}</option>
+                <option></option>
+                <option>1</option>
+                <option>2</option>
+                <option>3</option>
+                <option>M</option>
+            </select>
           </div>
           
           <RecordTable 
@@ -130,18 +130,12 @@
         this.currentIndex = index;
         }
     
+        @Watch('filteredLevel')
         searchTitle() {
             this.filteredModules = this.modules.filter((module) => {
-                var included = module.moduleTitle.toLowerCase().includes(this.title.toLowerCase())
-                || module.moduleCode.toLowerCase().includes(this.title.toLowerCase());
-                return included;
-            });
-        }
-
-        @Watch('filteredLevel')
-        onModuleLevelChange() {
-            this.filteredModules = this.modules.filter((module) => {
-                var included = (this.filteredLevel == "") || (module.moduleLevel == this.filteredLevel);
+                var included = (module.moduleTitle.toLowerCase().includes(this.title.toLowerCase())
+                || module.moduleCode.toLowerCase().includes(this.title.toLowerCase())) 
+                && ((this.filteredLevel == "") || (module.moduleLevel == this.filteredLevel));
                 return included;
             });
         }

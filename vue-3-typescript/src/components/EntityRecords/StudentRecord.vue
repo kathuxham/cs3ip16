@@ -34,7 +34,7 @@
       <div v-if="personalDataVisible" class="record">
         <div class="stacked-container">
           <div class="container">
-            <h2>{{ $t("records.personalData") }}</h2>
+            <h2>{{ $t("records.profile") }}</h2>
             <div class="data-heading">{{ $t("records.fullName") }}</div>
             <div>{{ currentIndividual.firstName + " " + currentIndividual.lastName }}</div>
             <div class="data-heading">{{ $t("students.preferredName") }}</div>
@@ -132,7 +132,7 @@
         </div>
       </div>
       <div v-if="modulesVisible" class="record">
-        <div class="container">
+        <div class="full-width-container">
           <h2>{{ $t("modules.modules") }}</h2>
           <RecordTable 
             :columns="moduleHeaders" 
@@ -143,41 +143,114 @@
         </div>
       </div>
       <div v-if="marksAndFeedbackVisible" class="record">
-        <div class="container">
+        <div class="full-width-container">
           <h2>{{ $t("assessmentmarks.assessmentmarks") }}</h2>
           <div style="display: flex;">
-            <div class="average-student">
-              <div class="data-heading">{{ $t("assessmentmarks.yearOneAverage") }}</div>
-              <div class="average">{{ yearOneAverage }}</div>
+            <div class="average-student" 
+                @click="setActiveChart('yearOne')"
+                :class="{'selected-year': yearOneAverageActive}">
+                <div class="data-heading">{{ $t("assessmentmarks.yearOneAverage") }}</div>
+                <div class="average">{{ yearOneAverage }}</div>
             </div>
-            <div class="average-student" v-if="yearTwoAverage != '0'">
-              <div class="data-heading">{{ $t("assessmentmarks.yearTwoAverage") }}</div>
-              <div class="average">{{ yearTwoAverage }}</div>
+            <div class="average-student" 
+                @click="setActiveChart('yearTwo')"
+                :class="{'selected-year': yearTwoAverageActive}"
+                v-if="yearTwoAverage != '0'">
+                <div class="data-heading">{{ $t("assessmentmarks.yearTwoAverage") }}</div>
+                <div class="average">{{ yearTwoAverage }}</div>
             </div>
-            <div class="average-student" v-if="yearThreeAverage != '0'">
-              <div class="data-heading">{{ $t("assessmentmarks.yearThreeAverage") }}</div>
-              <div class="average">{{ yearThreeAverage }}</div>
+            <div class="average-student" 
+                @click="setActiveChart('yearThree')"
+                :class="{'selected-year': yearThreeAverageActive}"
+                v-if="yearThreeAverage != '0'">
+                <div class="data-heading">{{ $t("assessmentmarks.yearThreeAverage") }}</div>
+                <div class="average">{{ yearThreeAverage }}</div>
             </div>
-            <div class="average-student" v-if="yearFourAverage != '0'">
-              <div class="data-heading">{{ $t("assessmentmarks.yearFourAverage") }}</div>
-              <div class="average">{{ yearFourAverage }}</div>
+            <div class="average-student"
+                @click="setActiveChart('yearFour')"
+                :class="{'selected-year': yearFourAverageActive}"
+                v-if="yearFourAverage != '0'">
+                <div class="data-heading">{{ $t("assessmentmarks.yearFourAverage") }}</div>
+                <div class="average">{{ yearFourAverage }}</div>
             </div>
           </div>
+          <div class="spacer"></div>
+          <div class="average-breakdown" v-if="yearOneAverageActive">
+            <BarChart
+                :importedData="yearOneChartData" 
+                :xAxis="'module'" 
+                :yAxis="'average'"
+                :xAxisTitle="'Module'"
+                :yAxisTitle="'Overall Mark'"
+                :idName="'chartDivOne'"
+                :chartName="'Year One Averages'">
+            </BarChart>
+          </div>
+          <div class="average-breakdown" v-if="yearTwoAverageActive">
+            <BarChart
+                :importedData="yearTwoChartData" 
+                :xAxis="'module'" 
+                :yAxis="'average'"
+                :xAxisTitle="'Module'"
+                :yAxisTitle="'Overall Mark'"
+                :idName="'chartDivTwo'"
+                :chartName="'Year Two Averages'">
+            </BarChart>
+          </div>
+          <div class="average-breakdown" v-if="yearThreeAverageActive">
+            <BarChart
+                :importedData="yearThreeChartData" 
+                :xAxis="'module'" 
+                :yAxis="'average'"
+                :xAxisTitle="'Module'"
+                :yAxisTitle="'Overall Mark'"
+                :idName="'chartDivThree'"
+                :chartName="'Year Three Averages'">
+            </BarChart>
+          </div>
+          <div class="average-breakdown" v-if="yearFourAverageActive">
+            <BarChart
+                :importedData="yearFourChartData" 
+                :xAxis="'module'" 
+                :yAxis="'average'"
+                :xAxisTitle="'Module'"
+                :yAxisTitle="'Overall Mark'"
+                :idName="'chartDivFour'"
+                :chartName="'Year Four Averages'">
+            </BarChart>
+          </div>
+          <select style="margin-bottom: 15px;" v-model="filteredLevel">
+                <option disabled value="">{{ $t("modules.moduleLevelFilter") }}</option>
+                <option :value="0">All</option>
+                <option :value="1">1</option>
+                <option v-if="yearTwoAverage != '0'" :value="2">2</option>
+                <option v-if="yearThreeAverage != '0'" :value="3">3</option>
+                <option v-if="yearFourAverage != '0'" :value="4">4</option>
+            </select>
+            <select style="margin-bottom: 15px; margin-left: 10px" v-model="filteredModule">
+                <option disabled value="">{{ $t("assessments.assessmentModuleFilter") }}</option>
+                <option value="">All</option>
+                <option v-for="option in filteredModules" :value="option['moduleCode']">{{option['moduleCode']}}</option>
+            </select>
           <RecordTable 
             :columns="jointHeaders" 
-            :fields="currentAssessmentMarks" 
+            :fields="filteredAssessmentMarks" 
             :entity="'assessmentmarks'"
             :joinedColumns="assessmentHeaders"
-            :joinedFields="assessments"
+            :joinedFields="filteredAssessments"
             >
           </RecordTable>
         </div>
       </div>
       <div v-if="examinationsVisible" class="record">
-        <div class="container">
-          <h2>{{ $t("records.personalData") }}</h2>
-          <div class="data-heading">{{ $t("records.fullName") }}</div>
-          <div>{{ currentIndividual.firstName, currentIndividual.lastName }}</div>
+        <div class="full-width-container">
+          <h2>{{ $t("records.examinations") }}</h2>
+          <RecordTable 
+            :columns="examHeaders" 
+            :fields="exams" 
+            :entity="'assessments'"
+            >
+          </RecordTable>
         </div>
       </div>
       <div v-if="communicationVisible" class="record">
@@ -190,7 +263,7 @@
           <div class="container">
             <div style="display: block">
               <h2>{{ $t("address.addresses") }}</h2>
-              <div class="data-heading address">{{ $t("address.termTimeAddress") }}</div>
+              <div class="data-heading spacer">{{ $t("address.termTimeAddress") }}</div>
               <div>{{ currentTermTimeAddress.addressLine1 }}</div>
               <div>{{ currentTermTimeAddress.addressLine2 }}</div>
               <div>{{ currentTermTimeAddress.addressLine3 }}</div>
@@ -198,7 +271,7 @@
               <div>{{ currentTermTimeAddress.region }}</div>
               <div>{{ currentTermTimeAddress.postCode }}</div>
               <div>{{ currentTermTimeAddress.country }}</div>
-              <div class="data-heading address">{{ $t("address.homeAddress") }}</div>
+              <div class="data-heading spacer">{{ $t("address.homeAddress") }}</div>
               <div>{{ currentHomeAddress.addressLine1 }}</div>
               <div>{{ currentHomeAddress.addressLine2 }}</div>
               <div>{{ currentHomeAddress.addressLine3 }}</div>
@@ -234,11 +307,11 @@
             <div style="display: block">
               <h2>{{ $t("emergencyContact.emergencyContact") }}</h2>
               <div class="data-heading">{{ $t("emergencyContact.fullName") }}</div>
-              <div>{{ currentStudent.programme }}</div>
+              <div>{{ emergencyContact.fullName }}</div>
               <div class="data-heading">{{ $t("emergencyContact.relationship") }}</div>
-              <div>relationship</div>
+              <div>{{ emergencyContact.relationship }}</div>
               <div class="data-heading">{{ $t("emergencyContact.telephoneNumber") }}</div>
-              <div>number</div>
+              <div>{{ emergencyContact.telephoneNumber }}</div>
             </div>
           </div>
         </div>
@@ -271,13 +344,18 @@
     import AssessmentMark from "@/types/AssessmentMark";
     import AssessmentDataService from "@/services/AssessmentDataService";
     import Assessment from "@/types/Assessment";
+    import EmergencyContactDataService from "@/services/EmergencyContactDataService";
+    import EmergencyContact from "@/types/EmergencyContact";
     import ModuleDataService from "@/services/ModuleDataService";
+    import { Watch } from "vue-property-decorator/lib/decorators/Watch";
+    import BarChart from "../Charts/BarChart.vue";
 
     @Options({
     components: {
         LoadingScreen,
         CommunicationWindow,
         RecordTable,
+        BarChart
     }})
 
     export default class StudentsList extends Vue {
@@ -291,6 +369,7 @@
     public isLoading: boolean = false;
     public addressesLoaded: boolean = false;
     public enrolmentLoaded: boolean = false;
+    public averagesLoaded: boolean = false;
 
     public currentStudent = {} as Student;
     public currentIndividual = {} as Individual;
@@ -298,21 +377,51 @@
     public currentTermTimeAddress = {} as Address;
     public currentEnrolmentStatus = {} as Enrolment;
     public currentPersonalDetails = {} as StudentPersonalDetails;
+    public emergencyContact = {} as EmergencyContact;
+
     public modules: Module[] = [];
+    public filteredModules: Module[] = [];
     public moduleHeaders: string[] = [];
     public currentYearOfStudy: number = 0;
 
     public currentAssessmentMarks: AssessmentMark[] = [];
+    public filteredAssessmentMarks: AssessmentMark[] = [];
     public assessmentMarkHeaders: string[] = [];
     public currentAssessment = {} as Assessment;
+    public exams: Assessment[] = [];
+    public examHeaders: string[] = [];
     public assessmentHeaders: string[] = [];
     public assessments: Assessment[] = [];
+    public filteredAssessments: Assessment[] = [];
     public jointHeaders: string[] = [];
     
     public yearOneAverage: string = "0";
     public yearTwoAverage: string = "0";
     public yearThreeAverage: string = "0";
     public yearFourAverage: string = "0";
+    public yearOneModuleCodes: string[] = [];
+    public yearTwoModuleCodes: string[] = [];
+    public yearThreeModuleCodes: string[] = [];
+    public yearFourModuleCodes: string[] = [];
+    public yearOneModuleTitles: string[] = [];
+    public yearTwoModuleTitles: string[] = [];
+    public yearThreeModuleTitles: string[] = [];
+    public yearFourModuleTitles: string[] = [];
+    public yearOneModuleAverages: string[] = [];
+    public yearTwoModuleAverages: string[] = [];
+    public yearThreeModuleAverages: string[] = [];
+    public yearFourModuleAverages: string[] = [];
+    public filteredLevel: number = 0;
+    public yearOneAverageActive: boolean = true;
+    public yearTwoAverageActive: boolean = false;
+    public yearThreeAverageActive: boolean = false;
+    public yearFourAverageActive: boolean = false;
+    public filteredModule: string = "";
+
+    public yearOneChartData: any[] = [];
+    public yearTwoChartData: any[] = [];
+    public yearThreeChartData: any[] = [];
+    public yearFourChartData: any[] = [];
 
     public tutor = {} as StaffMember;
     public tutorIndividual = {} as Individual;
@@ -323,6 +432,7 @@
             .then(response => {
             this.currentStudent = response.data;
             this.modules = this.currentStudent.moduleStu;
+            this.filteredModules = this.modules;
             this.moduleHeaders = ["moduleCode", "moduleTitle", "moduleLevel", "numberOfCredits", "termsTaught"];
             var maxYear = 1 ;
             for(var i = 0; i < this.modules.length; i++){
@@ -401,6 +511,18 @@
             console.log(e);
             })
     }
+
+    loadEmergencyContact() {
+        this.isLoading = true;
+        EmergencyContactDataService.get(this.currentStudent.studentId)
+        .then(response => {
+            this.emergencyContact = response.data[0];
+            })
+            .catch(e => {
+            console.log(e);
+            })
+        this.isLoading = false;
+    }
     
     formatDates(date: Date) {
         return moment(String(date)).format('DD/MM/YYYY');
@@ -411,27 +533,34 @@
         AssessmentMarksDataService.getByStudent(id)
             .then(response => {
             this.currentAssessmentMarks = response.data;
+            this.filteredAssessmentMarks = this.currentAssessmentMarks;
             this.assessmentMarkHeaders = ["assessmentMark", "assessmentGrade", "assessmentStatus", "assessmentState", "assessmentDate", "assessmentLevel"];
             for (let mark of this.currentAssessmentMarks) {
                 AssessmentDataService.get(mark.assessmentId)
                 .then(response => {
-                this.currentAssessment = response.data;
-                mark.assessment = this.currentAssessment;
-                this.assessmentHeaders = ["assessmentCode", "assessmentDetail", "assessmentWeight"];
-                this.assessments = this.assessments.concat(this.currentAssessment);
-                this.jointHeaders = ["assessmentCode", "assessmentDetail", "assessmentMark", "assessmentGrade", "assessmentWeight", "assessmentStatus", "assessmentState", "assessmentDate", "assessmentLevel"];
-                ModuleDataService.get(mark.assessment.moduleId)
-                .then(response => {
-                    mark.assessment.module = response.data;
-                })
-                .catch(e => {
-                console.log(e);
-                });
+                    this.currentAssessment = response.data;
+                    mark.assessment = this.currentAssessment;
+                    this.assessmentHeaders = ["assessmentCode", "assessmentDetail", "assessmentWeight"];
+                    this.assessments = this.assessments.concat(this.currentAssessment);
+                    this.jointHeaders = ["assessmentCode", "assessmentDetail", "assessmentMark", "assessmentGrade", "assessmentWeight", "assessmentStatus", "assessmentState", "assessmentDate", "assessmentLevel"];
+                    this.exams = this.assessments.filter((assessment) => {
+                        var included = (assessment.assessmentType == "EXAM" || assessment.assessmentType == "X1ON");
+                        return included;
+                    });
+                    this.examHeaders = ["assessmentCode", "assessmentDetail", "assessmentType", "assessmentWeight"];
+                    ModuleDataService.get(mark.assessment.moduleId)
+                    .then(response => {
+                        mark.assessment.module = response.data;
+                    })
+                    .catch(e => {
+                    console.log(e);
+                    });
                 })
                 .catch(e => {
                 console.log(e);
                 });
             };
+            this.filteredAssessments = this.assessments;
             })
             .catch(e => {
             console.log(e);
@@ -450,53 +579,121 @@
         var yearFourMarks: AssessmentMark[] = [];
         for (let mark of this.currentAssessmentMarks) {
             if (mark.assessmentLevel == 1) {
-            if (yearOneModules.indexOf(mark.assessment.moduleId) === -1) yearOneModules.push(mark.assessment.moduleId);
-            yearOneMarks.push(mark);
+                if (yearOneModules.indexOf(mark.assessment.moduleId) === -1) {
+                    yearOneModules.push(mark.assessment.moduleId);
+                    this.yearOneModuleCodes.push(mark.assessment.module.moduleCode);
+                    this.yearOneModuleTitles.push(mark.assessment.module.moduleCode + " - " + mark.assessment.module.moduleTitle);
+                } 
+                yearOneMarks.push(mark);
             }
             else if (mark.assessmentLevel == 2) {
-            if (yearTwoModules.indexOf(mark.assessment.moduleId) === -1) yearTwoModules.push(mark.assessment.moduleId);
-            yearTwoMarks.push(mark);
+                if (yearTwoModules.indexOf(mark.assessment.moduleId) === -1) {
+                    yearTwoModules.push(mark.assessment.moduleId);
+                    this.yearTwoModuleCodes.push(mark.assessment.module.moduleCode);
+                    this.yearTwoModuleTitles.push(mark.assessment.module.moduleCode + " - " + mark.assessment.module.moduleTitle);
+                } 
+                yearTwoMarks.push(mark);
             }
             else if (mark.assessmentLevel == 3) {
-            if (yearThreeModules.indexOf(mark.assessment.moduleId) === -1) yearThreeModules.push(mark.assessment.moduleId);
-            yearThreeMarks.push(mark);
+                if (yearThreeModules.indexOf(mark.assessment.moduleId) === -1) {
+                    yearThreeModules.push(mark.assessment.moduleId);
+                    this.yearThreeModuleCodes.push(mark.assessment.module.moduleCode);
+                    this.yearThreeModuleTitles.push(mark.assessment.module.moduleCode + " - " + mark.assessment.module.moduleTitle);
+                } 
+                yearThreeMarks.push(mark);
             }
             else if (mark.assessmentLevel == 4) {
-            if (yearFourModules.indexOf(mark.assessment.moduleId) === -1) yearFourModules.push(mark.assessment.moduleId);
-            yearFourMarks.push(mark);
+                if (yearFourModules.indexOf(mark.assessment.moduleId) === -1) {
+                    yearFourModules.push(mark.assessment.moduleId);
+                    this.yearFourModuleCodes.push(mark.assessment.module.moduleCode);
+                    this.yearFourModuleTitles.push(mark.assessment.module.moduleCode + " - " + mark.assessment.module.moduleTitle);
+                }
+                yearFourMarks.push(mark);
             }
         }
         if (yearOneModules.length != 0) {
-            this.yearOneAverage = this.getYearlyAverage(yearOneModules, yearOneMarks).toFixed(1);
+            this.yearOneAverage = this.getYearlyAverage(yearOneModules, yearOneMarks, "1").toFixed(1);
         }
         if (yearTwoModules.length != 0) {
-            this.yearTwoAverage = this.getYearlyAverage(yearTwoModules, yearTwoMarks).toFixed(1);
+            this.yearTwoAverage = this.getYearlyAverage(yearTwoModules, yearTwoMarks, "2").toFixed(1);
         }
         if (yearThreeModules.length != 0) {
-            this.yearThreeAverage = this.getYearlyAverage(yearThreeModules, yearThreeMarks).toFixed(1);
+            this.yearThreeAverage = this.getYearlyAverage(yearThreeModules, yearThreeMarks, "3").toFixed(1);
         }
         if (yearFourModules.length != 0) {
-            this.yearFourAverage = this.getYearlyAverage(yearFourModules, yearFourMarks).toFixed(1);
+            this.yearFourAverage = this.getYearlyAverage(yearFourModules, yearFourMarks, "4").toFixed(1);
         }
-
+        this.averagesLoaded = true;
     }
 
-    getYearlyAverage(modules: string[], marks: AssessmentMark[]) {
+    getYearlyAverage(modules: string[], marks: AssessmentMark[], level: string) {
         var moduleAverages: number[] = [];
         var moduleWeighting: number = 0;
         var markValues: number[] = [];
+        var percentCompleted: number = 0
         for (let module of modules) {
             markValues = [];
             for (let mark of marks) {
                 if (mark.assessment.moduleId == module) {
                     moduleWeighting = mark.assessment.module.numberOfCredits;
                     markValues.push(mark.assessmentMark * (mark.assessment.assessmentWeight / 100));
+                    percentCompleted += (mark.assessment.assessmentWeight / 100);
                 }
             }
             var sum = markValues.reduce((a: number, b: number): number => a + b);
-            moduleAverages = moduleAverages.concat(sum / (120 / moduleWeighting));
+            if (level == "1") {
+                this.yearOneModuleAverages = this.yearOneModuleAverages.concat((sum / percentCompleted).toFixed(1));
+            } else if (level == "2") {
+                this.yearTwoModuleAverages = this.yearTwoModuleAverages.concat((sum / percentCompleted).toFixed(1));
+            } else if (level == "3") {
+                this.yearThreeModuleAverages = this.yearThreeModuleAverages.concat((sum / percentCompleted).toFixed(1));
+            } else if (level == "4") {
+                this.yearFourModuleAverages = this.yearFourModuleAverages.concat((sum / percentCompleted).toFixed(1));
+            }
+            moduleAverages = moduleAverages.concat(sum / ((120 / moduleWeighting) * percentCompleted));
+            percentCompleted = 0;
+        }
+        for (let average in this.yearOneModuleAverages) {
+            this.yearOneChartData.push({
+                "module": this.yearOneModuleCodes[average],
+                "average": this.yearOneModuleAverages[average]
+            })
+        }
+        for (let average in this.yearTwoModuleAverages) {
+            this.yearTwoChartData.push({
+                "module": this.yearTwoModuleCodes[average],
+                "average": this.yearTwoModuleAverages[average]
+            })
+        }
+        for (let average in this.yearThreeModuleAverages) {
+            this.yearThreeChartData.push({
+                "module": this.yearThreeModuleCodes[average],
+                "average": this.yearThreeModuleAverages[average]
+            })
+        }
+        for (let average in this.yearFourModuleAverages) {
+            this.yearFourChartData.push({
+                "module": this.yearFourModuleCodes[average],
+                "average": this.yearFourModuleAverages[average]
+            })
         }
         return moduleAverages.reduce((a: number, b: number): number => a + b);
+    }
+
+    @Watch('filteredLevel')
+    @Watch('filteredModule')
+    filterMarks() {
+        if (this.filteredLevel != 0) {
+            this.filteredModules = this.modules.filter((moduleFilter) => {
+                var included = (moduleFilter.moduleLevel == this.filteredLevel.toString());
+                return included;
+            })
+        }
+        this.filteredAssessmentMarks = this.currentAssessmentMarks.filter((assessment) => {
+            var included = ((this.filteredLevel == 0) || (assessment.assessmentLevel == this.filteredLevel) 
+            && ((this.filteredModule == "") || (assessment.assessment.assessmentCode.includes(this.filteredModule))));
+            return included;
+        });
     }
 
     updateStudent() {
@@ -529,22 +726,42 @@
         } else if (activeWindow == "programme") {
             this.programmeVisible  = true;
             if (this.enrolmentLoaded == false) {
-            this.loadEnrolmentStatus();
+                this.loadEnrolmentStatus();
             }
         } else if (activeWindow == "modules") {
             this.modulesVisible = true;
         } else if (activeWindow == "marksAndFeedback") {
             this.marksAndFeedbackVisible = true;
-            this.getAverageMarks();
+            if (this.averagesLoaded == false) {
+                this.getAverageMarks();
+            }
         } else if (activeWindow == "examinations") {
             this.examinationsVisible = true;
         } else if (activeWindow == "communication") {
             this.communicationVisible = true;
             if (this.addressesLoaded == false) {
-            this.loadAddresses();
+                this.loadAddresses();
+                this.loadEmergencyContact();
             }
         }
+    }
+
+    setActiveChart(activeChart: string) {
+        this.yearOneAverageActive = false;
+        this.yearTwoAverageActive = false;
+        this.yearThreeAverageActive = false;
+        this.yearFourAverageActive = false;
+        if (activeChart == "yearOne") {
+            this.yearOneAverageActive  = true;
+        } else if (activeChart == "yearTwo") {
+            this.yearTwoAverageActive  = true;
+        } else if (activeChart == "yearThree") {
+            this.yearThreeAverageActive  = true;
+        } else if (activeChart == "yearFour") {
+            this.yearFourAverageActive  = true;
         }
+    }
+
   }
   </script>
   

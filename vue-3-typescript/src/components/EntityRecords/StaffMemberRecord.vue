@@ -178,7 +178,6 @@ import Student from "@/types/Student";
           this.currentStaffMember = response.data;
           this.modules = this.currentStaffMember.staffConvenor;
           this.moduleHeaders = ["moduleCode", "moduleTitle", "moduleLevel", "numberOfCredits", "termsTaught"];
-          console.log(this.currentStaffMember.academicTutor);
           this.tutees = this.currentStaffMember.academicTutor;
           this.tuteeHeaders = Object.keys(this.currentStaffMember.academicTutor[0]).filter((title, index) => {
             var included = (title == "studentNumber") || (title == "programme");
@@ -204,7 +203,6 @@ import Student from "@/types/Student";
           .catch(e => {
             console.log(e);
           })
-          console.log("this.currentStaffMember.individualId ", this.currentStaffMember.individualId);
           AddressDataService.getHome(this.currentStaffMember.individualId)
           .then(response => {
             this.currentHomeAddress = response.data[0];

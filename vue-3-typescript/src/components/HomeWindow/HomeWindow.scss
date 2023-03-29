@@ -3,28 +3,78 @@
     background-color: #F4F4F4;
     height: 100%;
     /* display: flex; */
-  }
+}
+
+.home-icon {
+    color: #212529;
+}
   
-  .main-page {
+.home-page {
     display: flex;
-  }
+    padding-top: 80px;
+}
   
-  .record {
+.record {
     display: flex;
     background-color: #F4F4F4;
     width: 100%;
     flex-wrap: row wrap;
-  }
+}
   
-  .container {
+.container {
     flex-grow: 1;
     padding: 16px;
     margin: 10px;
     background-color: white;
     min-width: 400px;
     border-radius: 10px;
-  }
+}
   
-  .data-heading{
+.data-heading{
     color: rgb(170, 170, 170);
-  }
+}
+
+.stacked-container {
+    width: 100%;
+    margin-right: 30px;
+}
+
+.select-box {
+    margin: 8px 0 8px 50px;
+}
+
+.chart-header {
+    display: inline-flex;
+}
+
+.heading {
+    height: 80px;
+    display: flex;
+    background-color: white;
+    overflow: hidden;
+    border: 1px solid rgb(170, 170, 170);
+    position: fixed;
+    width: 100%;
+    padding-right: 240px;
+    z-index: 100;
+}
+
+h2 {
+    font-weight: 500;
+    margin-bottom: 10px;
+}
+  
+.title-container {
+    font-size: 30px;
+    flex-grow: 4;
+}
+  
+.title {
+    padding: 8px 10px;
+    display: flex;
+}
+
+.no-data {
+    text-align: center;
+    margin-top: 115px;
+}

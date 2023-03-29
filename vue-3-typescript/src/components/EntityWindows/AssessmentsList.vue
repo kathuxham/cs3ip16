@@ -19,11 +19,6 @@
     <div class="main-page">
         <div class="table-container">
           <div class="input-box">
-            <select v-model="filteredModule">
-                <option disabled value="">{{ $t("assessments.assessmentModuleFilter") }}</option>
-                <option></option>
-                <option v-for="option in modules" :value="option['moduleCode']">{{option['moduleCode']}}</option>
-            </select>
             <input
             type="text"
             class="form-control"
@@ -37,6 +32,11 @@
             >
               Search
             </button>
+            <select style="margin-left: 10px" v-model="filteredModule">
+                <option disabled value="">{{ $t("assessments.assessmentModuleFilter") }}</option>
+                <option value="">All</option>
+                <option v-for="option in modules" :value="option['moduleCode']">{{option['moduleCode']}}</option>
+            </select>
           </div>
           
           <RecordTable 
@@ -114,26 +114,28 @@
       this.currentIndex = index;
     }
   
+    @Watch('filteredModule')
     searchTitle() {
         this.isLoading = true;
         this.filteredAssessments = this.assessments.filter((assessment) => {
-            var included = assessment.assessmentDetail.toLowerCase().includes(this.title.toLowerCase()) 
-            || assessment.assessmentCode.toLowerCase().includes(this.title.toLowerCase());
+            var included = (assessment.assessmentDetail.toLowerCase().includes(this.title.toLowerCase()) 
+            || assessment.assessmentCode.toLowerCase().includes(this.title.toLowerCase())) 
+            && ((this.filteredModule == "") || (assessment.assessmentCode.includes(this.filteredModule)));
             return included;
         });
         this.isLoading = false;
     }
 
-    @Watch('filteredModule')
-    onModuleLevelChange() {
-        this.isLoading = true;
-        this.filteredAssessments = this.assessments.filter((assessment) => {
-            var included = (this.filteredModule == "") 
-            || (assessment.assessmentCode.includes(this.filteredModule));
-            return included;
-        });
-        this.isLoading = false;
-    }
+    // @Watch('filteredModule')
+    // onModuleLevelChange() {
+    //     this.isLoading = true;
+    //     this.filteredAssessments = this.filteredAssessments.filter((assessment) => {
+    //         var included = (this.filteredModule == "") 
+    //         || (assessment.assessmentCode.includes(this.filteredModule));
+    //         return included;
+    //     });
+    //     this.isLoading = false;
+    // }
   
     mounted() {
       this.retrieveAssessments();

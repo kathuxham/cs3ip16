@@ -46,10 +46,9 @@
             let series = chart.series.push(new am4charts.ColumnSeries());
             series.columns.template.tooltipText = this.xAxisTitle + ": {categoryX}\n" 
                 + this.yAxisTitle + ": {valueY}";
-            series.columns.template.fill = am4core.color("#104547"); // fill
+            series.columns.template.fill = am4core.color("#104547");
             series.dataFields.valueY = this.yAxis;
             series.dataFields.categoryX = this.xAxis;
-            // series.stacked = true;
 
             this.chart = chart;
         }
@@ -59,9 +58,5 @@
                 this.chart.dispose();
             }
         }
-
-        // selectDataset(set: any[]) {
-        //     this.chart.data = set;
-        // }
 } 
 </script>

@@ -125,17 +125,6 @@
         });
         this.isLoading = false;
     }
-
-    // @Watch('filteredModule')
-    // onModuleLevelChange() {
-    //     this.isLoading = true;
-    //     this.filteredAssessments = this.filteredAssessments.filter((assessment) => {
-    //         var included = (this.filteredModule == "") 
-    //         || (assessment.assessmentCode.includes(this.filteredModule));
-    //         return included;
-    //     });
-    //     this.isLoading = false;
-    // }
   
     mounted() {
       this.retrieveAssessments();

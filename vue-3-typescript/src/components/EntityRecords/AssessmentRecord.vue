@@ -57,8 +57,7 @@
         </div>
       </div>
       <div v-if="assessmentMarksVisible" class="record">
-        
-        <div class="container">
+        <div class="full-width-container">
             <h2>{{ $t("assessmentmarks.assessmentmarks") }}</h2>
             <div style="display: flex;">
                 <div class="average-student" 

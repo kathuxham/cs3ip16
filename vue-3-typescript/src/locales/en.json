@@ -91,7 +91,12 @@
         "homeOne": "Year One Modules",
         "homeTwo": "Year Two Modules",
         "homeThree": "Year Three Modules",
-        "overviewDash": "Overview Dashboard"
+        "homeOneBar": "For Selected Year One Module",
+        "homeTwoBar": "For Selected Year Two Module",
+        "homeThreeBar": "For Selected Year Three Module",
+        "moduleCompletion": "Module Completion",
+        "overviewDash": "Overview Dashboard",
+        "moduleUnavailable": "Data is unavailable for this module."
     },
     "modules": {
         "module": "Module",

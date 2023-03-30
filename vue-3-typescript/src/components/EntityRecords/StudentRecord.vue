@@ -166,13 +166,6 @@
                 <div class="data-heading">{{ $t("assessmentmarks.yearThreeAverage") }}</div>
                 <div class="average">{{ yearThreeAverage }}</div>
             </div>
-            <div class="average-student"
-                @click="setActiveChart('yearFour')"
-                :class="{'selected-year': yearFourAverageActive}"
-                v-if="yearFourAverage != '0'">
-                <div class="data-heading">{{ $t("assessmentmarks.yearFourAverage") }}</div>
-                <div class="average">{{ yearFourAverage }}</div>
-            </div>
           </div>
           <div class="spacer"></div>
           <div class="average-breakdown" v-if="yearOneAverageActive">
@@ -208,24 +201,12 @@
                 :chartName="'Year Three Averages'">
             </BarChart>
           </div>
-          <div class="average-breakdown" v-if="yearFourAverageActive">
-            <BarChart
-                :importedData="yearFourChartData" 
-                :xAxis="'module'" 
-                :yAxis="'average'"
-                :xAxisTitle="'Module'"
-                :yAxisTitle="'Overall Mark'"
-                :idName="'chartDivFour'"
-                :chartName="'Year Four Averages'">
-            </BarChart>
-          </div>
           <select style="margin-bottom: 15px;" v-model="filteredLevel">
                 <option disabled value="">{{ $t("modules.moduleLevelFilter") }}</option>
                 <option :value="0">All</option>
                 <option :value="1">1</option>
                 <option v-if="yearTwoAverage != '0'" :value="2">2</option>
                 <option v-if="yearThreeAverage != '0'" :value="3">3</option>
-                <option v-if="yearFourAverage != '0'" :value="4">4</option>
             </select>
             <select style="margin-bottom: 15px; margin-left: 10px" v-model="filteredModule">
                 <option disabled value="">{{ $t("assessments.assessmentModuleFilter") }}</option>
@@ -336,7 +317,6 @@
     import Module from "@/types/Module";
     import LoadingScreen from "../WindowSetup/LoadingScreen/LoadingScreen.vue";
     import '../RecordWindow/RecordWindow.scss'
-    import CommunicationWindow from "../RecordContainers/CommunicationWindow.vue";
     import moment from 'moment';
     import StaffMember from "@/types/StaffMember";
     import RecordTable from "../RecordsTable/RecordTable.vue";
@@ -353,7 +333,6 @@
     @Options({
     components: {
         LoadingScreen,
-        CommunicationWindow,
         RecordTable,
         BarChart
     }})
@@ -398,30 +377,24 @@
     public yearOneAverage: string = "0";
     public yearTwoAverage: string = "0";
     public yearThreeAverage: string = "0";
-    public yearFourAverage: string = "0";
     public yearOneModuleCodes: string[] = [];
     public yearTwoModuleCodes: string[] = [];
     public yearThreeModuleCodes: string[] = [];
-    public yearFourModuleCodes: string[] = [];
     public yearOneModuleTitles: string[] = [];
     public yearTwoModuleTitles: string[] = [];
     public yearThreeModuleTitles: string[] = [];
-    public yearFourModuleTitles: string[] = [];
     public yearOneModuleAverages: string[] = [];
     public yearTwoModuleAverages: string[] = [];
     public yearThreeModuleAverages: string[] = [];
-    public yearFourModuleAverages: string[] = [];
     public filteredLevel: number = 0;
     public yearOneAverageActive: boolean = true;
     public yearTwoAverageActive: boolean = false;
     public yearThreeAverageActive: boolean = false;
-    public yearFourAverageActive: boolean = false;
     public filteredModule: string = "";
 
     public yearOneChartData: any[] = [];
     public yearTwoChartData: any[] = [];
     public yearThreeChartData: any[] = [];
-    public yearFourChartData: any[] = [];
 
     public tutor = {} as StaffMember;
     public tutorIndividual = {} as Individual;
@@ -572,11 +545,9 @@
         var yearOneModules: string[] = [];
         var yearTwoModules: string[] = [];
         var yearThreeModules: string[] = [];
-        var yearFourModules: string[] = [];
         var yearOneMarks: AssessmentMark[] = [];
         var yearTwoMarks: AssessmentMark[] = [];
         var yearThreeMarks: AssessmentMark[] = [];
-        var yearFourMarks: AssessmentMark[] = [];
         for (let mark of this.currentAssessmentMarks) {
             if (mark.assessmentLevel == 1) {
                 if (yearOneModules.indexOf(mark.assessment.moduleId) === -1) {
@@ -602,14 +573,6 @@
                 } 
                 yearThreeMarks.push(mark);
             }
-            else if (mark.assessmentLevel == 4) {
-                if (yearFourModules.indexOf(mark.assessment.moduleId) === -1) {
-                    yearFourModules.push(mark.assessment.moduleId);
-                    this.yearFourModuleCodes.push(mark.assessment.module.moduleCode);
-                    this.yearFourModuleTitles.push(mark.assessment.module.moduleCode + " - " + mark.assessment.module.moduleTitle);
-                }
-                yearFourMarks.push(mark);
-            }
         }
         if (yearOneModules.length != 0) {
             this.yearOneAverage = this.getYearlyAverage(yearOneModules, yearOneMarks, "1").toFixed(1);
@@ -619,9 +582,6 @@
         }
         if (yearThreeModules.length != 0) {
             this.yearThreeAverage = this.getYearlyAverage(yearThreeModules, yearThreeMarks, "3").toFixed(1);
-        }
-        if (yearFourModules.length != 0) {
-            this.yearFourAverage = this.getYearlyAverage(yearFourModules, yearFourMarks, "4").toFixed(1);
         }
         this.averagesLoaded = true;
     }
@@ -647,8 +607,6 @@
                 this.yearTwoModuleAverages = this.yearTwoModuleAverages.concat((sum / percentCompleted).toFixed(1));
             } else if (level == "3") {
                 this.yearThreeModuleAverages = this.yearThreeModuleAverages.concat((sum / percentCompleted).toFixed(1));
-            } else if (level == "4") {
-                this.yearFourModuleAverages = this.yearFourModuleAverages.concat((sum / percentCompleted).toFixed(1));
             }
             moduleAverages = moduleAverages.concat(sum / ((120 / moduleWeighting) * percentCompleted));
             percentCompleted = 0;
@@ -669,12 +627,6 @@
             this.yearThreeChartData.push({
                 "module": this.yearThreeModuleCodes[average],
                 "average": this.yearThreeModuleAverages[average]
-            })
-        }
-        for (let average in this.yearFourModuleAverages) {
-            this.yearFourChartData.push({
-                "module": this.yearFourModuleCodes[average],
-                "average": this.yearFourModuleAverages[average]
             })
         }
         return moduleAverages.reduce((a: number, b: number): number => a + b);
@@ -750,15 +702,12 @@
         this.yearOneAverageActive = false;
         this.yearTwoAverageActive = false;
         this.yearThreeAverageActive = false;
-        this.yearFourAverageActive = false;
         if (activeChart == "yearOne") {
             this.yearOneAverageActive  = true;
         } else if (activeChart == "yearTwo") {
             this.yearTwoAverageActive  = true;
         } else if (activeChart == "yearThree") {
             this.yearThreeAverageActive  = true;
-        } else if (activeChart == "yearFour") {
-            this.yearFourAverageActive  = true;
         }
     }
 

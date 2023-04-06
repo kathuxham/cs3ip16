@@ -20,11 +20,6 @@ class StudentDataService {
   delete(id: string) {
     return http.delete(`/students/${id}`);
   }
-
-  findByTitle(title: string) {
-    return http.get(`/students?studentNumber=${title}`);
-  }
-
 }
 
 export default new StudentDataService();

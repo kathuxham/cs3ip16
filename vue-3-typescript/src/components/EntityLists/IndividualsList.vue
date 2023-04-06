@@ -27,7 +27,6 @@
             <button
               class="btn btn-outline-secondary"
               type="button"
-              @click="searchTitle"
             >
               Search
             </button>
@@ -49,7 +48,7 @@
   import { Vue, Options } from "vue-class-component";
   import IndividualDataService from "@/services/IndividualDataService";
   import type Individual from "@/types/Individual";
-  import RecordTable from "../RecordsTable/RecordTable.vue";
+  import RecordTable from "../Tables/RecordTable.vue";
   import '../ReportWindow/ReportWindow.scss'
 
   @Options({
@@ -93,16 +92,6 @@
     setActiveIndividual(individual: Individual, index: number) {
       this.currentIndividual = individual;
       this.currentIndex = index;
-    }
-  
-    searchTitle() {
-      IndividualDataService.findByTitle(this.title)
-        .then((response) => {
-          this.individuals = response.data;
-        })
-        .catch((e) => {
-          console.log(e);
-        });
     }
   
     mounted() {

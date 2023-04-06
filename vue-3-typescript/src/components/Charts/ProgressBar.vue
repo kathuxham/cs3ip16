@@ -12,13 +12,13 @@
     am4core.useTheme(am4themes_animated);
 
 
-     export default class PieChart extends Vue {
+     export default class ProgressBar extends Vue {
 
         @Prop() public importedData: any[] | undefined;
         @Prop() public complete: number | undefined;
         @Prop() public idName: string | undefined;
 
-        public chart: am4charts.PieChart = new am4charts.PieChart;
+        public chart: am4charts.XYChart = new am4charts.XYChart;
 
         public mounted() {
 

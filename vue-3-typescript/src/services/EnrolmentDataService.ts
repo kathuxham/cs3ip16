@@ -21,10 +21,6 @@ class EnrolmentDataService {
     return http.delete(`/enrolments/${id}`);
   }
 
-  findByTitle(title: string) {
-    return http.get(`/enrolments?studentNumber=${title}`);
-  }
-
 }
 
 export default new EnrolmentDataService();

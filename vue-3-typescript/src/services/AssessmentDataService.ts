@@ -25,10 +25,6 @@ class AssessmentDataService {
     return http.delete(`/assessments/${id}`);
   }
 
-  findByTitle(title: string) {
-    return http.get(`/assessments?assessmentDetail=${title}`);
-  }
-
 }
 
 export default new AssessmentDataService();

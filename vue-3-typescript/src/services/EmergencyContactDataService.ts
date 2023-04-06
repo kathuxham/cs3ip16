@@ -21,10 +21,6 @@ class EmergencyContactDataService {
     return http.delete(`/emergencycontacts/${id}`);
   }
 
-  findByTitle(title: string) {
-    return http.get(`/emergencycontacts?studentNumber=${title}`);
-  }
-
 }
 
 export default new EmergencyContactDataService();

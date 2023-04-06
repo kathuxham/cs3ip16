@@ -26,7 +26,7 @@
                             {{ $t("menu.moduleUnavailable")}}
                         </div>
                         <div v-for="mod in yearOneModules" v-if="yearOneChartData.length != 0">
-                            <HomeBoard
+                            <BarChart
                                 v-if="showChartOne && filteredYearOneModule == mod.id"
                                 :importedData="yearOneChartData" 
                                 :xAxis="'assessment'" 
@@ -34,8 +34,9 @@
                                 :xAxisTitle="'Assessment'"
                                 :yAxisTitle="'Average Mark'"
                                 :idName="'currentYearOne'"
-                                :chartName="'Current Year Averages'">
-                            </HomeBoard>
+                                :chartName="'Current Year Averages'"
+                                :source="'dashboard'">
+                            </BarChart>
                         </div>
                     </div>
                     <div class="container" style="height: 39vh">
@@ -50,7 +51,7 @@
                             {{ $t("menu.moduleUnavailable")}}
                         </div>
                         <div v-for="mod in yearThreeModules" v-if="yearThreeChartData.length != 0">
-                            <HomeBoard
+                            <BarChart
                                 v-if="showChartThree && filteredYearThreeModule == mod.id"
                                 :importedData="yearThreeChartData" 
                                 :xAxis="'assessment'" 
@@ -58,8 +59,9 @@
                                 :xAxisTitle="'Assessment'"
                                 :yAxisTitle="'Average Mark'"
                                 :idName="'currentYearThree'"
-                                :chartName="'Current Year Averages'">
-                            </HomeBoard>
+                                :chartName="'Current Year Averages'"
+                                :source="'dashboard'">
+                            </BarChart>
                         </div>
                     </div>
                 </div>
@@ -76,7 +78,7 @@
                             {{ $t("menu.moduleUnavailable")}}
                         </div>
                         <div v-for="mod in yearTwoModules">
-                            <HomeBoard
+                            <BarChart
                                 v-if="showChartTwo && filteredYearTwoModule == mod.id && yearTwoChartData.length != 0"
                                 :importedData="yearTwoChartData" 
                                 :xAxis="'assessment'" 
@@ -84,8 +86,9 @@
                                 :xAxisTitle="'Assessment'"
                                 :yAxisTitle="'Average Mark'"
                                 :idName="'currentYearTwo'"
-                                :chartName="'Current Year Averages'">
-                            </HomeBoard>
+                                :chartName="'Current Year Averages'"
+                                :source="'dashboard'">
+                            </BarChart>
                         </div>
                     </div>
                     <div class="container" style="height: 39vh">
@@ -96,12 +99,12 @@
                             {{ $t("menu.moduleUnavailable")}}
                         </div>
                         <div v-for="mod in yearOneModules" v-if="yearOneChartData.length != 0">
-                            <HomePie
+                            <ProgressBar
                                 v-if="showChartOne && filteredYearOneModule == mod.id"
                                 :importedData="yearOneWeightData" 
                                 :complete="yearOneComplete"
                                 :idName="'currentYearOnePie'">
-                            </HomePie>
+                            </ProgressBar>
                         </div>
                         <div class="data-heading" v-if="!isLoadingTwo">{{ $t("menu.homeTwoBar") }}</div>
                         <LoadingBar v-if="isLoadingTwo"></LoadingBar>
@@ -109,12 +112,12 @@
                             {{ $t("menu.moduleUnavailable")}}
                         </div>
                         <div v-for="mod in yearTwoModules">
-                            <HomePie
+                            <ProgressBar
                                 v-if="showChartTwo && filteredYearTwoModule == mod.id && yearTwoChartData.length != 0"
                                 :importedData="yearTwoWeightData" 
                                 :complete="yearTwoComplete"
                                 :idName="'currentYearTwoPie'">
-                            </HomePie>
+                            </ProgressBar>
                         </div>
                         <div class="data-heading" v-if="!isLoadingThree">{{ $t("menu.homeThreeBar") }}</div>
                         <LoadingBar v-if="isLoadingThree"></LoadingBar>
@@ -122,12 +125,12 @@
                             {{ $t("menu.moduleUnavailable")}}
                         </div>
                         <div v-for="mod in yearThreeModules" v-if="yearThreeChartData.length != 0">
-                            <HomePie
+                            <ProgressBar
                                 v-if="showChartThree && filteredYearThreeModule == mod.id && yearThreeChartData.length != 0"
                                 :importedData="yearThreeWeightData" 
                                 :complete="yearThreeComplete"
                                 :idName="'currentYearThreePie'">
-                            </HomePie>
+                            </ProgressBar>
                         </div>
                     </div>
                 </div>
@@ -143,8 +146,7 @@ import LoadingScreen from '../WindowSetup/LoadingScreen/LoadingScreen.vue';
 import LoadingChart from '../WindowSetup/LoadingScreen/LoadingChart.vue';
 import LoadingBar from '../WindowSetup/LoadingScreen/LoadingBar.vue';
 import '@mdi/js';
-import HomeBoard from '../Dashboards/HomeBoard.vue';
-import HomePie from '../Dashboards/HomePie.vue';
+import ProgressBar from '../Charts/ProgressBar.vue';
 import AssessmentMarksDataService from '@/services/AssessmentMarksDataService';
 import AssessmentDataService from '@/services/AssessmentDataService';
 import ModuleDataService from '@/services/ModuleDataService';
@@ -152,14 +154,15 @@ import Assessment from '@/types/Assessment';
 import Module from '@/types/Module';
 import { Watch } from 'vue-property-decorator';
 import * as am4core from "@amcharts/amcharts4/core";
+import BarChart from '../Charts/BarChart.vue';
 
 @Options({
   components: {
     LoadingScreen,
     LoadingChart,
     LoadingBar,
-    HomeBoard,
-    HomePie
+    ProgressBar,
+    BarChart
   }
 })
 

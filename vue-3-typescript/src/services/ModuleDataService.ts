@@ -20,11 +20,6 @@ class ModuleDataService {
   delete(id: string) {
     return http.delete(`/modules/${id}`);
   }
-
-  findByTitle(title: string) {
-    return http.get(`/modules?moduleTitle=${title}`);
-  }
-
 }
 
 export default new ModuleDataService();

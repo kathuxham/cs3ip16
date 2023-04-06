@@ -44,15 +44,21 @@
               <div style="display: block">
                 <h2>{{ $t("modules.moduleInfo") }}</h2>
                 <div class="data-heading">{{ $t("modules.moduleTitle") }}</div>
-                <div>{{ currentModule.moduleTitle }}</div>
+                <router-link v-if="currentModule.id" :to="'/modules/' + currentModule.id">
+                    {{ currentModule.moduleTitle }}
+                </router-link>
                 <div class="data-heading">{{ $t("modules.moduleCode") }}</div>
-                <div>{{ currentModule.moduleCode }}</div>
+                <router-link v-if="currentModule.id" :to="'/modules/' + currentModule.id">
+                    {{ currentModule.moduleCode }}                
+                </router-link>
               </div>
           </div>
           <div class="container">
             <h2>{{ $t("records.staffInfo") }}</h2>
             <div class="data-heading">Module Convenors</div>
-            <div>test</div>
+            <router-link v-if="moduleConvenor.staffMemberId" :to="'/staffMembers/' + moduleConvenor.staffMemberId">
+                {{ moduleConvenorIndividual.firstName + " " + moduleConvenorIndividual.lastName }}
+            </router-link>
           </div>
         </div>
       </div>
@@ -154,9 +160,13 @@
     import type Assessment from "@/types/Assessment";
     import AssessmentMarksDataService from "@/services/AssessmentMarksDataService";
     import AssessmentMark from "@/types/AssessmentMark";
+    import StaffDataService from "@/services/StaffDataService";
+    import StaffMember from "@/types/StaffMember";
+    import IndividualDataService from "@/services/IndividualDataService";
+    import Individual from "@/types/Individual";
     import '../RecordWindow/RecordWindow.scss'
     import LoadingScreen from "../WindowSetup/LoadingScreen/LoadingScreen.vue";
-    import RecordTable from "../RecordsTable/RecordTable.vue";
+    import RecordTable from "../Tables/RecordTable.vue";
     import { Watch } from "vue-property-decorator/lib/decorators/Watch";
     import LineGraph from "../Charts/LineGraph.vue"
     import BarChart from "../Charts/BarChart.vue";
@@ -188,6 +198,9 @@
         public averageMarkPreviousPreviousYear: string = "";
         public isLoading: boolean = false;
 
+        public moduleConvenor = {} as StaffMember;
+        public moduleConvenorIndividual = {} as Individual;
+
         public currentYear: number = 0;
         public filteredYear: number = 0;
 
@@ -208,6 +221,14 @@
             ModuleDataService.get(this.currentAssessment.moduleId)
             .then(response => {
                 this.currentModule = response.data;
+                this.moduleConvenor = this.currentModule.moduleConvenor[0];
+                IndividualDataService.get(this.currentModule.moduleConvenor[0].individualId)
+                .then(response => {
+                this.moduleConvenorIndividual = response.data;
+                })
+                .catch(e => {
+                console.log(e);
+                })
             })
             .catch(e => {
                 console.log(e);

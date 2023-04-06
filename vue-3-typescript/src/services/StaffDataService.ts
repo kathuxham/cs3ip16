@@ -21,10 +21,6 @@ class StaffDataService {
     return http.delete(`/staffMembers/${id}`);
   }
 
-  findByTitle(title: string) {
-    return http.get(`/staffMembers?moduleTitle=${title}`);
-  }
-
 }
 
 export default new StaffDataService();

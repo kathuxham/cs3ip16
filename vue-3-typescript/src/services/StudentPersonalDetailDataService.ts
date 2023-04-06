@@ -21,10 +21,6 @@ class PersonalDetailDataService {
     return http.delete(`/studentPersonalDetails/${id}`);
   }
 
-  findByTitle(title: string) {
-    return http.get(`/studentPersonalDetails?studentNumber=${title}`);
-  }
-
 }
 
 export default new PersonalDetailDataService();

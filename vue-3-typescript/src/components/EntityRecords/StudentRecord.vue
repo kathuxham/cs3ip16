@@ -7,7 +7,7 @@
             <mdicon :size="48" class="icon icon-centered report-icon" name="accountSchool"></mdicon>
             <div class="record-text">
               <div class="record-title">{{ currentIndividual.firstName + " " + currentIndividual.lastName }}</div>
-              <div class="record-subtitle">{{ currentStudent.studentNumber }}</div>
+              <div class="record-subtitle">{{ currentStudent.programme + " (" + currentStudent.studentNumber + ")"  }}</div>
             </div>
         </div>
       </div>
@@ -319,7 +319,7 @@
     import '../RecordWindow/RecordWindow.scss'
     import moment from 'moment';
     import StaffMember from "@/types/StaffMember";
-    import RecordTable from "../RecordsTable/RecordTable.vue";
+    import RecordTable from "../Tables/RecordTable.vue";
     import AssessmentMarksDataService from "@/services/AssessmentMarksDataService";
     import AssessmentMark from "@/types/AssessmentMark";
     import AssessmentDataService from "@/services/AssessmentDataService";
@@ -429,7 +429,7 @@
                 console.log(e);
             })
             this.tutor = this.currentStudent.academicTutee[0];
-            IndividualDataService.get(this.currentStudent.academicTutee[0].individualId)
+            IndividualDataService.get(this.tutor.individualId)
             .then(response => {
                 this.tutorIndividual = response.data;
             })

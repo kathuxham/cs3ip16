@@ -12,7 +12,7 @@ const router = createRouter({
     {
       path: "/assessments",
       name: "assessments",
-      component: () => import("../components/EntityWindows/AssessmentsList.vue"),
+      component: () => import("../components/EntityLists/AssessmentsList.vue"),
     },
     {
       path: "/assessments/:id",
@@ -22,7 +22,7 @@ const router = createRouter({
     {
       path: "/modules",
       name: "modules",
-      component: () => import("../components/EntityWindows/ModulesList.vue")
+      component: () => import("../components/EntityLists/ModulesList.vue")
     },
     {
       path: "/modules/:id",
@@ -32,12 +32,12 @@ const router = createRouter({
     {
       path: "/individuals",
       name: "individuals",
-      component: () => import("../components/EntityWindows/IndividualsList.vue"),
+      component: () => import("../components/EntityLists/IndividualsList.vue"),
     },
     {
       path: "/students",
       name: "students",
-      component: () => import("../components/EntityWindows/StudentsList.vue"),
+      component: () => import("../components/EntityLists/StudentsList.vue"),
     },
     {
       path: "/students/:id",
@@ -47,7 +47,7 @@ const router = createRouter({
     {
       path: "/staffMembers",
       name: "staff",
-      component: () => import("../components/EntityWindows/StaffMembersList.vue"),
+      component: () => import("../components/EntityLists/StaffMembersList.vue"),
     },
     {
       path: "/staffMembers/:id",

@@ -3,20 +3,20 @@ module.exports = app => {
   
     var router = require("express").Router();
   
-    // Create a new individual
-    // router.post("/", modules.create);
+    // Create a new module
+    router.post("/", modules.create);
   
-    // Retrieve all individuals
+    // Retrieve all modules
     router.get("/", modules.findAll);
   
-    // Retrieve a single individual with id
+    // Retrieve a single module with id
     router.get("/:id", modules.findOne);
   
-    // Update an individual with id
+    // Update a module with id
     router.put("/:id", modules.update);
   
-    // Delete an individual with id
-    // router.delete("/:id", individuals.delete);
+    // Delete a module with id
+    router.delete("/:id", modules.delete);
   
     app.use('/api/modules', router);
   };

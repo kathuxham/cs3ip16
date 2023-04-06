@@ -7,7 +7,7 @@
             <mdicon :size="48" class="icon icon-centered report-icon" name="account"></mdicon>
             <div class="record-text">
               <div class="record-title">{{ currentIndividual.firstName + " " + currentIndividual.lastName }}</div>
-              <div class="record-subtitle">{{ currentStaffMember.position }}</div>
+              <div class="record-subtitle">{{ currentStaffMember.position + " (" + currentStaffMember.staffNumber + ")" }}</div>
             </div>
         </div>
       </div>
@@ -130,7 +130,7 @@
   import Module from "@/types/Module";
   import '../RecordWindow/RecordWindow.scss'
   import LoadingScreen from "../WindowSetup/LoadingScreen/LoadingScreen.vue";
-  import RecordTable from "../RecordsTable/RecordTable.vue";
+  import RecordTable from "../Tables/RecordTable.vue";
   import moment from 'moment';
 import Student from "@/types/Student";
 

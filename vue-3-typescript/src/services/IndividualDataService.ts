@@ -25,10 +25,6 @@ class IndividualDataService {
     return http.delete(`/individuals/${id}`);
   }
 
-  findByTitle(title: string) {
-    return http.get(`/individuals?moduleTitle=${title}`);
-  }
-
   findByRole(title: string) {
     return http.get(`/individuals?studentOrStaff=${title}`);
   }

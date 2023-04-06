@@ -46,6 +46,8 @@
                 <div>{{ currentModule.currentAsOf }}</div>
                 <div class="data-heading">{{ $t("modules.contactHours") }}</div>
                 <div>{{ currentModule.contactHours }}</div>
+                <div class="data-heading">{{ $t("modules.moduleLink") }}</div>
+                <a :href="currentModule.moduleLink">{{ currentModule.moduleLink }}</a>
                 </div>
                 <div class="container">
                 <h2>{{ $t("records.staffInfo") }}</h2>
@@ -173,8 +175,8 @@
     import AssessmentMarksDataService from "@/services/AssessmentMarksDataService";
     import '../RecordWindow/RecordWindow.scss'
     import LoadingScreen from "../WindowSetup/LoadingScreen/LoadingScreen.vue";
-    import RecordTable from "../RecordsTable/RecordTable.vue";
-    import MarkBoard from "../Dashboards/MarkBoard.vue";
+    import RecordTable from "../Tables/RecordTable.vue";
+    import MarkBoard from "../Tables/MarkBoard.vue";
     import BarChart from "../Charts/BarChart.vue";
 
     @Options({
@@ -227,7 +229,7 @@
         this.isLoading = true;
             ModuleDataService.get(id)
             .then(response => {
-            this.currentModule = response.data;
+                this.currentModule = response.data;
                 this.moduleConvenor = this.currentModule.moduleConvenor[0];
                 IndividualDataService.get(this.currentModule.moduleConvenor[0].individualId)
                 .then(response => {

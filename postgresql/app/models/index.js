@@ -1,11 +1,11 @@
 const dbConfig = require("../config/db.config.js");
 
 const Sequelize = require("sequelize");
+// Creating a Sequelize instance by passing parameters separately
 const sequelize = new Sequelize(dbConfig.DB, dbConfig.USER, dbConfig.PASSWORD, {
   host: dbConfig.HOST,
   dialect: dbConfig.dialect,
   operatorsAliases: false,
-
   pool: {
     max: dbConfig.pool.max,
     min: dbConfig.pool.min,
@@ -137,7 +137,7 @@ db.assessments.belongsTo(db.modules, {
   as: "module"
 })
 
-// assessment mark to coursework
+// assessment mark to assessment
 db.assessments.hasMany(db.assessmentMarks, { as: "assessmentMarks" })
 db.assessmentMarks.belongsTo(db.assessmentMarks, {
   foreignKey: "assessmentId",

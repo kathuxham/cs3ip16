@@ -7,7 +7,7 @@
             <mdicon :size="48" class="icon icon-centered report-icon" name="account"></mdicon>
             <div class="record-text">
               <div class="record-title">{{ currentIndividual.firstName + " " + currentIndividual.lastName }}</div>
-              <div class="record-subtitle">{{ currentStaffMember.position }}</div>
+              <div class="record-subtitle">{{ currentStaffMember.position + " (" + currentStaffMember.staffNumber + ")" }}</div>
             </div>
         </div>
       </div>
@@ -30,7 +30,6 @@
         <div class="sidebox" :class="{active: communicationVisible}" @click="setActive('communication')">{{ $t("records.communication") }}</div>
       </div>
       <div v-if="personalDataVisible" class="record">
-        <!-- <h1>{{ $t("records.personalData") }}</h1> -->
         <div class="container">
           <h2>{{ $t("records.personalData") }}</h2>
           <div class="data-heading">{{ $t("records.fullName") }}</div>
@@ -53,8 +52,7 @@
         </div>
       </div>
       <div v-if="modulesVisible" class="record">
-        <!-- <h1>{{ $t("records.modules") }}</h1> -->
-        <div class="container">
+        <div class="full-width-container">
           <h2>{{ $t("modules.modules") }}</h2>
           <RecordTable 
             :columns="moduleHeaders" 
@@ -65,8 +63,7 @@
         </div>
       </div>
       <div v-if="tutorGroupVisible" class="record">
-        <!-- <h1>{{ $t("records.marksAndFeedback") }}</h1> -->
-        <div class="container">
+        <div class="full-width-container">
           <h2>{{ $t("records.tutorGroup") }}</h2>
           <RecordTable 
             :columns="jointHeaders" 
@@ -79,11 +76,6 @@
         </div>
       </div>
       <div v-if="communicationVisible" class="record">
-        <!-- <CommunicationWindow
-          :currentStaffMember="currentStaffMember"
-          :currentIndividual="currentIndividual"
-          :entity="entity"
-          ></CommunicationWindow> -->
           <div class="long-container">
             <div class="container">
               <div style="display: block">
@@ -138,16 +130,13 @@
   import Module from "@/types/Module";
   import '../RecordWindow/RecordWindow.scss'
   import LoadingScreen from "../WindowSetup/LoadingScreen/LoadingScreen.vue";
-  import RecordTable from "../RecordsTable/RecordTable.vue";
-  import CommunicationWindow from "../RecordContainers/CommunicationWindow.vue";
-  import PersonalDataWindow from "../RecordContainers/PersonalDataWindow.vue";
+  import RecordTable from "../Tables/RecordTable.vue";
   import moment from 'moment';
 import Student from "@/types/Student";
 
   @Options({
   components: {
     LoadingScreen,
-    CommunicationWindow,
     RecordTable,
   }})
 
@@ -240,8 +229,6 @@ import Student from "@/types/Student";
       var routeId = this.$route.params.id;
       routeId = routeId.toString();
         this.getStaff(routeId);
-        // this.getModules();
-        // this.getIndividual(this.currentStaffMember.individualId);
     }
 
     setActive(activeWindow: string) {

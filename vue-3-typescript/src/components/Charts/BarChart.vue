@@ -1,5 +1,5 @@
 <template>
-    <div :id="idName" style="height: 400px; position: inherit"></div>
+    <div :id="idName" :style="[source == 'dashboard' ? 'height: 300px' : 'height: 400px;  position: inherit']"></div>
 </template>
   
 <script lang="ts">
@@ -20,12 +20,13 @@
         @Prop() public yAxisTitle: string | undefined;
         @Prop() public idName: string | undefined;
         @Prop() public chartName: string | undefined;
+        @Prop() public source: string | undefined;
         
         public chart: am4charts.XYChart = new am4charts.XYChart;
 
         public mounted() {
 
-            am4core.disposeAllCharts();
+            if (this.source != "dashboard") am4core.disposeAllCharts();
 
             let chart = am4core.create(this.idName, am4charts.XYChart);
             if (this.importedData) chart.data = this.importedData;
@@ -34,6 +35,7 @@
             categoryAxis.dataFields.category = this.xAxis;
             if (this.xAxisTitle) categoryAxis.title.text = this.xAxisTitle;
             categoryAxis.renderer.minGridDistance = 20;
+            if (this.source == "dashboard") categoryAxis.renderer.labels.template.fontSize = 14;
             if(this.xAxisTitle == "Assessment" || this.xAxisTitle == "Module") categoryAxis.renderer.labels.template.rotation = 45;
 
             let valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
@@ -47,10 +49,9 @@
             let series = chart.series.push(new am4charts.ColumnSeries());
             series.columns.template.tooltipText = this.xAxisTitle + ": {categoryX}\n" 
                 + this.yAxisTitle + ": {valueY}";
-            series.columns.template.fill = am4core.color("#104547"); // fill
+            series.columns.template.fill = am4core.color("#104547");
             series.dataFields.valueY = this.yAxis;
             series.dataFields.categoryX = this.xAxis;
-            // series.stacked = true;
 
             this.chart = chart;
         }

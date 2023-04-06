@@ -4,9 +4,9 @@
     <div class="heading">
       <div class="title-container icon-centered">
           <div class="title">
-            <mdicon :size="48" class="icon icon-centered report-icon" name="account"></mdicon>
+            <mdicon :size="48" class="icon icon-centered report-icon" name="accountSchool"></mdicon>
             <div class="record-text">
-              <div class="record-title">{{ $t("staffMembers.staffMembers") }}</div>
+              <div class="record-title">{{ $t("students.students") }}</div>
             </div>
         </div>
       </div>
@@ -36,8 +36,8 @@
           
           <RecordTable 
             :columns="jointHeaders" 
-            :fields="filteredStaffMembers" 
-            :entity="'staffMembers'"
+            :fields="filteredStudents" 
+            :entity="entity"
             :joinedColumns="individualHeaders"
             :joinedFields="individuals"
             >
@@ -50,13 +50,13 @@
   
   <script lang="ts">
   import { Vue, Options } from "vue-class-component";
-  import StaffDataService from "@/services/StaffDataService";
-  import type StaffMember from "@/types/StaffMember";
   import IndividualDataService from "@/services/IndividualDataService";
+  import StudentDataService from "@/services/StudentDataService";
+  import type Student from "@/types/Student";
   import type Individual from "@/types/Individual";
-  import RecordTable from "../RecordsTable/RecordTable.vue";
-  import LoadingScreen from "../WindowSetup/LoadingScreen/LoadingScreen.vue";
+  import RecordTable from "../Tables/RecordTable.vue";
   import '../ReportWindow/ReportWindow.scss'
+  import LoadingScreen from "../WindowSetup/LoadingScreen/LoadingScreen.vue";
 
   @Options({
   components: {
@@ -65,39 +65,40 @@
   }
 })
 
-  export default class StaffMembersList extends Vue {
-    public staffMembers: StaffMember[] = [];
-    public filteredStaffMembers: StaffMember[] = [];
-    public currentStaffMembers = {} as StaffMember;
+  export default class StudentsList extends Vue {
+    public students: Student[] = [];
+    public filteredStudents: Student[] = [];
+    public currentStudent = {} as Student;
     public individuals: Individual[] = [];
     public currentIndividual = {} as Individual;
     public currentIndex: number = -1;
     public title: string = "";
-    public staffMemberHeaders: string[] = [];
+    public studentHeaders: string[] = [];
     public individualHeaders: string[] = [];
     public jointHeaders: string[] = [];
+    public entity: string = "students";
     public isLoading: boolean = false;
   
-    retrieveStaffMembers() {
+    retrieveStudents() {
       this.isLoading = true;
-      StaffDataService.getAll()
+      StudentDataService.getAll()
         .then((response) => {
-          this.staffMembers = response.data;
-          this.filteredStaffMembers = this.staffMembers;
-          this.staffMemberHeaders = ["staffNumber", "position"];
-          for (let staff of this.staffMembers) {
-            IndividualDataService.get(staff.individualId)
+          this.students = response.data;
+          this.filteredStudents = this.students;
+          this.studentHeaders = ["studentNumber", "programme"];
+          for (let student of this.students) {
+            IndividualDataService.get(student.individualId)
             .then(response => {
               this.currentIndividual = response.data;
-              staff.individual = this.currentIndividual;
+              student.individual = this.currentIndividual;
               this.individualHeaders = ["firstName", "lastName", "universityEmailAddress"];
-              this.individuals = this.individuals.concat(this.currentIndividual);
-              this.jointHeaders = ["staffNumber", "firstName", "lastName", "position", "universityEmailAddress"];
+              this.individuals = this.individuals.concat(this.currentIndividual);              
             })
             .catch(e => {
               console.log(e);
             });
           };
+          this.jointHeaders = ["studentNumber", "firstName", "lastName", "programme", "universityEmailAddress"];
         })
         .catch((e) => {
           console.log(e);
@@ -106,26 +107,26 @@
     }
   
     refreshList() {
-      this.retrieveStaffMembers();
-      this.currentStaffMembers = {} as StaffMember;
+      this.retrieveStudents();
+      this.currentStudent = {} as Student;
       this.currentIndex = -1;
     }
   
-    setActiveStaffMember(staffMember: StaffMember, index: number) {
-      this.currentStaffMembers = staffMember;
+    setActiveStudent(student: Student, index: number) {
+      this.currentStudent = student;
       this.currentIndex = index;
     }
   
     searchTitle() {
-        this.filteredStaffMembers = this.staffMembers.filter((staff) => {
-            var name = staff.individual.firstName + " " + staff.individual.lastName;
+        this.filteredStudents = this.students.filter((student) => {
+            var name = student.individual.firstName + " " + student.individual.lastName;
             var included = name.toLowerCase().includes(this.title.toLowerCase());
             return included;
         });
     }
   
     mounted() {
-      this.retrieveStaffMembers();
+      this.retrieveStudents();
     }
 
     

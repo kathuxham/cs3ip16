@@ -63,7 +63,7 @@
     import type Module from "@/types/Module";
     import IndividualDataService from "@/services/IndividualDataService";
     import Individual from "@/types/Individual";
-    import RecordTable from "../RecordsTable/RecordTable.vue";
+    import RecordTable from "../Tables/RecordTable.vue";
     import '../ReportWindow/ReportWindow.scss'
     import LoadingScreen from "../WindowSetup/LoadingScreen/LoadingScreen.vue";
     import { Watch } from "vue-property-decorator/lib/decorators/Watch";

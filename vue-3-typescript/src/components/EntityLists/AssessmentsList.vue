@@ -57,7 +57,7 @@
     import type Module from "@/types/Module";
     import AssessmentDataService from "@/services/AssessmentDataService";
     import Assessment from "@/types/Assessment";
-    import RecordTable from "../RecordsTable/RecordTable.vue";
+    import RecordTable from "../Tables/RecordTable.vue";
     import '../ReportWindow/ReportWindow.scss'
     import LoadingScreen from "../WindowSetup/LoadingScreen/LoadingScreen.vue";
     import { Watch } from "vue-property-decorator/lib/decorators/Watch";
@@ -125,17 +125,6 @@
         });
         this.isLoading = false;
     }
-
-    // @Watch('filteredModule')
-    // onModuleLevelChange() {
-    //     this.isLoading = true;
-    //     this.filteredAssessments = this.filteredAssessments.filter((assessment) => {
-    //         var included = (this.filteredModule == "") 
-    //         || (assessment.assessmentCode.includes(this.filteredModule));
-    //         return included;
-    //     });
-    //     this.isLoading = false;
-    // }
   
     mounted() {
       this.retrieveAssessments();

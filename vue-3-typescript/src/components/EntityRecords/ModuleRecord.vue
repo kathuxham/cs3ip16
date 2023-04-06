@@ -46,6 +46,8 @@
                 <div>{{ currentModule.currentAsOf }}</div>
                 <div class="data-heading">{{ $t("modules.contactHours") }}</div>
                 <div>{{ currentModule.contactHours }}</div>
+                <div class="data-heading">{{ $t("modules.moduleLink") }}</div>
+                <a :href="currentModule.moduleLink">{{ currentModule.moduleLink }}</a>
                 </div>
                 <div class="container">
                 <h2>{{ $t("records.staffInfo") }}</h2>
@@ -57,7 +59,7 @@
             </div>
 
             <div v-if="assessmentsVisible" class="record">
-                <div class="container">
+                <div class="full-width-container">
                 <h2>{{ $t("assessments.assessments") }}</h2>
                 <RecordTable 
                     :columns="assessmentHeaders" 
@@ -69,7 +71,7 @@
             </div>
 
             <div v-if="assessmentMarksVisible" class="record">
-                <div class="container">
+                <div class="full-width-container">
                     <h2>{{ $t("assessmentmarks.assessmentmarks") }}</h2>
                     <div style="display: flex;" class="marks">
                         <div class="average-student" 
@@ -173,10 +175,9 @@
     import AssessmentMarksDataService from "@/services/AssessmentMarksDataService";
     import '../RecordWindow/RecordWindow.scss'
     import LoadingScreen from "../WindowSetup/LoadingScreen/LoadingScreen.vue";
-    import RecordTable from "../RecordsTable/RecordTable.vue";
-    import MarkBoard from "../Dashboards/MarkBoard.vue";
+    import RecordTable from "../Tables/RecordTable.vue";
+    import MarkBoard from "../Tables/MarkBoard.vue";
     import BarChart from "../Charts/BarChart.vue";
-import { all } from "axios";
 
     @Options({
     components: {
@@ -228,7 +229,7 @@ import { all } from "axios";
         this.isLoading = true;
             ModuleDataService.get(id)
             .then(response => {
-            this.currentModule = response.data;
+                this.currentModule = response.data;
                 this.moduleConvenor = this.currentModule.moduleConvenor[0];
                 IndividualDataService.get(this.currentModule.moduleConvenor[0].individualId)
                 .then(response => {
@@ -265,33 +266,23 @@ import { all } from "axios";
                     var currentYearMarks = [];
                     var previousYearMarks = [];
                     var previousPreviousYearMarks = [];
-                    var weight = 0;
-                    // var allYearMarksWeighted = [];
-                    // var currentYearMarksWeighted = [];
-                    // var previousYearMarksWeighted = [];
-                    // var previousPreviousYearMarksWeighted = [];
                     for (let mark of response.data) {
                         if (assessment.id) {
                             AssessmentDataService.get(assessment.id)
                             .then(response => {
                                 mark.assessment = response.data;
-                                // weight = mark.assessment.assessmentWeight;
                             })
                             .catch(e => {
                             console.log(e);
                             })
                         }
                         marks.push(mark.assessmentMark);
-                        // allYearMarksWeighted.push(mark.assessmentMark * (weight / 100));
                         if (mark.assessmentDate.includes(this.currentYear)) {
                             currentYearMarks.push(mark.assessmentMark);
-                            // currentYearMarksWeighted.push(mark.assessmentMark * (weight / 100))
                         } else if (mark.assessmentDate.includes(this.currentYear - 1)) {
                             previousYearMarks.push(mark.assessmentMark);
-                            // previousYearMarksWeighted.push(mark.assessmentMark * (weight / 100))
                         } else if (mark.assessmentDate.includes(this.currentYear - 2)) {
                             previousPreviousYearMarks.push(mark.assessmentMark);
-                            // previousPreviousYearMarksWeighted.push(mark.assessmentMark * (weight / 100))
                         }
                     }
                     this.averageAssessmentMarks = this.getAverageMarks(marks, this.averageAssessmentMarks);
@@ -312,29 +303,25 @@ import { all } from "axios";
                     for (let average in this.averageAssessmentMarks) {
                         this.allYearsChartData.push({
                             "assessment": this.currentModuleAssessments[average].assessmentCode,
-                            "average": this.averageAssessmentMarks[average],
-                            "weighting": this.currentModuleAssessments[average].assessmentWeight
+                            "average": this.averageAssessmentMarks[average]
                         })
                     }
                     for (let average in this.averageAssessmentMarksThisYear) {
                         this.currentYearChartData.push({
                             "assessment": this.currentModuleAssessments[average].assessmentCode,
-                            "average": this.averageAssessmentMarksThisYear[average],
-                            "weighting": this.currentModuleAssessments[average].assessmentWeight
+                            "average": this.averageAssessmentMarksThisYear[average]
                         })
                     }
                     for (let average in this.averageAssessmentMarksPreviousYear) {
                         this.previousYearChartData.push({
                             "assessment": this.currentModuleAssessments[average].assessmentCode,
-                            "average": this.averageAssessmentMarksPreviousYear[average],
-                            "weighting": this.currentModuleAssessments[average].assessmentWeight
+                            "average": this.averageAssessmentMarksPreviousYear[average]
                         })
                     }
                     for (let average in this.averageAssessmentMarksPreviousPreviousYear) {
                         this.previousPreviousYearChartData.push({
                             "assessment": this.currentModuleAssessments[average].assessmentCode,
-                            "average": this.averageAssessmentMarksPreviousPreviousYear[average],
-                            "weighting": this.currentModuleAssessments[average].assessmentWeight
+                            "average": this.averageAssessmentMarksPreviousPreviousYear[average]
                         })
                     }
                 })

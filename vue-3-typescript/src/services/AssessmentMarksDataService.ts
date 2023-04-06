@@ -29,10 +29,6 @@ class AssessmentMarksDataService {
     return http.delete(`/assessmentmarks/${id}`);
   }
 
-  findByTitle(title: string) {
-    return http.get(`/assessmentmarks?moduleTitle=${title}`);
-  }
-
 }
 
 export default new AssessmentMarksDataService();

@@ -14,7 +14,7 @@
     padding-top: 80px;
 }
   
-.record {
+.home-window {
     display: flex;
     background-color: #F4F4F4;
     width: 100%;
@@ -40,7 +40,7 @@
 }
 
 .select-box {
-    margin: 8px 0 8px 50px;
+    margin: 8px 0 12px 50px;
 }
 
 .chart-header {
@@ -77,4 +77,9 @@ h2 {
 .no-data {
     text-align: center;
     margin-top: 115px;
+}
+
+.no-data-pie {
+    text-align: center;
+    padding: 15px 0;
 }

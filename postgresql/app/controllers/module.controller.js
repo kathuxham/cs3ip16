@@ -4,14 +4,6 @@ const Op = db.Sequelize.Op;
 
 // Create and Save a new module
 exports.create = (req, res) => {
-    // Validate request
-    // if (!req.body.firstName) {
-    //   res.status(400).send({
-    //     message: "Content can not be empty!"
-    //   });
-    //   return;
-    // }
-  
     // Create a module
     const module = {
         moduleCode: req.body.moduleCode,

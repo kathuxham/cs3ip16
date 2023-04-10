@@ -15,7 +15,7 @@
      export default class ProgressBar extends Vue {
 
         @Prop() public importedData: any[] | undefined;
-        @Prop() public complete: number | undefined;
+        @Prop() public percentComplete: number | undefined;
         @Prop() public idName: string | undefined;
 
         public chart: am4charts.XYChart = new am4charts.XYChart;
@@ -26,13 +26,13 @@
 
             if (this.importedData) chart.data = this.importedData;
 
-            if (this.complete && this.complete != 100) {
+            if (this.percentComplete && this.percentComplete != 100) {
                 chart.data.push({
                     "category": "",
                     "assessment": "Incomplete",
-                    "from": this.complete,
+                    "from": this.percentComplete,
                     "to": 100,
-                    "weighting": 100 - this.complete,
+                    "weighting": 100 - this.percentComplete,
                     "fill": am4core.color("#9e9e9e"),
                 })
             }
@@ -61,29 +61,20 @@
 
             // Ranges/labels
             chart.events.on("beforedatavalidated", function(ev) {
-            let data = chart.data;
-            for(var i = 0; i < data.length; i++) {
-                let range = xAxis.axisRanges.create();
-                range.value = data[i].to;
-                if (data[i].weighting > 5) range.label.text = data[i].to.toFixed(0) + "%";
-                range.label.horizontalCenter = "right";
-                range.label.paddingLeft = 5;
-                range.label.paddingTop = 5;
-                range.label.fontSize = 10;
-                range.grid.strokeOpacity = 0.2;
-                range.tick.length = 18;
-                range.tick.strokeOpacity = 0.2;
-            }
+                let data = chart.data;
+                for(var i = 0; i < data.length; i++) {
+                    let range = xAxis.axisRanges.create();
+                    range.value = data[i].to;
+                    if (data[i].weighting > 5) range.label.text = data[i].to.toFixed(0) + "%";
+                    range.label.horizontalCenter = "right";
+                    range.label.paddingLeft = 5;
+                    range.label.paddingTop = 5;
+                    range.label.fontSize = 14;
+                    range.grid.strokeOpacity = 0.2;
+                    range.tick.length = 20;
+                    range.tick.strokeOpacity = 0.2;
+                }
             });
-
-            // // Legend
-            // let legend = new am4charts.Legend();
-            // legend.parent = chart.chartContainer;
-            // legend.itemContainers.template.clickable = false;
-            // legend.itemContainers.template.focusable = false;
-            // legend.itemContainers.template.cursorOverStyle = am4core.MouseCursorStyle.default;
-            // legend.align = "right";
-            // legend.data = chart.data;
         }
     
         beforeDestroy() {

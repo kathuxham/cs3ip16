@@ -3,20 +3,20 @@ module.exports = app => {
   
     var router = require("express").Router();
   
-    // Create a new individual
-    // router.post("/", assessmentmarks.create);
+    // Create a new assessment mark
+    router.post("/", assessmentmarks.create);
   
-    // Retrieve all individuals
+    // Retrieve all assessment marks
     router.get("/", assessmentmarks.findAll);
   
-    // Retrieve a single individual with id
+    // Retrieve a single assessment mark with id
     router.get("/:id", assessmentmarks.findOne);
   
-    // Update an individual with id
+    // Update an assessment mark with id
     router.put("/:id", assessmentmarks.update);
   
-    // Delete an individual with id
-    // router.delete("/:id", assessmentmarks.delete);
+    // Delete an assessment mark with id
+    router.delete("/:id", assessmentmarks.delete);
   
     app.use('/api/assessmentmarks', router);
   };

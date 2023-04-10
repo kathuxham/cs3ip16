@@ -3,20 +3,20 @@ module.exports = app => {
   
     var router = require("express").Router();
   
-    // Create a new individual
-    // router.post("/", individuals.create);
+    // Create a new student personal details file
+    router.post("/", studentpersonaldetails.create);
   
-    // Retrieve all individuals
+    // Retrieve all student personal details files
     router.get("/", studentpersonaldetails.findAll);
   
-    // Retrieve a single individual with id
+    // Retrieve a single student personal details file with id
     router.get("/:id", studentpersonaldetails.findOne);
   
-    // Update an individual with id
+    // Update a student personal details file with id
     router.put("/:id", studentpersonaldetails.update);
   
-    // Delete an individual with id
-    // router.delete("/:id", individuals.delete);
+    // Delete a student personal details file with id
+    router.delete("/:id", studentpersonaldetails.delete);
   
     app.use('/api/studentpersonaldetails', router);
   };

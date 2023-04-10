@@ -10,5 +10,6 @@ export default interface Assessment {
     assessmentDetail: string;
     assessmentType: string;
     assessmentWeight: number;
+    assessmentKeywords: string;
     assessmentMarks: AssessmentMark[];
 }

@@ -30,11 +30,6 @@ const router = createRouter({
       component: () => import("../components/EntityRecords/ModuleRecord.vue")
     },
     {
-      path: "/individuals",
-      name: "individuals",
-      component: () => import("../components/EntityLists/IndividualsList.vue"),
-    },
-    {
       path: "/students",
       name: "students",
       component: () => import("../components/EntityLists/StudentsList.vue"),

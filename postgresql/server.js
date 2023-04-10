@@ -38,6 +38,8 @@ require("./app/routes/enrolment.routes")(app);
 require("./app/routes/studentpersonaldetails.routes")(app);
 require("./app/routes/assessmentmarks.routes")(app);
 require("./app/routes/emergencycontact.routes")(app);
+require("./app/routes/contactpreferences.routes")(app);
+
 
 // set port, listen for requests
 const PORT = process.env.PORT || 8080;

@@ -3,20 +3,20 @@ module.exports = app => {
   
     var router = require("express").Router();
   
-    // Create a new individual
-    // router.post("/", individuals.create);
+    // Create a new emergency contact
+    router.post("/", emergencycontacts.create);
   
-    // Retrieve all individuals
+    // Retrieve all emergency contacts
     router.get("/", emergencycontacts.findAll);
   
-    // Retrieve a single individual with id
+    // Retrieve a single emergency contact with id
     router.get("/:id", emergencycontacts.findOne);
   
-    // Update an individual with id
+    // Update an emergency contact with id
     router.put("/:id", emergencycontacts.update);
   
-    // Delete an individual with id
-    // router.delete("/:id", individuals.delete);
+    // Delete an emergency contact with id
+    router.delete("/:id", emergencycontacts.delete);
   
     app.use('/api/emergencycontacts', router);
   };

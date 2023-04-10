@@ -11,6 +11,9 @@ module.exports = (sequelize, Sequelize) => {
       },
       assessmentWeight: {
         type: Sequelize.FLOAT
+      },
+      assessmentKeywords: {
+        type: Sequelize.STRING(100)
       }
     });
   

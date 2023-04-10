@@ -21,6 +21,7 @@
         "assessmentDetail": "Assessment Detail",
         "assessmentType": "Assessment Type",
         "assessmentWeight": "Assessment Weight",
+        "assessmentKeywords": "Assessment Keywords",
         "assessmentInfo": "Assessment info",
         "assessmentModuleFilter": "Filter by module"
     },
@@ -36,6 +37,7 @@
         "assessmentCode": "Assessment Code",
         "assessmentDetail": "Assessment Detail",
         "assessmentWeight": "Weight",
+        "assessmentKeywords": "Keywords",
         "averageMark": "Average Mark",
         "averageMarkByModule": "Average Mark By Module",
         "averageMarkByAssessment": "Average Mark By Assessment",
@@ -44,7 +46,8 @@
         "yearOneAverage": "Year One Average",
         "yearTwoAverage": "Year Two Average",
         "yearThreeAverage": "Year Three Average",
-        "yearFourAverage": "Year Four Average"
+        "yearFourAverage": "Year Four Average",
+        "topKeywords": "Highest Scoring Keywords"
     },
     "contactPreferences": {
         "contactPreferences": "Contact Preferences",
@@ -96,7 +99,9 @@
         "homeThreeBar": "For Selected Year Three Module",
         "moduleCompletion": "Module Completion",
         "overviewDash": "Overview Dashboard",
-        "moduleUnavailable": "Data is unavailable for this module."
+        "moduleUnavailable": "Data is unavailable for this module.",
+        "assessmentUnavailable": "Data is unavailable for this assessment."
+
     },
     "modules": {
         "module": "Module",
@@ -143,6 +148,7 @@
         "communication": "Communication",
         "email": "Email",
         "phone": "Phone",
+        "contactPreferences": "Contact Preferences",
         "yes": "Yes",
         "no": "No"
     },

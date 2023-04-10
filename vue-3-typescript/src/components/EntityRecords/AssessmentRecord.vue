@@ -38,6 +38,8 @@
           <div>{{ currentAssessment.assessmentType }}</div>
           <div class="data-heading">{{ $t("assessments.assessmentWeight") }}</div>
           <div>{{ currentAssessment.assessmentWeight }}%</div>
+          <div class="data-heading">{{ $t("assessments.assessmentKeywords") }}</div>
+          <div>{{ currentAssessment.assessmentKeywords }}</div>
         </div>
         <div class="stacked-container">
           <div class="container">
@@ -65,85 +67,88 @@
       <div v-if="assessmentMarksVisible" class="record">
         <div class="full-width-container">
             <h2>{{ $t("assessmentmarks.assessmentmarks") }}</h2>
-            <div style="display: flex;">
-                <div class="average-student" 
-                    @click="setActiveChart('prevPrevYear')"
-                    :class="{'selected-year': previousPreviousYearActive}"
-                    v-if="averageMarkPreviousPreviousYear != ''">
-                    <div class="data-heading">{{ $t("assessmentmarks.averageMarkFrom") + (currentYear - 2) }}</div>
-                    <div class="average">{{ averageMarkPreviousPreviousYear}}</div>
+            <div v-if="currentModuleAssessmentMarks.length == 0">{{ $t("menu.assessmentUnavailable") }}</div>
+            <div v-if="currentModuleAssessmentMarks.length != 0">
+                <div style="display: flex;">
+                    <div class="average-student" 
+                        @click="setActiveChart('prevPrevYear')"
+                        :class="{'selected-year': previousPreviousYearActive}"
+                        v-if="averageMarkPreviousPreviousYear != ''">
+                        <div class="data-heading">{{ $t("assessmentmarks.averageMarkFrom") + (currentYear - 2) }}</div>
+                        <div class="average">{{ averageMarkPreviousPreviousYear}}</div>
+                    </div>
+                    <div class="average-student" 
+                        @click="setActiveChart('prevYear')"
+                        :class="{'selected-year': previousYearActive}"
+                        v-if="averageMarkPreviousYear != ''">
+                        <div class="data-heading">{{ $t("assessmentmarks.averageMarkFrom") + (currentYear - 1) }}</div>
+                        <div class="average">{{ averageMarkPreviousYear}}</div>
+                    </div>
+                    <div class="average-student" 
+                        @click="setActiveChart('currYear')"
+                        :class="{'selected-year': currentYearActive}"
+                        v-if="averageMarkThisYear != ''">
+                        <div class="data-heading">{{ $t("assessmentmarks.averageMarkFrom") + currentYear }}</div>
+                        <div class="average">{{ averageMarkThisYear}}</div>
+                    </div>
+                    <div class="average-student"
+                        @click="setActiveChart('allYears')"
+                        :class="{'selected-year': allMarksActive}">
+                        <div class="data-heading">{{ $t("assessmentmarks.averageMarkOverall") }}</div>
+                        <div class="average"><b>{{ averageMark }}</b></div>
+                    </div>
                 </div>
-                <div class="average-student" 
-                    @click="setActiveChart('prevYear')"
-                    :class="{'selected-year': previousYearActive}"
-                    v-if="averageMarkPreviousYear != ''">
-                    <div class="data-heading">{{ $t("assessmentmarks.averageMarkFrom") + (currentYear - 1) }}</div>
-                    <div class="average">{{ averageMarkPreviousYear}}</div>
-                </div>
-                <div class="average-student" 
-                    @click="setActiveChart('currYear')"
-                    :class="{'selected-year': currentYearActive}"
-                    v-if="averageMarkThisYear != ''">
-                    <div class="data-heading">{{ $t("assessmentmarks.averageMarkFrom") + currentYear }}</div>
-                    <div class="average">{{ averageMarkThisYear}}</div>
-                </div>
-                <div class="average-student"
-                    @click="setActiveChart('allYears')"
-                    :class="{'selected-year': allMarksActive}">
-                    <div class="data-heading">{{ $t("assessmentmarks.averageMarkOverall") }}</div>
-                    <div class="average"><b>{{ averageMark }}</b></div>
-                </div>
+                <div class="spacer"></div>
+                <PieChart 
+                    class="average-breakdown"
+                    v-if="previousPreviousYearActive"
+                    :importedData="previousPreviousYearChartData"
+                    :category="'grade'"
+                    :value="'count'"
+                    :idName="'chartDivOne'"
+                    :chartName="'Distribution of grades in ' + (currentYear - 2).toString()">
+                </PieChart>
+                <PieChart 
+                    class="average-breakdown"
+                    v-if="previousYearActive"
+                    :importedData="previousYearChartData"
+                    :category="'grade'"
+                    :value="'count'"
+                    :idName="'chartDivTwo'"
+                    :chartName="'Distribution of grades in ' + (currentYear - 1).toString()">
+                </PieChart>
+                <PieChart 
+                    class="average-breakdown"
+                    v-if="currentYearActive"
+                    :importedData="currentYearChartData"
+                    :category="'grade'"
+                    :value="'count'"
+                    :idName="'chartDivThree'"
+                    :chartName="'Distribution of grades in ' + currentYear.toString()">
+                </PieChart>
+                <PieChart
+                    class="average-breakdown" 
+                    v-if="allMarksActive"
+                    :importedData="allYearsChartData"
+                    :category="'grade'"
+                    :value="'count'"
+                    :idName="'chartDivFour'"
+                    :chartName="'Distribution of grades in ' + (currentYear - 2).toString() + '-' + currentYear.toString()">
+                </PieChart>
+                <select style="margin-bottom: 15px;" v-model="filteredYear">
+                    <option disabled value="">{{ $t("modules.moduleLevelFilter") }}</option>
+                    <option :value="0">All</option>
+                    <option v-if="averageMarkPreviousPreviousYear != '0'" :value="(currentYear - 2)">{{ (currentYear - 2) }}</option>
+                    <option v-if="averageMarkPreviousYear != '0'" :value="(currentYear - 1)">{{ (currentYear - 1) }}</option>
+                    <option v-if="averageMarkThisYear != '0'" :value="currentYear">{{ currentYear }}</option>
+                </select>
+                <RecordTable 
+                    :columns="assessmentMarkHeaders" 
+                    :fields="filteredAssessmentMarks" 
+                    :entity="'assessmentmarks'"
+                    >
+                </RecordTable>
             </div>
-            <div class="spacer"></div>
-            <PieChart 
-                class="average-breakdown"
-                v-if="previousPreviousYearActive"
-                :importedData="previousPreviousYearChartData"
-                :xAxis="'grade'"
-                :yAxis="'count'"
-                :idName="'chartDivOne'"
-                :chartName="'Distribution of grades in ' + (currentYear - 2).toString()">
-            </PieChart>
-            <PieChart 
-                class="average-breakdown"
-                v-if="previousYearActive"
-                :importedData="previousYearChartData"
-                :xAxis="'grade'"
-                :yAxis="'count'"
-                :idName="'chartDivTwo'"
-                :chartName="'Distribution of grades in ' + (currentYear - 1).toString()">
-            </PieChart>
-            <PieChart 
-                class="average-breakdown"
-                v-if="currentYearActive"
-                :importedData="currentYearChartData"
-                :xAxis="'grade'"
-                :yAxis="'count'"
-                :idName="'chartDivThree'"
-                :chartName="'Distribution of grades in ' + currentYear.toString()">
-            </PieChart>
-            <PieChart
-                class="average-breakdown" 
-                v-if="allMarksActive"
-                :importedData="allYearsChartData"
-                :xAxis="'grade'"
-                :yAxis="'count'"
-                :idName="'chartDivFour'"
-                :chartName="'Distribution of grades in ' + (currentYear - 2).toString() + '-' + currentYear.toString()">
-            </PieChart>
-            <select style="margin-bottom: 15px;" v-model="filteredYear">
-                <option disabled value="">{{ $t("modules.moduleLevelFilter") }}</option>
-                <option :value="0">All</option>
-                <option v-if="averageMarkPreviousPreviousYear != '0'" :value="(currentYear - 2)">{{ (currentYear - 2) }}</option>
-                <option v-if="averageMarkPreviousYear != '0'" :value="(currentYear - 1)">{{ (currentYear - 1) }}</option>
-                <option v-if="averageMarkThisYear != '0'" :value="currentYear">{{ currentYear }}</option>
-            </select>
-          <RecordTable 
-            :columns="assessmentMarkHeaders" 
-            :fields="filteredAssessmentMarks" 
-            :entity="'assessmentmarks'"
-            >
-          </RecordTable>
         </div>
         
       </div>

@@ -102,7 +102,7 @@
                             <ProgressBar
                                 v-if="showChartOne && filteredYearOneModule == mod.id"
                                 :importedData="yearOneWeightData" 
-                                :complete="yearOneComplete"
+                                :percentComplete="yearOneComplete"
                                 :idName="'currentYearOnePie'">
                             </ProgressBar>
                         </div>
@@ -115,7 +115,7 @@
                             <ProgressBar
                                 v-if="showChartTwo && filteredYearTwoModule == mod.id && yearTwoChartData.length != 0"
                                 :importedData="yearTwoWeightData" 
-                                :complete="yearTwoComplete"
+                                :percentComplete="yearTwoComplete"
                                 :idName="'currentYearTwoPie'">
                             </ProgressBar>
                         </div>
@@ -128,7 +128,7 @@
                             <ProgressBar
                                 v-if="showChartThree && filteredYearThreeModule == mod.id && yearThreeChartData.length != 0"
                                 :importedData="yearThreeWeightData" 
-                                :complete="yearThreeComplete"
+                                :percentComplete="yearThreeComplete"
                                 :idName="'currentYearThreePie'">
                             </ProgressBar>
                         </div>

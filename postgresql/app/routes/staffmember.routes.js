@@ -3,20 +3,20 @@ module.exports = app => {
   
     var router = require("express").Router();
   
-    // Create a new individual
-    // router.post("/", individuals.create);
+    // Create a new staff member
+    router.post("/", staffMembers.create);
   
-    // Retrieve all individuals
+    // Retrieve all staff members
     router.get("/", staffMembers.findAll);
   
-    // Retrieve a single individual with id
+    // Retrieve a single staff member with id
     router.get("/:id", staffMembers.findOne);
   
-    // Update an individual with id
+    // Update a staff member with id
     router.put("/:id", staffMembers.update);
   
-    // Delete an individual with id
-    // router.delete("/:id", individuals.delete);
+    // Delete a staff member with id
+    router.delete("/:id", staffMembers.delete);
   
     app.use('/api/staffMembers', router);
   };

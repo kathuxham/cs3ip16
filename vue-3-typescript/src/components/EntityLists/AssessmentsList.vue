@@ -11,7 +11,7 @@
         </div>
       </div>
       <span class="icon-centered">
-        <a style="color: rgb(170, 170, 170)" href="#">
+        <a style="color: rgb(170, 170, 170)" href="/home">
           <mdicon :size="36" class="report-icon" name="close"></mdicon>
         </a>
       </span>
@@ -88,7 +88,7 @@
         .then((response) => {
           this.assessments = response.data;
           this.filteredAssessments = this.assessments;
-          this.assessmentHeaders = ["assessmentCode", "assessmentDetail", "assessmentType", "assessmentWeight"];
+          this.assessmentHeaders = ["assessmentCode", "assessmentDetail", "assessmentType", "assessmentWeight", "assessmentKeywords"];
         })
         .catch((e) => {
           console.log(e);
@@ -120,6 +120,7 @@
         this.filteredAssessments = this.assessments.filter((assessment) => {
             var included = (assessment.assessmentDetail.toLowerCase().includes(this.title.toLowerCase()) 
             || assessment.assessmentCode.toLowerCase().includes(this.title.toLowerCase())) 
+            || assessment.assessmentKeywords.toLowerCase().includes(this.title.toLowerCase())
             && ((this.filteredModule == "") || (assessment.assessmentCode.includes(this.filteredModule)));
             return included;
         });

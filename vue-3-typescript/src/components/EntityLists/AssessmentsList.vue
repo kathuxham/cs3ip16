@@ -120,7 +120,7 @@
         this.filteredAssessments = this.assessments.filter((assessment) => {
             var included = (assessment.assessmentDetail.toLowerCase().includes(this.title.toLowerCase()) 
             || assessment.assessmentCode.toLowerCase().includes(this.title.toLowerCase())) 
-            || assessment.assessmentKeywords.toLowerCase().includes(this.title.toLowerCase())
+            || (assessment.assessmentKeywords && assessment.assessmentKeywords.toLowerCase().includes(this.title.toLowerCase()))
             && ((this.filteredModule == "") || (assessment.assessmentCode.includes(this.filteredModule)));
             return included;
         });

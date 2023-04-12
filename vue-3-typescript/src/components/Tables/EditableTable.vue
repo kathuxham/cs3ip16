@@ -35,14 +35,14 @@
                 </td>
                 <td>
                     <div v-if="!updatingMarks" @click="setEditing(item)">
-                        <mdicon :size="24" class="record-icon" name="pencil"></mdicon>
+                        <mdicon :size="24" class="clickable-icon" name="pencil"></mdicon>
                     </div>
                     <div v-if="updatingMarks  && currentMark == item">
                         <div v-if="newMark != ''" @click="updateMark()">
-                            <mdicon :size="24" class="record-icon" name="content-save"></mdicon>
+                            <mdicon :size="24" class="clickable-icon" name="content-save"></mdicon>
                         </div>
                         <div v-else @click="updatingMarks = false">
-                                <mdicon :size="24" class="record-icon" name="close"></mdicon>
+                                <mdicon :size="24" class="clickable-icon" name="close"></mdicon>
                         </div>
                     </div>
                 </td>
@@ -111,6 +111,10 @@ export default class EditableTable extends Vue {
 .data-row a:hover {
   color: black;
   text-decoration: none;
+}
+
+.clickable-icon {
+    cursor: pointer;
 }
 
 </style>

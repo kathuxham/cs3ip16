@@ -11,11 +11,11 @@
             </div>
         </div>
       </div>
-      <span class="icon-centered">
+      <!-- <span class="icon-centered">
         <a style="color: rgb(170, 170, 170)" href="#">
           <mdicon :size="36" class="record-icon" name="pencil"></mdicon>
         </a>
-      </span>
+      </span> -->
       <span class="icon-centered">
         <a style="color: rgb(170, 170, 170)" href="/assessments">
           <mdicon :size="36" class="record-icon" name="close"></mdicon>

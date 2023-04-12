@@ -11,11 +11,11 @@
                     </div>
                 </div>
             </div>
-            <span class="icon-centered">
+            <!-- <span class="icon-centered">
                 <a style="color: rgb(170, 170, 170)" href="#">
                 <mdicon :size="36" class="record-icon" name="pencil"></mdicon>
                 </a>
-            </span>
+            </span> -->
             <span class="icon-centered">
                 <a style="color: rgb(170, 170, 170)" href="/modules">
                 <mdicon :size="36" class="record-icon" name="close"></mdicon>
@@ -80,28 +80,28 @@
                                 @click="setActiveChart('prevPrevYear')"
                                 :class="{'selected-year': previousPreviousYearActive}"
                                 v-if="averageMarkPreviousPreviousYear != ''">
-                                <div class="data-heading">{{ (currentYear - 2) }}</div>
+                                <div class="average-heading">{{ (currentYear - 2) }}</div>
                                 <div class="average">{{ averageMarkPreviousPreviousYear}}</div>
                             </div>
                             <div class="average-student" 
                                 @click="setActiveChart('prevYear')"
                                 :class="{'selected-year': previousYearActive}"
                                 v-if="averageMarkPreviousYear != ''">
-                                <div class="data-heading">{{ (currentYear - 1) }}</div>
+                                <div class="average-heading">{{ (currentYear - 1) }}</div>
                                 <div class="average">{{ averageMarkPreviousYear}}</div>
                             </div>
                             <div class="average-student" 
                                 @click="setActiveChart('currYear')"
                                 :class="{'selected-year': currentYearActive}"
                                 v-if="averageMarkThisYear != ''">
-                                <div class="data-heading">{{ currentYear }}</div>
+                                <div class="average-heading">{{ currentYear }}</div>
                                 <div class="average">{{ averageMarkThisYear}}</div>
                             </div>
                             <div class="average-student"
                                 @click="setActiveChart('allYears')"
                                 :class="{'selected-year': allMarksActive}">
-                                <div class="data-heading">{{ $t("assessmentmarks.averageMarkOverall") }}</div>
-                                <div class="average"><b>{{ averageMark }}</b></div>
+                                <div class="average-heading">{{ $t("assessmentmarks.averageMarkOverall") }}</div>
+                                <div class="average">{{ averageMark }}</div>
                             </div>
                         </div>
                         <div class="spacer"></div>
@@ -251,7 +251,7 @@
         AssessmentDataService.getAssessmentsByModule(id)
             .then(response => {
             this.currentModuleAssessments = response.data;
-            this.assessmentHeaders = ["assessmentCode", "assessmentDetail", "assessmentType", "assessmentWeight"];
+            this.assessmentHeaders = ["assessmentCode", "assessmentDetail", "assessmentType", "assessmentWeight", "assessmentKeywords"];
             this.getAssessmentMarks(this.currentModuleAssessments);
             })
             .catch(e => {

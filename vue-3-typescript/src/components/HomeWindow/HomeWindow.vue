@@ -6,7 +6,7 @@
                 <div class="title">
                     <mdicon :size="48" class="icon icon-centered home-icon" name="notebookMultiple"></mdicon>
                     <div class="record-text">
-                        <div class="record-title">{{ $t("menu.overviewDash") }}</div>
+                        <div class="record-title">{{ $t("menu.overviewDash") + " - " + (currentYear - 1) + "/" + currentYear }}</div>
                     </div>
                 </div>
             </div>

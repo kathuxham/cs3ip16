@@ -22,7 +22,7 @@
         "assessmentType": "Assessment Type",
         "assessmentWeight": "Assessment Weight",
         "assessmentKeywords": "Assessment Keywords",
-        "assessmentInfo": "Assessment info",
+        "assessmentInfo": "Assessment Info",
         "assessmentModuleFilter": "Filter by module"
     },
     "assessmentmarks": {
@@ -91,14 +91,14 @@
     },
     "menu": {
         "courses": "Courses",
-        "homeOne": "Year One Modules",
-        "homeTwo": "Year Two Modules",
-        "homeThree": "Year Three Modules",
+        "homeOne": "Year One Module Averages",
+        "homeTwo": "Year Two Module Averages",
+        "homeThree": "Year Three Module Averages",
         "homeOneBar": "For Selected Year One Module",
         "homeTwoBar": "For Selected Year Two Module",
         "homeThreeBar": "For Selected Year Three Module",
-        "moduleCompletion": "Module Completion",
-        "overviewDash": "Overview Dashboard",
+        "moduleCompletion": "Current Year Module Completion",
+        "overviewDash": "Overview of Student Progress for the Current Year",
         "moduleUnavailable": "Data is unavailable for this module.",
         "assessmentUnavailable": "Data is unavailable for this assessment."
 
@@ -115,7 +115,7 @@
         "termsTaught": "Terms taught",
         "currentAsOf": "Current as of",
         "contactHours": "Contact hours",
-        "moduleInfo": "Module info",
+        "moduleInfo": "Module Info",
         "moduleConvenor": "Module Convenor",
         "moduleTitleSearch": "Search",
         "moduleLevelFilter": "Filter by level"

@@ -11,7 +11,7 @@
         </div>
       </div>
       <span class="icon-centered">
-        <a style="color: rgb(170, 170, 170)" href="#">
+        <a style="color: rgb(170, 170, 170)" href="/home">
           <mdicon :size="36" class="report-icon" name="close"></mdicon>
         </a>
       </span>

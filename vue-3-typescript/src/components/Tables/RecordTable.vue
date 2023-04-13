@@ -2,14 +2,12 @@
     <table id="tableComponent" class="table table-bordered">
         <thead>
             <tr>
-                <!-- table headers -->
                 <th  v-for="column in columns" :key='column' > 
                 {{ $t(entity + "." + column ) }} <i class="bi bi-sort-alpha-down" aria-label='Sort Icon'></i>
                 </th>
             </tr>
         </thead>
         <tbody class="data-row">
-            <!-- data -->
             <tr v-for="item in fields" :key='item'>
                 <td v-for="column in columns" :key='column'>
                     <div v-if="entity == 'assessmentmarks'">{{item[column]}}</div>

@@ -6,7 +6,7 @@
                 <div class="title">
                     <mdicon :size="48" class="icon icon-centered home-icon" name="notebookMultiple"></mdicon>
                     <div class="record-text">
-                        <div class="record-title">{{ $t("menu.overviewDash") }}</div>
+                        <div class="record-title">{{ $t("menu.overviewDash") + " - " + (currentYear - 1) + "/" + currentYear }}</div>
                     </div>
                 </div>
             </div>
@@ -102,7 +102,7 @@
                             <ProgressBar
                                 v-if="showChartOne && filteredYearOneModule == mod.id"
                                 :importedData="yearOneWeightData" 
-                                :complete="yearOneComplete"
+                                :percentComplete="yearOneComplete"
                                 :idName="'currentYearOnePie'">
                             </ProgressBar>
                         </div>
@@ -115,7 +115,7 @@
                             <ProgressBar
                                 v-if="showChartTwo && filteredYearTwoModule == mod.id && yearTwoChartData.length != 0"
                                 :importedData="yearTwoWeightData" 
-                                :complete="yearTwoComplete"
+                                :percentComplete="yearTwoComplete"
                                 :idName="'currentYearTwoPie'">
                             </ProgressBar>
                         </div>
@@ -128,7 +128,7 @@
                             <ProgressBar
                                 v-if="showChartThree && filteredYearThreeModule == mod.id && yearThreeChartData.length != 0"
                                 :importedData="yearThreeWeightData" 
-                                :complete="yearThreeComplete"
+                                :percentComplete="yearThreeComplete"
                                 :idName="'currentYearThreePie'">
                             </ProgressBar>
                         </div>

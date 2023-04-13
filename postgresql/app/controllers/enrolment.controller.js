@@ -4,14 +4,6 @@ const Op = db.Sequelize.Op;
 
 // Create and Save a new enrolment
 exports.create = (req, res) => {
-    // Validate request
-    // if (!req.body.firstName) {
-    //   res.status(400).send({
-    //     message: "Content can not be empty!"
-    //   });
-    //   return;
-    // }
-  
     // Create an enrolment
     const enrolment = {
       enrolmentComplete: req.body.enrolmentComplete,

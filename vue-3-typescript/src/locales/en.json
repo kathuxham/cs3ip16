@@ -21,7 +21,8 @@
         "assessmentDetail": "Assessment Detail",
         "assessmentType": "Assessment Type",
         "assessmentWeight": "Assessment Weight",
-        "assessmentInfo": "Assessment info",
+        "assessmentKeywords": "Assessment Keywords",
+        "assessmentInfo": "Assessment Info",
         "assessmentModuleFilter": "Filter by module"
     },
     "assessmentmarks": {
@@ -36,6 +37,7 @@
         "assessmentCode": "Assessment Code",
         "assessmentDetail": "Assessment Detail",
         "assessmentWeight": "Weight",
+        "assessmentKeywords": "Keywords",
         "averageMark": "Average Mark",
         "averageMarkByModule": "Average Mark By Module",
         "averageMarkByAssessment": "Average Mark By Assessment",
@@ -44,7 +46,8 @@
         "yearOneAverage": "Year One Average",
         "yearTwoAverage": "Year Two Average",
         "yearThreeAverage": "Year Three Average",
-        "yearFourAverage": "Year Four Average"
+        "yearFourAverage": "Year Four Average",
+        "topKeywords": "Highest Scoring Keywords"
     },
     "contactPreferences": {
         "contactPreferences": "Contact Preferences",
@@ -88,15 +91,17 @@
     },
     "menu": {
         "courses": "Courses",
-        "homeOne": "Year One Modules",
-        "homeTwo": "Year Two Modules",
-        "homeThree": "Year Three Modules",
+        "homeOne": "Year One Module Averages",
+        "homeTwo": "Year Two Module Averages",
+        "homeThree": "Year Three Module Averages",
         "homeOneBar": "For Selected Year One Module",
         "homeTwoBar": "For Selected Year Two Module",
         "homeThreeBar": "For Selected Year Three Module",
-        "moduleCompletion": "Module Completion",
-        "overviewDash": "Overview Dashboard",
-        "moduleUnavailable": "Data is unavailable for this module."
+        "moduleCompletion": "Current Year Module Completion",
+        "overviewDash": "Overview of Student Progress for the Current Year",
+        "moduleUnavailable": "Data is unavailable for this module.",
+        "assessmentUnavailable": "Data is unavailable for this assessment."
+
     },
     "modules": {
         "module": "Module",
@@ -110,7 +115,7 @@
         "termsTaught": "Terms taught",
         "currentAsOf": "Current as of",
         "contactHours": "Contact hours",
-        "moduleInfo": "Module info",
+        "moduleInfo": "Module Info",
         "moduleConvenor": "Module Convenor",
         "moduleTitleSearch": "Search",
         "moduleLevelFilter": "Filter by level"
@@ -143,6 +148,7 @@
         "communication": "Communication",
         "email": "Email",
         "phone": "Phone",
+        "contactPreferences": "Contact Preferences",
         "yes": "Yes",
         "no": "No"
     },

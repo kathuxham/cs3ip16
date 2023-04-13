@@ -15,8 +15,8 @@
      export default class PieChart extends Vue {
 
         @Prop() public importedData: any[] | undefined;
-        @Prop() public xAxis: string | undefined;
-        @Prop() public yAxis: string | undefined;
+        @Prop() public category: string | undefined;
+        @Prop() public value: string | undefined;
         @Prop() public idName: string | undefined;
         @Prop() public chartName: string | undefined;
 
@@ -31,8 +31,8 @@
             if (this.importedData) chart.data = this.importedData;
         
             let pieSeries = chart.series.push(new am4charts.PieSeries());
-            pieSeries.dataFields.value = this.yAxis;
-            pieSeries.dataFields.category = this.xAxis;
+            pieSeries.dataFields.value = this.value;
+            pieSeries.dataFields.category = this.category;
 
             let title = chart.titles.create();
             if (this.chartName) title.text = this.chartName;

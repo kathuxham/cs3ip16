@@ -1,8 +1,5 @@
 <script setup lang="ts">
 import './NavBar.scss';
-  // defineProps<{
-  //   msg: string;
-  // }>();
 </script>
 
 <template>
@@ -17,10 +14,8 @@ import './NavBar.scss';
         />
       </RouterLink>
     </span>
-      <RouterLink to="account">
-        <span class="detailButton"><a href="#"><mdicon :size="36" class="icon" name="accountDetails"></mdicon></a></span>
+      <RouterLink to="">
+        <span class="detailButton"><a href=""><mdicon :size="36" class="icon" name="accountDetails"></mdicon></a></span>
       </RouterLink>
   </div>
 </template>
-
-<!-- <style scoped src="./NavBar.scss"></style> -->

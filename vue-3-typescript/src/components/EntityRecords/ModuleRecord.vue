@@ -11,11 +11,11 @@
                     </div>
                 </div>
             </div>
-            <span class="icon-centered">
+            <!-- <span class="icon-centered">
                 <a style="color: rgb(170, 170, 170)" href="#">
                 <mdicon :size="36" class="record-icon" name="pencil"></mdicon>
                 </a>
-            </span>
+            </span> -->
             <span class="icon-centered">
                 <a style="color: rgb(170, 170, 170)" href="/modules">
                 <mdicon :size="36" class="record-icon" name="close"></mdicon>
@@ -73,89 +73,91 @@
             <div v-if="assessmentMarksVisible" class="record">
                 <div class="full-width-container">
                     <h2>{{ $t("assessmentmarks.assessmentmarks") }}</h2>
-                    <div style="display: flex;" class="marks">
-                        <div class="average-student" 
-                            @click="setActiveChart('prevPrevYear')"
-                            :class="{'selected-year': previousPreviousYearActive}"
-                            v-if="averageMarkPreviousPreviousYear != ''">
-                            <div class="data-heading">{{ (currentYear - 2) }}</div>
-                            <div class="average">{{ averageMarkPreviousPreviousYear}}</div>
+                    <div v-if="averageMark == ''">{{ $t("menu.assessmentUnavailable") }}</div>
+                    <div v-if="averageMark != ''">
+                        <div style="display: flex;" class="marks">
+                            <div class="average-student" 
+                                @click="setActiveChart('prevPrevYear')"
+                                :class="{'selected-year': previousPreviousYearActive}"
+                                v-if="averageMarkPreviousPreviousYear != ''">
+                                <div class="average-heading">{{ (currentYear - 2) }}</div>
+                                <div class="average">{{ averageMarkPreviousPreviousYear}}</div>
+                            </div>
+                            <div class="average-student" 
+                                @click="setActiveChart('prevYear')"
+                                :class="{'selected-year': previousYearActive}"
+                                v-if="averageMarkPreviousYear != ''">
+                                <div class="average-heading">{{ (currentYear - 1) }}</div>
+                                <div class="average">{{ averageMarkPreviousYear}}</div>
+                            </div>
+                            <div class="average-student" 
+                                @click="setActiveChart('currYear')"
+                                :class="{'selected-year': currentYearActive}"
+                                v-if="averageMarkThisYear != ''">
+                                <div class="average-heading">{{ currentYear }}</div>
+                                <div class="average">{{ averageMarkThisYear}}</div>
+                            </div>
+                            <div class="average-student"
+                                @click="setActiveChart('allYears')"
+                                :class="{'selected-year': allMarksActive}">
+                                <div class="average-heading">{{ $t("assessmentmarks.averageMarkOverall") }}</div>
+                                <div class="average">{{ averageMark }}</div>
+                            </div>
                         </div>
-                        <div class="average-student" 
-                            @click="setActiveChart('prevYear')"
-                            :class="{'selected-year': previousYearActive}"
-                            v-if="averageMarkPreviousYear != ''">
-                            <div class="data-heading">{{ (currentYear - 1) }}</div>
-                            <div class="average">{{ averageMarkPreviousYear}}</div>
-                        </div>
-                        <div class="average-student" 
-                            @click="setActiveChart('currYear')"
-                            :class="{'selected-year': currentYearActive}"
-                            v-if="averageMarkThisYear != ''">
-                            <div class="data-heading">{{ currentYear }}</div>
-                            <div class="average">{{ averageMarkThisYear}}</div>
-                        </div>
-                        <div class="average-student"
-                            @click="setActiveChart('allYears')"
-                            :class="{'selected-year': allMarksActive}">
-                            <div class="data-heading">{{ $t("assessmentmarks.averageMarkOverall") }}</div>
-                            <div class="average"><b>{{ averageMark }}</b></div>
-                        </div>
+                        <div class="spacer"></div>
+                        <BarChart
+                            v-if="allMarksActive"
+                            class="average-breakdown" 
+                            :importedData="allYearsChartData" 
+                            :xAxis="'assessment'" 
+                            :yAxis="'average'"
+                            :xAxisTitle="'Assessment'"
+                            :yAxisTitle="'Average Mark'"
+                            :idName="'chartDivOne'"
+                            :chartName="'Average marks by assessment in ' + (currentYear - 2).toString() + '-' + currentYear.toString()">>
+                        </BarChart>
+                        <BarChart 
+                            class="average-breakdown"
+                            v-if="previousPreviousYearActive"
+                            :importedData="previousPreviousYearChartData" 
+                            :xAxis="'assessment'" 
+                            :yAxis="'average'"
+                            :xAxisTitle="'Assessment'"
+                            :yAxisTitle="'Average Mark'"
+                            :idName="'chartDivTwo'"
+                            :chartName="'Average marks by assessment in ' + (currentYear - 2).toString()">
+                        </BarChart>
+                        <BarChart 
+                            class="average-breakdown" 
+                            v-if="previousYearActive"
+                            :importedData="previousYearChartData" 
+                            :xAxis="'assessment'" 
+                            :yAxis="'average'"
+                            :xAxisTitle="'Assessment'"
+                            :yAxisTitle="'Average Mark'"
+                            :idName="'chartDivThree'"
+                            :chartName="'Average marks by assessment in ' + (currentYear - 1).toString()">>
+                        </BarChart>
+                        <BarChart 
+                            class="average-breakdown"
+                            v-if="currentYearActive"
+                            :importedData="currentYearChartData" 
+                            :xAxis="'assessment'" 
+                            :yAxis="'average'"
+                            :xAxisTitle="'Assessment'"
+                            :yAxisTitle="'Average Mark'"
+                            :idName="'chartDivFour'"
+                            :chartName="'Average marks by assessment in ' + currentYear.toString()">>
+                        </BarChart>
+                        <MarkBoard 
+                            :assessments="currentModuleAssessments"
+                            :assessmentMarks="averageAssessmentMarks"
+                            :assessmentMarksThisYear="averageAssessmentMarksThisYear"
+                            :assessmentMarksPreviousYear="averageAssessmentMarksPreviousYear"
+                            :assessmentMarksPreviousPreviousYear="averageAssessmentMarksPreviousPreviousYear"
+                            >
+                        </MarkBoard>
                     </div>
-                    <div class="spacer"></div>
-                    <BarChart
-                        v-if="allMarksActive"
-                        class="average-breakdown" 
-                        :importedData="allYearsChartData" 
-                        :xAxis="'assessment'" 
-                        :yAxis="'average'"
-                        :xAxisTitle="'Assessment'"
-                        :yAxisTitle="'Average Mark'"
-                        :idName="'chartDivOne'"
-                        :chartName="'Average marks by assessment in ' + (currentYear - 2).toString() + '-' + currentYear.toString()">>
-                    </BarChart>
-                    <BarChart 
-                        class="average-breakdown"
-                        v-if="previousPreviousYearActive"
-                        :importedData="previousPreviousYearChartData" 
-                        :xAxis="'assessment'" 
-                        :yAxis="'average'"
-                        :xAxisTitle="'Assessment'"
-                        :yAxisTitle="'Average Mark'"
-                        :idName="'chartDivTwo'"
-                        :chartName="'Average marks by assessment in ' + (currentYear - 2).toString()">
-                    </BarChart>
-                    <BarChart 
-                        class="average-breakdown" 
-                        v-if="previousYearActive"
-                        :importedData="previousYearChartData" 
-                        :xAxis="'assessment'" 
-                        :yAxis="'average'"
-                        :xAxisTitle="'Assessment'"
-                        :yAxisTitle="'Average Mark'"
-                        :idName="'chartDivThree'"
-                        :chartName="'Average marks by assessment in ' + (currentYear - 1).toString()">>
-                    </BarChart>
-                    <BarChart 
-                        class="average-breakdown"
-                        v-if="currentYearActive"
-                        :importedData="currentYearChartData" 
-                        :xAxis="'assessment'" 
-                        :yAxis="'average'"
-                        :xAxisTitle="'Assessment'"
-                        :yAxisTitle="'Average Mark'"
-                        :idName="'chartDivFour'"
-                        :chartName="'Average marks by assessment in ' + currentYear.toString()">>
-                    </BarChart>
-                    <MarkBoard 
-                        :assessments="currentModuleAssessments"
-                        :assessmentMarks="averageAssessmentMarks"
-                        :assessmentMarksThisYear="averageAssessmentMarksThisYear"
-                        :assessmentMarksPreviousYear="averageAssessmentMarksPreviousYear"
-                        :assessmentMarksPreviousPreviousYear="averageAssessmentMarksPreviousPreviousYear"
-                        >
-                    </MarkBoard>
-                    
                 </div>
             </div>
         </div>
@@ -249,7 +251,7 @@
         AssessmentDataService.getAssessmentsByModule(id)
             .then(response => {
             this.currentModuleAssessments = response.data;
-            this.assessmentHeaders = ["assessmentCode", "assessmentDetail", "assessmentType", "assessmentWeight"];
+            this.assessmentHeaders = ["assessmentCode", "assessmentDetail", "assessmentType", "assessmentWeight", "assessmentKeywords"];
             this.getAssessmentMarks(this.currentModuleAssessments);
             })
             .catch(e => {

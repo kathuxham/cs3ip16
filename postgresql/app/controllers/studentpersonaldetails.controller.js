@@ -2,17 +2,9 @@ const db = require("../models");
 const StudentPersonalDetails = db.personalDetails;
 const Op = db.Sequelize.Op;
 
-// Create and Save a new student
+// Create and Save a new student personal details file
 exports.create = (req, res) => {
-    // Validate request
-    // if (!req.body.firstName) {
-    //   res.status(400).send({
-    //     message: "Content can not be empty!"
-    //   });
-    //   return;
-    // }
-  
-    // Create a student
+    // Create a student personal details file
     const studentPersonalDetails = {
       nationality: req.body.nationality,
       domicile: req.body.domicile,
@@ -23,7 +15,7 @@ exports.create = (req, res) => {
       parentalResponsibility: req.body.parentalResponsibility,
     };
   
-    // Save student in the database
+    // Save student personal details file in the database
     StudentPersonalDetails.create(studentPersonalDetails)
       .then(data => {
         res.send(data);
@@ -31,12 +23,12 @@ exports.create = (req, res) => {
       .catch(err => {
         res.status(500).send({
           message:
-            err.message || "Some error occurred while creating the student."
+            err.message || "Some error occurred while creating the student personal details file."
         });
       });
   };
 
-// Retrieve all students from the database.
+// Retrieve all student personal details files from the database.
 exports.findAll = (req, res) => {
     const studentId = req.query.studentId;
     var condition = studentId ? { studentId: `${studentId}` } : null;
@@ -48,12 +40,12 @@ exports.findAll = (req, res) => {
       .catch(err => {
         res.status(500).send({
           message:
-            err.message || "Some error occurred while retrieving students."
+            err.message || "Some error occurred while retrieving student personal details files."
         });
       });
   };
 
-// Find a single student with an id
+// Find a single student personal details file with an id
 exports.findOne = (req, res) => {
   const id = req.params.id;
 
@@ -63,18 +55,18 @@ exports.findOne = (req, res) => {
         res.send(data);
       } else {
         res.status(404).send({
-          message: `Cannot find student with id=${id}.`
+          message: `Cannot find student personal details file with id=${id}.`
         });
       }
     })
     .catch(err => {
       res.status(500).send({
-        message: "Error retrieving student with id=" + id
+        message: "Error retrieving student personal details file with id=" + id
       });
     });
 };
 
-// Update a student by the id in the request
+// Update a student personal details file by the id in the request
 exports.update = (req, res) => {
   const id = req.params.id;
 
@@ -84,22 +76,22 @@ exports.update = (req, res) => {
     .then(num => {
       if (num == 1) {
         res.send({
-          message: "Student was updated successfully."
+          message: "Student personal details file was updated successfully."
         });
       } else {
         res.send({
-          message: `Cannot update student with id=${id}. Maybe student was not found or req.body is empty!`
+          message: `Cannot update student personal details file with id=${id}. Maybe student personal details file was not found or req.body is empty!`
         });
       }
     })
     .catch(err => {
       res.status(500).send({
-        message: "Error updating student with id=" + id
+        message: "Error updating student personal details file with id=" + id
       });
     });
 };
 
-// Delete a student with the specified id in the request
+// Delete a student personal details file with the specified id in the request
 exports.delete = (req, res) => {
   const id = req.params.id;
 
@@ -109,17 +101,17 @@ exports.delete = (req, res) => {
     .then(num => {
       if (num == 1) {
         res.send({
-          message: "Student was deleted successfully!"
+          message: "Student personal details file was deleted successfully!"
         });
       } else {
         res.send({
-          message: `Cannot delete student with id=${id}. Maybe student was not found!`
+          message: `Cannot delete student personal details file with id=${id}. Maybe student personal details file was not found!`
         });
       }
     })
     .catch(err => {
       res.status(500).send({
-        message: "Could not delete student with id=" + id
+        message: "Could not delete student personal details file with id=" + id
       });
     });
 };

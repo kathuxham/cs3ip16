@@ -11,11 +11,11 @@
             </div>
         </div>
       </div>
-      <span class="icon-centered">
+      <!-- <span class="icon-centered">
         <a style="color: rgb(170, 170, 170)" href="#">
           <mdicon :size="36" class="record-icon" name="pencil"></mdicon>
         </a>
-      </span>
+      </span> -->
       <span class="icon-centered">
         <a style="color: rgb(170, 170, 170)" href="/students">
           <mdicon :size="36" class="record-icon" name="close"></mdicon>
@@ -166,6 +166,12 @@
                 <div class="data-heading">{{ $t("assessmentmarks.yearThreeAverage") }}</div>
                 <div class="average">{{ yearThreeAverage }}</div>
             </div>
+            <div class="average-student">
+                <div class="data-heading">{{ $t("assessmentmarks.topKeywords") }}:</div>
+                <ul>
+                    <li v-for="keyword in topKeywords" :key='keyword'>{{ keyword }}</li>
+                </ul>
+            </div>
           </div>
           <div class="spacer"></div>
           <div class="average-breakdown" v-if="yearOneAverageActive">
@@ -213,14 +219,13 @@
                 <option value="">All</option>
                 <option v-for="option in filteredModules" :value="option['moduleCode']">{{option['moduleCode']}}</option>
             </select>
-          <RecordTable 
+          <EditableTable 
             :columns="jointHeaders" 
-            :fields="filteredAssessmentMarks" 
-            :entity="'assessmentmarks'"
+            :fields="filteredAssessmentMarks"
             :joinedColumns="assessmentHeaders"
             :joinedFields="filteredAssessments"
             >
-          </RecordTable>
+          </EditableTable>
         </div>
       </div>
       <div v-if="examinationsVisible" class="record">
@@ -235,12 +240,7 @@
         </div>
       </div>
       <div v-if="communicationVisible" class="record">
-        <!-- <CommunicationWindow
-          :currentStudent="currentStudent"
-          :currentIndividual="currentIndividual"
-          :entity="entity"
-        ></CommunicationWindow> -->
-        <div class="long-container">
+        <div class="stacked-container">
           <div class="container">
             <div style="display: block">
               <h2>{{ $t("address.addresses") }}</h2>
@@ -261,8 +261,19 @@
               <div>{{ currentHomeAddress.postCode }}</div>
               <div>{{ currentHomeAddress.country }}</div>
             </div>
-          </div>
+        </div> 
+        <div class="container">
+            <div style="display: block">
+              <h2>{{ $t("records.phone") }}</h2>
+              <div class="data-heading">{{ $t("students.contactPhoneNumber") }}</div>
+              <div>{{ currentIndividual.contactPhoneNumber }}</div>
+              <div class="data-heading">{{ $t("students.homePhoneNumber") }}</div>
+              <div>{{ currentIndividual.homePhoneNumber }}</div>
+              <div class="data-heading">{{ $t("students.mobilePhoneNumber") }}</div>
+              <div>{{ currentIndividual.mobilePhoneNumber }}</div>
+            </div>
         </div>
+    </div>
         <div class="stacked-container">
           <div class="container">
             <div style="display: block">
@@ -275,17 +286,6 @@
           </div>
           <div class="container">
             <div style="display: block">
-              <h2>{{ $t("records.phone") }}</h2>
-              <div class="data-heading">{{ $t("students.contactPhoneNumber") }}</div>
-              <div>{{ currentIndividual.contactPhoneNumber }}</div>
-              <div class="data-heading">{{ $t("students.homePhoneNumber") }}</div>
-              <div>{{ currentIndividual.homePhoneNumber }}</div>
-              <div class="data-heading">{{ $t("students.mobilePhoneNumber") }}</div>
-              <div>{{ currentIndividual.mobilePhoneNumber }}</div>
-            </div>
-          </div>
-          <div class="container">
-            <div style="display: block">
               <h2>{{ $t("emergencyContact.emergencyContact") }}</h2>
               <div class="data-heading">{{ $t("emergencyContact.fullName") }}</div>
               <div>{{ emergencyContact.fullName }}</div>
@@ -293,6 +293,17 @@
               <div>{{ emergencyContact.relationship }}</div>
               <div class="data-heading">{{ $t("emergencyContact.telephoneNumber") }}</div>
               <div>{{ emergencyContact.telephoneNumber }}</div>
+            </div>
+          </div>
+          <div class="container">
+            <div style="display: block">
+                <h2>{{ $t("records.contactPreferences") }}</h2>
+                <div class="data-heading">{{ $t("contactPreferences.textMessages") }}</div>
+                <div>{{ contactPreferences.textMessages ? $t("records.yes") : $t("records.no") }}</div>
+                <div class="data-heading">{{ $t("contactPreferences.alumniSupporterEmails") }}</div>
+                <div>{{ contactPreferences.alumniSupporterEmails ? $t("records.yes") : $t("records.no") }}</div>
+                <div class="data-heading">{{ $t("contactPreferences.careerEmails") }}</div>
+                <div>{{ contactPreferences.careerEmails ? $t("records.yes") : $t("records.no") }}</div>
             </div>
           </div>
         </div>
@@ -320,6 +331,7 @@
     import moment from 'moment';
     import StaffMember from "@/types/StaffMember";
     import RecordTable from "../Tables/RecordTable.vue";
+    import EditableTable from "../Tables/EditableTable.vue";
     import AssessmentMarksDataService from "@/services/AssessmentMarksDataService";
     import AssessmentMark from "@/types/AssessmentMark";
     import AssessmentDataService from "@/services/AssessmentDataService";
@@ -329,11 +341,14 @@
     import ModuleDataService from "@/services/ModuleDataService";
     import { Watch } from "vue-property-decorator/lib/decorators/Watch";
     import BarChart from "../Charts/BarChart.vue";
+    import ContactPreferencesDataService from "@/services/ContactPreferencesDataService";
+    import ContactPreferences from "@/types/ContactPreferences";
 
     @Options({
     components: {
         LoadingScreen,
         RecordTable,
+        EditableTable,
         BarChart
     }})
 
@@ -357,6 +372,7 @@
     public currentEnrolmentStatus = {} as Enrolment;
     public currentPersonalDetails = {} as StudentPersonalDetails;
     public emergencyContact = {} as EmergencyContact;
+    public contactPreferences = {} as ContactPreferences;
 
     public modules: Module[] = [];
     public filteredModules: Module[] = [];
@@ -398,6 +414,8 @@
 
     public tutor = {} as StaffMember;
     public tutorIndividual = {} as Individual;
+
+    public topKeywords: string[] = [];
 
     getStudent(id: string) {
         this.isLoading = true;
@@ -456,11 +474,11 @@
         this.isLoading = true;
         EnrolmentDataService.get(this.currentStudent.studentId)
         .then(response => {
-                this.currentEnrolmentStatus = response.data[0];
-                })
-                .catch(e => {
-                console.log(e);
-                })
+            this.currentEnrolmentStatus = response.data[0];
+        })
+        .catch(e => {
+            console.log(e);
+        })
         this.isLoading = false;
         this.enrolmentLoaded = true;
     }
@@ -496,6 +514,18 @@
             })
         this.isLoading = false;
     }
+
+    loadContactPreferences() {
+        this.isLoading = true;
+        ContactPreferencesDataService.get(this.currentStudent.studentId)
+        .then(response => {
+            this.contactPreferences = response.data[0];
+            })
+            .catch(e => {
+            console.log(e);
+            })
+        this.isLoading = false;
+    }
     
     formatDates(date: Date) {
         return moment(String(date)).format('DD/MM/YYYY');
@@ -513,9 +543,9 @@
                 .then(response => {
                     this.currentAssessment = response.data;
                     mark.assessment = this.currentAssessment;
-                    this.assessmentHeaders = ["assessmentCode", "assessmentDetail", "assessmentWeight"];
+                    this.assessmentHeaders = ["assessmentCode", "assessmentDetail", "assessmentWeight", "assessmentKeywords"];
                     this.assessments = this.assessments.concat(this.currentAssessment);
-                    this.jointHeaders = ["assessmentCode", "assessmentDetail", "assessmentMark", "assessmentGrade", "assessmentWeight", "assessmentStatus", "assessmentState", "assessmentDate", "assessmentLevel"];
+                    this.jointHeaders = ["assessmentCode", "assessmentDetail", "assessmentKeywords", "assessmentMark", "assessmentGrade", "assessmentWeight", "assessmentStatus", "assessmentState", "assessmentDate", "assessmentLevel"];
                     this.exams = this.assessments.filter((assessment) => {
                         var included = (assessment.assessmentType == "EXAM" || assessment.assessmentType == "X1ON");
                         return included;
@@ -582,6 +612,18 @@
         }
         if (yearThreeModules.length != 0) {
             this.yearThreeAverage = this.getYearlyAverage(yearThreeModules, yearThreeMarks, "3").toFixed(1);
+        }
+        var sortedArray = this.currentAssessmentMarks.sort((n1,n2) => {
+            if (n1.assessmentMark < n2.assessmentMark) {
+                return 1;
+            }
+            if (n1.assessmentMark > n2.assessmentMark) {
+                return -1;
+            }
+            return 0;
+        });
+        for (var i = 0; i < 3; i++) {
+            this.topKeywords.push(sortedArray[i].assessment.assessmentKeywords);
         }
         this.averagesLoaded = true;
     }
@@ -694,6 +736,7 @@
             if (this.addressesLoaded == false) {
                 this.loadAddresses();
                 this.loadEmergencyContact();
+                this.loadContactPreferences();
             }
         }
     }

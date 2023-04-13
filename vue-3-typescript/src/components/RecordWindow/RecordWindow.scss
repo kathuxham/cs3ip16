@@ -182,6 +182,12 @@ a:hover {
   margin-left: 40px;
 }
 
+.average-heading {
+    color: rgb(170, 170, 170);
+    margin-top: 10px;
+    font-size: 24px;
+  }
+
 .average {
   font-size: 40px;
   padding-bottom: 10px;
@@ -203,5 +209,6 @@ a:hover {
 .selected-year {
     background-color: #ebebeb;
     border-radius: 15px;
+    font-weight: bold;
 }
 

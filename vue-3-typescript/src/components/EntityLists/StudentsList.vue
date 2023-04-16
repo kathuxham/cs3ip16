@@ -32,6 +32,7 @@
             >
               Search
             </button>
+            <div class="result-count">{{filteredStudents.length}} results</div>
           </div>
           
           <RecordTable 

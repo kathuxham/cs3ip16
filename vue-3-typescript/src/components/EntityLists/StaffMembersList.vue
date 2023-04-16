@@ -32,6 +32,7 @@
             >
               Search
             </button>
+            <div class="result-count">{{filteredStaffMembers.length}} results</div>
           </div>
           
           <RecordTable 

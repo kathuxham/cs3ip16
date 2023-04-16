@@ -135,13 +135,16 @@
                     :idName="'chartDivFour'"
                     :chartName="'Distribution of grades in ' + (currentYear - 2).toString() + '-' + currentYear.toString()">
                 </PieChart>
-                <select style="margin-bottom: 15px;" v-model="filteredYear">
-                    <option disabled value="">{{ $t("modules.moduleLevelFilter") }}</option>
-                    <option :value="0">All</option>
-                    <option v-if="averageMarkPreviousPreviousYear != '0'" :value="(currentYear - 2)">{{ (currentYear - 2) }}</option>
-                    <option v-if="averageMarkPreviousYear != '0'" :value="(currentYear - 1)">{{ (currentYear - 1) }}</option>
-                    <option v-if="averageMarkThisYear != '0'" :value="currentYear">{{ currentYear }}</option>
-                </select>
+                <div style="display: flex">
+                    <select style="margin-bottom: 15px;" v-model="filteredYear">
+                        <option disabled value="">{{ $t("modules.moduleLevelFilter") }}</option>
+                        <option :value="0">All</option>
+                        <option v-if="averageMarkPreviousPreviousYear != '0'" :value="(currentYear - 2)">{{ (currentYear - 2) }}</option>
+                        <option v-if="averageMarkPreviousYear != '0'" :value="(currentYear - 1)">{{ (currentYear - 1) }}</option>
+                        <option v-if="averageMarkThisYear != '0'" :value="currentYear">{{ currentYear }}</option>
+                    </select>
+                <div class="table-count">{{filteredAssessmentMarks.length}} results</div>
+                </div>
                 <RecordTable 
                     :columns="assessmentMarkHeaders" 
                     :fields="filteredAssessmentMarks" 

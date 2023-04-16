@@ -37,6 +37,7 @@
                 <option value="">All</option>
                 <option v-for="option in modules" :value="option['moduleCode']">{{option['moduleCode']}}</option>
             </select>
+            <div class="result-count">{{filteredAssessments.length}} results</div>
           </div>
           
           <RecordTable 

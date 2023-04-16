@@ -60,6 +60,7 @@
             :entity="'modules'"
             >
           </RecordTable>
+          <div class="table-count">{{modules.length}} results</div>
         </div>
       </div>
       <div v-if="tutorGroupVisible" class="record">
@@ -73,6 +74,7 @@
             :joinedFields="tuteeInds"
             >
           </RecordTable>
+          <div class="table-count">{{tutees.length}} results</div>
         </div>
       </div>
       <div v-if="communicationVisible" class="record">

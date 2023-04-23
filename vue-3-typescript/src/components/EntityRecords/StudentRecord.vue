@@ -140,6 +140,8 @@
             :entity="'modules'"
             >
           </RecordTable>
+          <div class="table-count">{{modules.length}} results</div>
+
         </div>
       </div>
       <div v-if="marksAndFeedbackVisible" class="record">
@@ -207,18 +209,21 @@
                 :chartName="'Year Three Averages'">
             </BarChart>
           </div>
-          <select style="margin-bottom: 15px;" v-model="filteredLevel">
-                <option disabled value="">{{ $t("modules.moduleLevelFilter") }}</option>
-                <option :value="0">All</option>
-                <option :value="1">1</option>
-                <option v-if="yearTwoAverage != '0'" :value="2">2</option>
-                <option v-if="yearThreeAverage != '0'" :value="3">3</option>
-            </select>
-            <select style="margin-bottom: 15px; margin-left: 10px" v-model="filteredModule">
-                <option disabled value="">{{ $t("assessments.assessmentModuleFilter") }}</option>
-                <option value="">All</option>
-                <option v-for="option in filteredModules" :value="option['moduleCode']">{{option['moduleCode']}}</option>
-            </select>
+            <div style="display: flex">
+                <select style="margin-bottom: 15px;" v-model="filteredLevel">
+                    <option disabled value="">{{ $t("modules.moduleLevelFilter") }}</option>
+                    <option :value="0">All</option>
+                    <option :value="1">1</option>
+                    <option v-if="yearTwoAverage != '0'" :value="2">2</option>
+                    <option v-if="yearThreeAverage != '0'" :value="3">3</option>
+                </select>
+                <select style="margin-bottom: 15px; margin-left: 10px" v-model="filteredModule">
+                    <option disabled value="">{{ $t("assessments.assessmentModuleFilter") }}</option>
+                    <option value="">All</option>
+                    <option v-for="option in filteredModules" :value="option['moduleCode']">{{option['moduleCode']}}</option>
+                </select>
+                <div class="table-count">{{filteredAssessmentMarks.length}} results</div>
+            </div>
           <EditableTable 
             :columns="jointHeaders" 
             :fields="filteredAssessmentMarks"
@@ -237,6 +242,7 @@
             :entity="'assessments'"
             >
           </RecordTable>
+          <div class="table-count">{{exams.length}} results</div>
         </div>
       </div>
       <div v-if="communicationVisible" class="record">

@@ -40,6 +40,7 @@
                 <option>3</option>
                 <option>M</option>
             </select>
+            <div class="result-count">{{filteredModules.length}} results</div>
           </div>
           
           <RecordTable 

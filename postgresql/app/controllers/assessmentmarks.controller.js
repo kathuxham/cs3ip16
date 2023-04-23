@@ -4,6 +4,7 @@ const Op = db.Sequelize.Op;
 
 // Create and Save a new assessment mark
 exports.create = (req, res) => {
+
     // Create an assessment mark
     const assessmentMark = {
         assessmentStatus: req.body.assessmentStatus,
@@ -70,27 +71,50 @@ exports.findOne = (req, res) => {
 
 // Update an assessment mark by the id in the request
 exports.update = (req, res) => {
-  const id = req.params.id;
 
-  AssessmentMark.update(req.body, {
-    where: { id: id }
-  })
-    .then(num => {
-      if (num == 1) {
-        res.send({
-          message: "Assessment mark was updated successfully."
+    // Validate update
+    if (typeof req.body.assessmentMark === 'string') {
+        res.status(400).send({
+        message: "Mark cannot be a string!"
         });
-      } else {
-        res.send({
-          message: `Cannot update assessment mark with id=${id}. Maybe assessment mark was not found or req.body is empty!`
+        return;
+    }
+    const grades = ["A", "B", "C", "D", "E", "F"];
+    if (grades.includes(req.body.assessmentGrade)) {
+        res.status(400).send({
+        message: "Grade is not valid!"
         });
-      }
+        return;
+    }
+    if (!req.body.assessmentMark || !req.body.assessmentGrade) {
+        res.status(400).send({
+        message: "Mark or grade cannot be empty!"
+        });
+        return;
+    }
+
+
+    const id = req.params.id;
+
+    AssessmentMark.update(req.body, {
+        where: { id: id }
     })
-    .catch(err => {
-      res.status(500).send({
-        message: "Error updating assessment mark with id=" + id
-      });
-    });
+        .then(num => {
+        if (num == 1) {
+            res.send({
+            message: "Assessment mark was updated successfully."
+            });
+        } else {
+            res.send({
+            message: `Cannot update assessment mark with id=${id}. Maybe assessment mark was not found or req.body is empty!`
+            });
+        }
+        })
+        .catch(err => {
+        res.status(500).send({
+            message: "Error updating assessment mark with id=" + id
+        });
+        });
 };
 
 // Delete an assessment mark with the specified id in the request

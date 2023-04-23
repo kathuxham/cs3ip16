@@ -67,6 +67,7 @@
                     :entity="'assessments'"
                     >
                 </RecordTable>
+                <div class="table-count">{{currentModuleAssessments.length}} results</div>
                 </div>
             </div>
 

@@ -38,7 +38,7 @@
                         <mdicon :size="24" class="clickable-icon" name="pencil"></mdicon>
                     </div>
                     <div v-if="updatingMarks  && currentMark == item">
-                        <div v-if="newMark != ''" @click="updateMark()">
+                        <div v-if="validate(newMark, newGrade)" @click="updateMark()">
                             <mdicon :size="24" class="clickable-icon" name="content-save"></mdicon>
                         </div>
                         <div v-else @click="updatingMarks = false">
@@ -92,6 +92,20 @@ export default class EditableTable extends Vue {
             .catch(e => {
             console.log(e);
             });
+    }
+
+    validate(mark: string, grade: string) {
+        const availableGrades = ["A", "B", "C", "D", "E", "F"];
+        if (mark != '' && grade != ''){
+            if (isNaN(parseInt(mark))) {
+                return false;
+            }
+            if (!availableGrades.includes(grade)){
+                return false;
+            }
+            return true;
+        }
+        return false;
     }
 
 }

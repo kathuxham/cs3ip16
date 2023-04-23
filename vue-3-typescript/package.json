@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
-    "build": "vue-cli-service build"
+    "build": "vue-cli-service build --dest build"
   },
   "dependencies": {
     "@amcharts/amcharts4": "^4.10.34",
